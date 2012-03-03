@@ -2,32 +2,43 @@ package model;
 
 import java.util.Date;
 
+import javax.jdo.annotations.Column;
 import javax.jdo.annotations.DatastoreIdentity;
+import javax.jdo.annotations.ForeignKey;
+import javax.jdo.annotations.ForeignKeyAction;
 import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.Index;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 @PersistenceCapable
 @DatastoreIdentity(strategy=IdGeneratorStrategy.INCREMENT)
-public class Order extends AbstractModel{
+public class PurchaseOrder extends AbstractModel{
 
 	@PrimaryKey
 	private int id;
 	
 	@Persistent
+	@Column(name="billNumber", jdbcType="INTEGER", allowsNull="false")
+	@Index(name="index_for_billNumber_in_PurchaseOrder", unique="true")
 	private Integer billNumber;
 	
 	@Persistent
 	private Date orderDate;
 	
 	@Persistent
+	@Column(name="totalNumOfProducts", jdbcType="INTEGER")
+	@Index(name="index_for_totalNumOfProducts_in_PurchaseOrder")
 	private Integer totalNumOfProducts;
 	
 	@Persistent
+	@Column(name="customerId")
+	@ForeignKey(name="fk_customer_in_PurchaseOrder", deleteAction=ForeignKeyAction.CASCADE, updateAction=ForeignKeyAction.CASCADE)
 	private Customer customer;
 	
 	@Persistent
+	@Index(name="index_for_isOrderCompleted_in_PurchaseOrder")
 	private Boolean isOrderCompleted;
 	
 	@Persistent
@@ -39,11 +50,11 @@ public class Order extends AbstractModel{
 	@Persistent
 	private Date dateModified;
 	
-	public Order(){
+	public PurchaseOrder(){
 		super();
 	}
 	
-	public Order(int id, Integer billNumber, Date orderDate,
+	public PurchaseOrder(int id, Integer billNumber, Date orderDate,
 			Integer totalNumOfProducts, Customer customer,
 			Boolean isOrderCompleted, String notes,
 			Date dateCreated, Date dateModified) {

@@ -2,8 +2,10 @@ package model;
 
 import java.util.Date;
 
+import javax.jdo.annotations.Column;
 import javax.jdo.annotations.DatastoreIdentity;
 import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.Index;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -13,18 +15,24 @@ import javax.jdo.annotations.PrimaryKey;
 public class Supplier {
 	
 	@PrimaryKey
+	@Column(allowsNull="false")
 	private int id;
 	
 	@Persistent
+	@Column(name="name", jdbcType="VARCHAR", length=60)
+	@Index(name="index_for_name_in_Supplier", unique="true")
 	private String name;
 	
 	@Persistent
+	@Column(name="address", jdbcType="VARCHAR", length=254)
 	private String address;
 	
 	@Persistent
+	@Column(name="phone", jdbcType="VARCHAR", length=40)
 	private String phone;
 	
 	@Persistent
+	@Column(name="email", jdbcType="VARCHAR", length=60)
 	private String email;
 	
 	@Persistent

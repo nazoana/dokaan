@@ -2,8 +2,10 @@ package model;
 
 import java.util.Date;
 
+import javax.jdo.annotations.Column;
 import javax.jdo.annotations.DatastoreIdentity;
 import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.Index;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -19,12 +21,17 @@ public class Customer extends AbstractModel{
 	private int id;
 	
 	@Persistent
+	@Column(name="name", jdbcType="VARCHAR", length=60)
+	@Index(name="index_for_name_in_Customer")
 	private String name;
 	
 	@Persistent
+	@Column(name="phone", jdbcType="VARCHAR", length=40)
+	@Index(name="index_for_phone_in_Customer", unique="true")
 	private String phone;
 	
 	@Persistent
+	@Column(name="address", jdbcType="VARCHAR", length=254)
 	private String address;
 	
 	@Persistent

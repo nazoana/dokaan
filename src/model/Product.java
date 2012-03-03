@@ -2,8 +2,12 @@ package model;
 
 import java.util.Date;
 
+import javax.jdo.annotations.Column;
 import javax.jdo.annotations.DatastoreIdentity;
+import javax.jdo.annotations.ForeignKey;
+import javax.jdo.annotations.ForeignKeyAction;
 import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.Index;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -16,21 +20,29 @@ public class Product extends AbstractModel{
 	private int id;
 	
 	@Persistent
+	@Column(name="description", jdbcType="VARCHAR", length=254)
+	@Index(name="index_for_description_in_Product")
 	private String description;
 	
 	@Persistent
+	@Column(name="unit", jdbcType="VARCHAR", length=20)
 	private String unit;
 	
 	@Persistent
+	@Index(name="index_for_unitInStock_in_Product")
 	private Double unitsInStock;
 	
 	@Persistent
+	@Index(name="index_for_purchasePrice_in_Product")
 	private Double purchasePrice;
 	
 	@Persistent
+	@Index(name="index_for_salePrice_in_Product")
 	private Double salePrice;
 	
 	@Persistent
+	@Column(name="supplierId")
+	@ForeignKey(name="fk_supplierId_in_Product", deleteAction=ForeignKeyAction.CASCADE, updateAction=ForeignKeyAction.CASCADE)
 	private Supplier supplier;
 	
 	@Persistent

@@ -22,7 +22,7 @@ public class ComposedIdKey implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public IntIdentity product;
-	public IntIdentity order;
+	public IntIdentity purchaseOrder;
 
 	public ComposedIdKey() {
 	}
@@ -30,22 +30,22 @@ public class ComposedIdKey implements Serializable {
 	public ComposedIdKey(String s) {
 		StringTokenizer st = new StringTokenizer(s, "::");
 		this.product = new IntIdentity(Product.class, st.nextToken());
-		this.order = new IntIdentity(Order.class, st.nextToken());
+		this.purchaseOrder = new IntIdentity(PurchaseOrder.class, st.nextToken());
 	}
 
 	public String toString() {
-		return (product.toString() + "::" + order.toString());
+		return (product.toString() + "::" + purchaseOrder.toString());
 	}
 
 	public int hashCode() {
-		return product.hashCode() ^ order.hashCode();
+		return product.hashCode() ^ purchaseOrder.hashCode();
 	}
 
 	public boolean equals(Object other) {
 		if (other != null && (other instanceof ComposedIdKey)) {
 			ComposedIdKey otherPK = (ComposedIdKey) other;
 			return this.product.equals(otherPK.product)
-					&& this.order.equals(otherPK.order);
+					&& this.purchaseOrder.equals(otherPK.purchaseOrder);
 		}
 		return false;
 	}

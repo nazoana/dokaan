@@ -13,7 +13,7 @@ import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
 
 import model.Customer;
-import model.Order;
+import model.PurchaseOrder;
 import model.Product;
 import model.ProductOrder;
 import model.Supplier;
@@ -140,7 +140,7 @@ public class Persistence {
     private boolean createDatabase() {
         Set<String> classNames = new HashSet<String>();
         classNames.add(Customer.class.getName());
-        classNames.add(Order.class.getName());
+        classNames.add(PurchaseOrder.class.getName());
         classNames.add(Product.class.getName());
         classNames.add(ProductOrder.class.getName());
         classNames.add(Supplier.class.getName());

@@ -2,6 +2,10 @@ package model;
 
 import java.util.Date;
 
+import javax.jdo.annotations.Column;
+import javax.jdo.annotations.ForeignKey;
+import javax.jdo.annotations.ForeignKeyAction;
+import javax.jdo.annotations.Index;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -11,22 +15,29 @@ public class ProductOrder extends AbstractModel{
 
 	/** The product that this order is for */
 	@PrimaryKey
+	@Column(name="productId")
+	@ForeignKey(name="fk_productId_in_ProductOrder", deleteAction=ForeignKeyAction.CASCADE, updateAction=ForeignKeyAction.CASCADE)
 	private Product product;
 	
 	/** The order that contains this orderline*/
 	@PrimaryKey
-	private Order order;
+	@Column(name="purchaseOrderId")
+	@ForeignKey(name="fk_purchaseOrderId_in_ProductOrder", deleteAction=ForeignKeyAction.CASCADE, updateAction=ForeignKeyAction.CASCADE)
+	private PurchaseOrder purchaseOrder;
 	
 	/** The quantity sold */
 	@Persistent
+	@Index(name="index_for_quantity_in_ProductOrder")
 	private Double quantity;
 	
 	/** The price at which this item is sold */
 	@Persistent
+	@Index(name="index_for_salePrice_in_ProductOrder")
 	private Double salePrice;
 	
 	/** Sales costs may include discounts, labor, packaging, and other costs */
 	@Persistent
+	@Index(name="index_for_totalSaleCost_in_ProductOrder")
 	private Double totalSaleCost;
 	
 	/** The data on which this product was delivered */
@@ -43,12 +54,12 @@ public class ProductOrder extends AbstractModel{
 		super();
 	}
 	
-	public ProductOrder(Product product, Order order, Double quantity,
+	public ProductOrder(Product product, PurchaseOrder purchaseOrder, Double quantity,
 			Double salePrice, Double totalSaleCost, Date dateProductDelivered,
 			Date dateCreated, Date dateModified) {
 		super();
 		this.product = product;
-		this.order = order;
+		this.purchaseOrder = purchaseOrder;
 		this.quantity = quantity;
 		this.salePrice = salePrice;
 		this.totalSaleCost = totalSaleCost;
@@ -65,12 +76,12 @@ public class ProductOrder extends AbstractModel{
 		this.product = product;
 	}
 
-	public Order getOrder() {
-		return order;
+	public PurchaseOrder getPurchaseOrder() {
+		return purchaseOrder;
 	}
 
-	public void setOrder(Order order) {
-		this.order = order;
+	public void setPurchaseOrder(PurchaseOrder order) {
+		this.purchaseOrder = order;
 	}
 
 	public Double getQuantity() {
