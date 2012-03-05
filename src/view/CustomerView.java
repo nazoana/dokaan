@@ -143,9 +143,12 @@ public class CustomerView extends AbstractViewPanel implements ActionListener{
      */
     @Override
     public void actionPerformed(ActionEvent evt) {
-        ctrllr.getOrCreateObject(txtId.getText());
+        ctrllr.getOrCreateObject(new Integer(txtId.getText()));
         if (evt.getActionCommand().equals("save")){
             logger.log(Level.INFO, "Save button pressed in Customer View");
+            ctrllr.setModelProperty(CstmrCtrllr.ELEMENT_NAME_PROPERTY, txtName.getText());
+            ctrllr.setModelProperty(CstmrCtrllr.ELEMENT_PHONE_PROPERTY, txtPhone.getText());
+            ctrllr.setModelProperty(CstmrCtrllr.ELEMENT_ADDRESS_PROPERTY, txtAddress.getText());
             ctrllr.save();
         } else if (evt.getActionCommand().equals("cancel")){
             logger.log(Level.INFO, "Cancel button pressed in Customer View");

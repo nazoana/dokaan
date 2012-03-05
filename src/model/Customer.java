@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.jdo.annotations.Column;
 import javax.jdo.annotations.DatastoreIdentity;
 import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.Index;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
@@ -13,10 +14,11 @@ import javax.jdo.annotations.PrimaryKey;
 import utilities.Validator;
 import controller.CstmrCtrllr;
 
-@PersistenceCapable
+@PersistenceCapable(identityType=IdentityType.DATASTORE)
 @DatastoreIdentity(strategy=IdGeneratorStrategy.INCREMENT)
 public class Customer extends AbstractModel{
 	
+	@Persistent(valueStrategy = IdGeneratorStrategy.INCREMENT)
 	@PrimaryKey
 	private int id;
 	
@@ -71,10 +73,10 @@ public class Customer extends AbstractModel{
 	}
 
 	public boolean setName(String name) {
-	    if (!Validator.isBlankOrNull(name)){
+	    if (Validator.isBlankOrNull(name)){
 	        return false;
 	    }
-	    if (!Validator.isAlpha(name)){
+	    if (!Validator.isAlphaSpace(name)){
 	        return false;
 	    }
 	    String oldName = this.name;
@@ -88,7 +90,7 @@ public class Customer extends AbstractModel{
 	}
 
 	public boolean setPhone(String phone) {
-	    if (!Validator.isBlankOrNull(phone)){
+	    if (Validator.isBlankOrNull(phone)){
             return false;
         }
 	    String oldPhone = this.phone;
@@ -102,7 +104,7 @@ public class Customer extends AbstractModel{
 	}
 
 	public boolean setAddress(String address) {
-	    if (!Validator.isBlankOrNull(phone)){
+	    if (Validator.isBlankOrNull(address)){
             return false;
         }
 	    String oldAddress = this.address;

@@ -36,7 +36,7 @@ public class AppLogger {
 		if (logger == null) {
 			System.out.println("logger was null");
 			logger = Logger.getLogger(className);
-
+			
 			// Create a file handler that write log record to a file
 			try {
 				handler = new FileHandler(Globals.LOG_FILE_PATH, 102400, 1, true);
@@ -51,6 +51,9 @@ public class AppLogger {
 
 			logger.addHandler(handler);
 		}
+		
+		
+		//logger.setLevel(Level.SEVERE);
 		return logger;
 	}
 	

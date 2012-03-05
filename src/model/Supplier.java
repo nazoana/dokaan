@@ -11,7 +11,7 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 @PersistenceCapable
-@DatastoreIdentity(strategy=IdGeneratorStrategy.INCREMENT)
+@DatastoreIdentity(strategy=IdGeneratorStrategy.IDENTITY)
 public class Supplier {
 	
 	@PrimaryKey

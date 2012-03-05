@@ -31,8 +31,9 @@ public class Globals {
     /** The path to the datanucleus.properties file used for creating the db and its schema */
     public static final String DATNUCLEUS_PROPERTIES = APP_ROOT + FILE_SEPARATOR + "datanucleus.properties";
     
-    
     public static final String LOG_FILE_PATH = APP_ROOT + FILE_SEPARATOR + "applog.log";
+    
+    public static final String LOG_FILE_CONFIG = APP_ROOT + FILE_SEPARATOR + "logging.properties";
     
     /** Font used in all Titles */
     public static final Font FONT_TITLE = new Font("Verdana", Font.BOLD, 16);

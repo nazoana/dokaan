@@ -41,9 +41,9 @@ public class CstmrCtrllr extends AbstractController implements ControllerInterfa
 
     public static final String ELEMENT_ID_PROPERTY = "Id";
     
-    public static final String ELEMENT_NAME_PROPERTY = "FullName";
+    public static final String ELEMENT_NAME_PROPERTY = "Name";
     
-    public static final String ELEMENT_PHONE_PROPERTY = "PhoneNumber";
+    public static final String ELEMENT_PHONE_PROPERTY = "Phone";
     
     public static final String ELEMENT_ADDRESS_PROPERTY = "Address";
     
@@ -72,7 +72,7 @@ public class CstmrCtrllr extends AbstractController implements ControllerInterfa
      * @param id
      */
     @Override
-    public void getOrCreateObject(String id){
+    public void getOrCreateObject(Integer id){
         beginTransaction();
         try { 
             customer = pm.getObjectById(Customer.class, id);
@@ -129,7 +129,10 @@ public class CstmrCtrllr extends AbstractController implements ControllerInterfa
     @Override
     public boolean save(){
         if (newObject){
+        	customer.setDateCreated(Util.getTimestamp());
             pm.makePersistent(customer);
+        } else {
+        	customer.setDateModified(Util.getTimestamp());
         }
         try {
             tx.commit();

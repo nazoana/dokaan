@@ -28,6 +28,7 @@ public class AppMainStore {
     private static final Logger logger = AppLogger.getAppLogger(CustomerView.class.getName());
     
     public AppMainStore(){
+    	logger.log(Level.SEVERE, "Starting");
         CstmrCtrllr ctrllr = new CstmrCtrllr();
         Customer customerModel = new Customer();
         CustomerView customerView = new CustomerView(ctrllr);
