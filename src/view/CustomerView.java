@@ -9,13 +9,14 @@ import java.util.logging.Logger;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-import controller.CstmrCtrllr;
-
 import utilities.AppLogger;
-import utilities.Util;
 import utilities.Globals;
+import utilities.Util;
+import widgets.TextAreaWidget;
+import controller.CstmrCtrllr;
 
 /**
 * This is a view to edit and view a Customer object
@@ -48,7 +49,7 @@ public class CustomerView extends AbstractViewPanel implements ActionListener{
     private JTextField txtName;
     
     private JLabel lblAddress;
-    private JTextField txtAddress;
+    private TextAreaWidget txtAddress;
     
     private JLabel lblPhone;
     private JTextField txtPhone;
@@ -80,6 +81,7 @@ public class CustomerView extends AbstractViewPanel implements ActionListener{
         
         lblId = new JLabel("Id: ");
         txtId = new JTextField(20);
+        txtId.setEditable(false);
         
         lblName = new JLabel("Name: ");
         txtName = new JTextField(20);
@@ -92,9 +94,9 @@ public class CustomerView extends AbstractViewPanel implements ActionListener{
         txtPhone.setActionCommand("phoneChange");
         
         lblAddress = new JLabel("Address: ");
-        txtAddress = new JTextField(80);
-        txtAddress.addActionListener(this);
-        txtAddress.setActionCommand("addressChange");
+        txtAddress = new TextAreaWidget(3,4);
+        JScrollPane scrlPnlAddress = new JScrollPane(txtAddress);
+        scrlPnlAddress.setName("addressScrllPnl");
         
         btnSave = new JButton("Save");
         btnSave.addActionListener(this);
@@ -116,7 +118,7 @@ public class CustomerView extends AbstractViewPanel implements ActionListener{
         add(txtPhone, Util.defineConstraint(1, 0, 1, 3, 1, 1, true, 17));
         
         add(lblAddress, Util.defineConstraint(0, 0, 0, 4, 1, 1, true, 17));
-        add(txtAddress, Util.defineConstraint(1, 0, 1, 4, 1, 1, true, 17));
+        add(scrlPnlAddress, Util.defineConstraint(1, 0, 1, 4, 1, 1, true, 17));
 
         add(btnSave, Util.defineConstraint(0, 0, 0, 5, 1, 1, false, 13));
         add(btnCancel,Util.defineConstraint(0, 0, 1, 5, 1, 1, false, 13));
@@ -143,7 +145,11 @@ public class CustomerView extends AbstractViewPanel implements ActionListener{
      */
     @Override
     public void actionPerformed(ActionEvent evt) {
-        ctrllr.getOrCreateObject(new Integer(txtId.getText()));
+    	String id = txtId.getText() ;
+    	if (id == null | id.equals("null") || id.length() == 0){
+    		id = "-1";
+    	}
+        ctrllr.getOrCreateObject(new Long(id));
         if (evt.getActionCommand().equals("save")){
             logger.log(Level.INFO, "Save button pressed in Customer View");
             ctrllr.setModelProperty(CstmrCtrllr.ELEMENT_NAME_PROPERTY, txtName.getText());

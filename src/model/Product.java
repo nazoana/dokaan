@@ -17,7 +17,7 @@ import javax.jdo.annotations.PrimaryKey;
 public class Product extends AbstractModel{
 
 	@PrimaryKey
-	private int id;
+	private long id;
 	
 	@Persistent
 	@Column(name="description", jdbcType="VARCHAR", length=254)
@@ -55,7 +55,7 @@ public class Product extends AbstractModel{
 		super();
 	}
 
-	public Product(int id, String description, String unit,
+	public Product(long id, String description, String unit,
 			Double unitsInStock, Double purchasePrice, Double salePrice,
 			Supplier supplier, Date dateCreated, Date dateModified) {
 		super();
@@ -70,11 +70,11 @@ public class Product extends AbstractModel{
 		this.dateModified = dateModified;
 	}
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 

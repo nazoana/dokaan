@@ -12,7 +12,7 @@ import utilities.Globals;
 * for this application.
 *
 * @author Mahmood Khan
-* @Version 2012-02-29 1.0
+* @Version 2012-03-06 1.0
 *
 */
 public class AppLogger {
@@ -34,16 +34,15 @@ public class AppLogger {
 	public static Logger getAppLogger(String className) {
 
 		if (logger == null) {
-			System.out.println("logger was null");
 			logger = Logger.getLogger(className);
 			
 			// Create a file handler that write log record to a file
 			try {
 				handler = new FileHandler(Globals.LOG_FILE_PATH, 102400, 1, true);
 			} catch (SecurityException e) {
-				errMsg = "Coult nod instantiate FileHandler for log file ." + e.getMessage();
+				errMsg = "Coult nod instantiate FileHandler for log file |" + e.getMessage() + "|" + e.getCause();
 			} catch (IOException e) {
-				errMsg = "Coult nod instantiate FileHandler for log file ." + e.getMessage();
+				errMsg = "Coult nod instantiate FileHandler for log file |" + e.getMessage() + "|" + e.getCause();
 			}
 
 			AppLoggerFormatter formatter = new AppLoggerFormatter();

@@ -17,7 +17,7 @@ import javax.jdo.annotations.PrimaryKey;
 public class PurchaseOrder extends AbstractModel{
 
 	@PrimaryKey
-	private int id;
+	private long id;
 	
 	@Persistent
 	@Column(name="billNumber", jdbcType="INTEGER", allowsNull="false")
@@ -54,7 +54,7 @@ public class PurchaseOrder extends AbstractModel{
 		super();
 	}
 	
-	public PurchaseOrder(int id, Integer billNumber, Date orderDate,
+	public PurchaseOrder(long id, Integer billNumber, Date orderDate,
 			Integer totalNumOfProducts, Customer customer,
 			Boolean isOrderCompleted, String notes,
 			Date dateCreated, Date dateModified) {
@@ -70,11 +70,11 @@ public class PurchaseOrder extends AbstractModel{
 		this.dateModified = dateModified;
 	}
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 

@@ -10,8 +10,8 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
-@PersistenceCapable(objectIdClass=ComposedIdKey.class)
-public class ProductOrder extends AbstractModel{
+@PersistenceCapable(objectIdClass=ProductOrderCompositeIdKey.class)
+public class PurchaseOrderLine extends AbstractModel{
 
 	/** The product that this order is for */
 	@PrimaryKey
@@ -50,11 +50,11 @@ public class ProductOrder extends AbstractModel{
 	@Persistent
 	private Date dateModified;
 	
-	public ProductOrder(){
+	public PurchaseOrderLine(){
 		super();
 	}
 	
-	public ProductOrder(Product product, PurchaseOrder purchaseOrder, Double quantity,
+	public PurchaseOrderLine(Product product, PurchaseOrder purchaseOrder, Double quantity,
 			Double salePrice, Double totalSaleCost, Date dateProductDelivered,
 			Date dateCreated, Date dateModified) {
 		super();

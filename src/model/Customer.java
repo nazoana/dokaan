@@ -20,7 +20,7 @@ public class Customer extends AbstractModel{
 	
 	@Persistent(valueStrategy = IdGeneratorStrategy.INCREMENT)
 	@PrimaryKey
-	private int id;
+	private long id;
 	
 	@Persistent
 	@Column(name="name", jdbcType="VARCHAR", length=60)
@@ -29,7 +29,7 @@ public class Customer extends AbstractModel{
 	
 	@Persistent
 	@Column(name="phone", jdbcType="VARCHAR", length=40)
-	@Index(name="index_for_phone_in_Customer", unique="true")
+	@Index(name="index_for_phone_in_Customer", unique="false")
 	private String phone;
 	
 	@Persistent
@@ -47,7 +47,7 @@ public class Customer extends AbstractModel{
 		super();
 	}
 	
-	public Customer(int id, String name, String phone, String address,
+	public Customer(long id, String name, String phone, String address,
 			Date dateCreated, Date dateModified) {
 		super();
 		this.id = id;
@@ -58,12 +58,12 @@ public class Customer extends AbstractModel{
 		this.dateModified = dateModified;
 	}
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
-	    int oldId = this.id;
+	public void setId(long id) {
+	    long oldId = this.id;
 		this.id = id;
 		firePropertyChange(CstmrCtrllr.ELEMENT_ID_PROPERTY, oldId, id);
 	}

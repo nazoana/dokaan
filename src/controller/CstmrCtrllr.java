@@ -19,7 +19,7 @@ import controller.Persistence;
 * This is the controller for the Customer model class
 *
 * @author Mahmood Khan
-* @version 2012-02-28 1.0
+* @version 2012-03-06 1.0
 *
 */
 public class CstmrCtrllr extends AbstractController implements ControllerInterface{
@@ -72,7 +72,7 @@ public class CstmrCtrllr extends AbstractController implements ControllerInterfa
      * @param id
      */
     @Override
-    public void getOrCreateObject(Integer id){
+    public void getOrCreateObject(Long id){
         beginTransaction();
         try { 
             customer = pm.getObjectById(Customer.class, id);
@@ -80,25 +80,12 @@ public class CstmrCtrllr extends AbstractController implements ControllerInterfa
         } catch(JDOObjectNotFoundException e){ 
             logger.log(Level.INFO, "A Customer with ID=" + id 
                     + " does not exist; creating new Customer()"
-                    + ": " + e.getMessage());
+                    + " | " + e.getMessage() + " | " + e.getCause());
             this.customer = new Customer();
             newObject = true;
         }
     }
     
-    /**
-    public void changeElementName(String newName){
-        customer.setFullName(newName);
-    }
-    
-    public void changeElementPhone(String newPhoneNumber){
-        customer.setPhoneNumber(newPhoneNumber);
-    }
-    
-    public void changeElementAddress(String newAddress){
-        customer.setAddress(newAddress);
-    }
-    */
     /**
      * Updates the right method for the Customer Object
      */
@@ -116,7 +103,7 @@ public class CstmrCtrllr extends AbstractController implements ControllerInterfa
         } catch (Exception e) {
             logger.log(Level.SEVERE, "The method set" + propertyName + "=" 
                     + newValue + " in " + customer.getClass() 
-                    + " failed: " + e.getMessage());
+                    + " failed | " + e.getMessage() + " | " + e.getCause());
         }
     }
     
@@ -138,8 +125,8 @@ public class CstmrCtrllr extends AbstractController implements ControllerInterfa
             tx.commit();
         } catch (Exception e){
             logger.log(Level.SEVERE, "Failed to comit transaction for customer," 
-                    + customer.getName() + "."
-                    + ": " + e.getMessage());
+                    + customer.getName() + ". "
+                    + " |" + e.getMessage() + "|" + e.getCause());
         } finally {
             if (tx.isActive()) {
                 tx.rollback();

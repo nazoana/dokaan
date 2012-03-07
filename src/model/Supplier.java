@@ -16,7 +16,7 @@ public class Supplier {
 	
 	@PrimaryKey
 	@Column(allowsNull="false")
-	private int id;
+	private long id;
 	
 	@Persistent
 	@Column(name="name", jdbcType="VARCHAR", length=60)
@@ -45,7 +45,7 @@ public class Supplier {
 		super();
 	}
 	
-	public Supplier(int id, String name, String address, String phone,
+	public Supplier(long id, String name, String address, String phone,
 			String email, Date dateCreated, Date dateModified) {
 		super();
 		this.id = id;
@@ -57,11 +57,11 @@ public class Supplier {
 		this.dateModified = dateModified;
 	}
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 

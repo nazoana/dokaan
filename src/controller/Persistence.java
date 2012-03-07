@@ -15,7 +15,7 @@ import javax.jdo.PersistenceManager;
 import model.Customer;
 import model.PurchaseOrder;
 import model.Product;
-import model.ProductOrder;
+import model.PurchaseOrderLine;
 import model.Supplier;
 
 import org.datanucleus.api.jdo.JDOPersistenceManagerFactory;
@@ -142,7 +142,7 @@ public class Persistence {
         classNames.add(Customer.class.getName());
         classNames.add(PurchaseOrder.class.getName());
         classNames.add(Product.class.getName());
-        classNames.add(ProductOrder.class.getName());
+        classNames.add(PurchaseOrderLine.class.getName());
         classNames.add(Supplier.class.getName());
         try {
             Properties properties = new Properties();
