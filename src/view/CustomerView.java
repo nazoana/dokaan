@@ -7,15 +7,15 @@ import java.beans.PropertyChangeEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-
 import utilities.AppLogger;
 import utilities.Globals;
 import utilities.Util;
+import widgets.ButtonWidget;
+import widgets.LabelHeadingWidget;
+import widgets.LabelWidget;
+import widgets.ScrollPaneWidget;
 import widgets.TextAreaWidget;
+import widgets.TextWidget;
 import controller.CstmrCtrllr;
 
 /**
@@ -38,25 +38,25 @@ public class CustomerView extends AbstractViewPanel implements ActionListener{
     
     private CstmrCtrllr ctrllr;
     
-    private JLabel lblViewHeading;
+    private LabelHeadingWidget lblViewHeading;
     
-    private JLabel lblStatus;
+    private LabelWidget lblCounter;
     
-    private JLabel lblId;
-    private JTextField txtId;
+    private LabelWidget lblId;
+    private TextWidget txtId;
     
-    private JLabel lblName;
-    private JTextField txtName;
+    private LabelWidget lblName;
+    private TextWidget txtName;
     
-    private JLabel lblAddress;
+    private LabelWidget lblAddress;
     private TextAreaWidget txtAddress;
     
-    private JLabel lblPhone;
-    private JTextField txtPhone;
+    private LabelWidget lblPhone;
+    private TextWidget txtPhone;
     
-    private JButton btnSave;
+    private ButtonWidget btnSave;
     
-    private JButton btnCancel;
+    private ButtonWidget btnCancel;
     
     /**
      * Constructor
@@ -66,7 +66,7 @@ public class CustomerView extends AbstractViewPanel implements ActionListener{
     public CustomerView(CstmrCtrllr customerController){
         this.ctrllr = customerController;
         setLayout(new GridBagLayout());
-        setBackground(Globals.WHITE);
+        setBackground(Globals.WHITE_FOR_FG_HEADING_LABEL);
         initComponents();
     }
     
@@ -75,38 +75,38 @@ public class CustomerView extends AbstractViewPanel implements ActionListener{
      */
     private void initComponents(){
         
-        lblViewHeading = new JLabel("Customer View");
+        lblViewHeading = new LabelHeadingWidget("lblViewHeading", "Customer View", LabelHeadingWidget.CENTER);
         
-        lblStatus = new JLabel("");
+        lblCounter = new LabelWidget("lblStatus", " ");
         
-        lblId = new JLabel("Id: ");
-        txtId = new JTextField(20);
+        lblId = new LabelWidget("lblId", " Id ");
+        txtId = new TextWidget("txtId", 20);
         txtId.setEditable(false);
         
-        lblName = new JLabel("Name: ");
-        txtName = new JTextField(20);
+        lblName = new LabelWidget("lblName", " Name ");
+        txtName = new TextWidget("txtName", 20);
         txtName.addActionListener(this);
-        txtName.setActionCommand("nameChange");
+        //txtName.setActionCommand("nameChange");
         
-        lblPhone = new JLabel("phone: ");
-        txtPhone = new JTextField(20);
+        lblPhone = new LabelWidget("lblPhone", " Phone ");
+        txtPhone = new TextWidget("txtPhone", 20);
         txtPhone.addActionListener(this);
-        txtPhone.setActionCommand("phoneChange");
+        //txtPhone.setActionCommand("phoneChange");
         
-        lblAddress = new JLabel("Address: ");
-        txtAddress = new TextAreaWidget(3,4);
-        JScrollPane scrlPnlAddress = new JScrollPane(txtAddress);
-        scrlPnlAddress.setName("addressScrllPnl");
+        lblAddress = new LabelWidget("lblAddress", " Business Address ");
+        txtAddress = new TextAreaWidget("txtAddress", 9, 25);
+        txtAddress.setCounterLabel(lblCounter);
+        ScrollPaneWidget scrlPnlAddress = new ScrollPaneWidget("scrlPnlAddress", txtAddress);
         
-        btnSave = new JButton("Save");
+        btnSave = new ButtonWidget("btnSave", "Save");
         btnSave.addActionListener(this);
         btnSave.setActionCommand("save");
         
-        btnCancel = new JButton("Cancel");
+        btnCancel = new ButtonWidget("btnCancel", "Cancel");
         btnCancel.addActionListener(this);
         btnCancel.setActionCommand("cancel");
         
-        add(lblViewHeading, Util.defineConstraint(1, 0, 0, 0, 2, 1, false, 11));
+        add(lblViewHeading, Util.defineConstraint(1, 0, 0, 0, 2, 1, true, 11));
 
         add(lblId, Util.defineConstraint(0, 0, 0, 1, 1, 1, true, 17));
         add(txtId, Util.defineConstraint(1, 0, 1, 1, 1, 1, true, 17));
@@ -119,9 +119,10 @@ public class CustomerView extends AbstractViewPanel implements ActionListener{
         
         add(lblAddress, Util.defineConstraint(0, 0, 0, 4, 1, 1, true, 17));
         add(scrlPnlAddress, Util.defineConstraint(1, 0, 1, 4, 1, 1, true, 17));
+        add(lblCounter, Util.defineConstraint(0, 0, 1, 5, 1, 1, false, 13));
 
-        add(btnSave, Util.defineConstraint(0, 0, 0, 5, 1, 1, false, 13));
-        add(btnCancel,Util.defineConstraint(0, 0, 1, 5, 1, 1, false, 13));
+        add(btnCancel, Util.defineConstraint(0, 0, 0, 6, 1, 1, false, 17));
+        add(btnSave,Util.defineConstraint(0, 0, 1, 6, 1, 1, false, 13));
     }
     
     
@@ -131,7 +132,7 @@ public class CustomerView extends AbstractViewPanel implements ActionListener{
      */
     @Override
     public void modelPropertyChange(PropertyChangeEvent evt) {
-        lblStatus.setText("Object has changed");
+        lblCounter.setText("Object has changed");
         if (evt.getPropertyName().equals(CstmrCtrllr.ELEMENT_NAME_PROPERTY)){
             txtName.setText((String) evt.getNewValue());
         }
@@ -150,23 +151,25 @@ public class CustomerView extends AbstractViewPanel implements ActionListener{
     		id = "-1";
     	}
         ctrllr.getOrCreateObject(new Long(id));
-        if (evt.getActionCommand().equals("save")){
-            logger.log(Level.INFO, "Save button pressed in Customer View");
-            ctrllr.setModelProperty(CstmrCtrllr.ELEMENT_NAME_PROPERTY, txtName.getText());
-            ctrllr.setModelProperty(CstmrCtrllr.ELEMENT_PHONE_PROPERTY, txtPhone.getText());
-            ctrllr.setModelProperty(CstmrCtrllr.ELEMENT_ADDRESS_PROPERTY, txtAddress.getText());
-            ctrllr.save();
-        } else if (evt.getActionCommand().equals("cancel")){
-            logger.log(Level.INFO, "Cancel button pressed in Customer View");
-            ctrllr.rollback();
-            lblStatus.setText("");
-        } else if (evt.getActionCommand().equals("nameChange")) {
-            ctrllr.setModelProperty(CstmrCtrllr.ELEMENT_NAME_PROPERTY, txtName.getText());
-        } else if (evt.getActionCommand().equals("phoneChange")){
-            ctrllr.setModelProperty(CstmrCtrllr.ELEMENT_PHONE_PROPERTY, txtPhone.getText());
-        } else if (evt.getActionCommand().equals("addressChange")){
-            ctrllr.setModelProperty(CstmrCtrllr.ELEMENT_ADDRESS_PROPERTY, txtAddress.getText());
-        }
+        if (evt.getSource() instanceof TextWidget){
+    		if (((TextWidget)evt.getSource()).getName().equals("txtName")){
+    			ctrllr.setModelProperty(CstmrCtrllr.ELEMENT_NAME_PROPERTY, txtName.getText());
+    		}
+    		else if (((TextWidget)evt.getSource()).getName().equals("txtPhone")){
+    			ctrllr.setModelProperty(CstmrCtrllr.ELEMENT_PHONE_PROPERTY, txtPhone.getText());
+    		}
+    	} 
+        else if (evt.getSource() instanceof ButtonWidget){
+    		if (evt.getActionCommand().equals("save")){
+    			logger.log(Level.INFO, "Save button pressed in Customer View");
+                ctrllr.setModelProperty(CstmrCtrllr.ELEMENT_ADDRESS_PROPERTY, txtAddress.getText());
+                ctrllr.save();
+    		}
+    		else if (evt.getActionCommand().equals("cancel")){
+    			logger.log(Level.INFO, "Cancel button pressed in Customer View");
+                ctrllr.rollback();
+                lblCounter.setText("");
+    		}
+    	}
     }
-
 }

@@ -286,14 +286,14 @@ public class DateChooser extends JDialog implements ActionListener {
         //saturday.setBackground(Utility.getColorRed());
         //saturday.setForeground(Utility.getColorWhite());
         saturday.setBackground(Globals.YELLOW);
-        saturday.setForeground(Globals.RED);
+        saturday.setForeground(Globals.RED_FOR_BG_HEADING_LABEL);
         
         JLabel sunday = new JLabel("Sun", JLabel.CENTER);
         sunday.setOpaque(true);
         //sunday.setBackground(Utility.getColorRed());
         //sunday.setForeground(Utility.getColorWhite());
         sunday.setBackground(Globals.YELLOW);
-        sunday.setForeground(Globals.RED);
+        sunday.setForeground(Globals.RED_FOR_BG_HEADING_LABEL);
         
         // display 7 days of the week across the top
         dayGrid.add(monday);

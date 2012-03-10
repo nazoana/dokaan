@@ -73,6 +73,9 @@ public class CstmrCtrllr extends AbstractController implements ControllerInterfa
      */
     @Override
     public void getOrCreateObject(Long id){
+    	if ( tx != null && tx.isActive()){
+    		return;
+    	}
         beginTransaction();
         try { 
             customer = pm.getObjectById(Customer.class, id);

@@ -1,7 +1,7 @@
 package view;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.GridBagLayout;
 import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -12,6 +12,7 @@ import javax.swing.WindowConstants;
 
 import model.Customer;
 import utilities.AppLogger;
+import utilities.Util;
 import controller.CstmrCtrllr;
 import controller.Persistence;
 
@@ -47,9 +48,11 @@ public class DokaanMain {
             logger.log(Level.WARNING, "Failed to set UIManager to use system look & feel:" 
             		+ e.getMessage());
         }
-        displayFrame.getContentPane().add(customerView, BorderLayout.WEST);
+        displayFrame.setLayout(new GridBagLayout());
+        displayFrame.getContentPane().add(customerView, 
+        		Util.defineConstraint(1, 1, 0, 0, 1, 1, true, 17));
         displayFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        displayFrame.setTitle("Mission Metrics");
+        displayFrame.setTitle("Dokaan");
         Dimension size = toolkit.getScreenSize();
         displayFrame.pack();
         displayFrame.setLocation((size.width / 2) - (displayFrame.getWidth() / 2),
@@ -62,6 +65,14 @@ public class DokaanMain {
     @SuppressWarnings("unused")
     public static void main(String[] args) {
         Persistence.getInstance().getPm();
-        DokaanMain main = new DokaanMain();
+        /*
+         * Schedule a job for the event-dispatching thread:
+         * creating and showing this application's GUI.
+         */
+        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+            	DokaanMain main = new DokaanMain();
+            }
+        });
     }
 }

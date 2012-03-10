@@ -34,30 +34,47 @@ public class Globals {
     public static final String LOG_FILE_PATH = APP_ROOT + FILE_SEPARATOR + "applog.log";
     
     public static final String LOG_FILE_CONFIG = APP_ROOT + FILE_SEPARATOR + "logging.properties";
+
     
-    /** Font used in all Titles */
-    public static final Font FONT_TITLE = new Font("Verdana", Font.BOLD, 16);
     
-    /** BOld font used in sub-headings */
+    
+    
+    
+    public static final Font FONT_LABEL_HEADING_WIDGET = new Font("Verdana", Font.BOLD, 16);
+    
     public static final Font FONT_BOLD = new Font("Verdana", Font.BOLD, 11);
     
-    /** Regular font used throughout the application */
-    public static final Font FONT_REGULAR = new Font("Verdana", Font.PLAIN, 13);
+    public static final Font FONT_APPLICATION = new Font("Verdana", Font.PLAIN, 13);
     
-    public static final Color RED = Color.decode("#B20838"); 
+    
+    
+    
+    
+    
+    public static final Color RED_FOR_BG_HEADING_LABEL = Color.decode("#B20838"); 
     
     public static final Color BLUE = Color.decode("#6699CC"); //"#6699CC" CC6666
     
     public static final Color YELLOW = Color.decode("#FFFFDD");
     
+    public static final Color YELLOW_LIGHT_FOR_BG_LABEL_WIDGET = Color.decode("#FFFFF3");
+    
     public static final Color BLACK = Color.decode("#444444");
     
     public static final Color GREEN = Color.decode("#025D0E");
     
-    public static final Color LIGHT_GREEN = Color.decode("#CCFFDD");
+    public static final Color GREEN_LIGHT = Color.decode("#CCFFDD");
     
-    public static final Color WHITE = Color.WHITE;
+    public static final Color GREEN_VERY_LIGHT = Color.decode("#F3F9E6");
     
-    public static final Color LIGHT_GRAY = Color.decode("#E8E8E8");
+    public static final Color WHITE_FOR_FG_HEADING_LABEL = Color.WHITE;
+    
+    public static final Color GRAY_VERY_LIGHT = Color.decode("#F0F0F0");
+    
+    public static final Color GRAY_LIGHT = Color.decode("#E8E8E8");
+    
+    public static final Color GRAY = Color.decode("#C0C0C0");
+    
+    public static final Color GRAY_DARK = Color.decode("#606060");
     
 }
