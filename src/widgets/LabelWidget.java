@@ -11,6 +11,12 @@ import javax.swing.JLabel;
 
 import utilities.Globals;
 
+/**
+ * 
+ * @author Mahmood Khan
+ * @version 2012-03-08 1.0
+ *
+ */
 public class LabelWidget extends JLabel{
 
 	/**
@@ -52,7 +58,7 @@ public class LabelWidget extends JLabel{
 	}
 	
 	private void setFontAndColor(){
-		super.setFont(Globals.FONT_APPLICATION);
+		super.setFont(Globals.FONT_BOLD);
 		super.setForeground(Globals.GRAY_DARK);
 	}
 	

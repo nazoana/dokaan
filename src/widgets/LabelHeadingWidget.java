@@ -11,6 +11,12 @@ import javax.swing.JLabel;
 
 import utilities.Globals;
 
+/**
+ * 
+ * @author Mahmood Khan
+ * @version 2012-03-08 1.0
+ *
+ */
 public class LabelHeadingWidget extends JLabel{
 
 	/**

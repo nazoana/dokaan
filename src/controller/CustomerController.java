@@ -22,7 +22,7 @@ import controller.Persistence;
 * @version 2012-03-06 1.0
 *
 */
-public class CstmrCtrllr extends AbstractController implements ControllerInterface{
+public class CustomerController extends AbstractController implements ControllerInterface{
     
     /** The persistence manager used to manage connection to the database */
     private PersistenceManager pm;
@@ -34,7 +34,7 @@ public class CstmrCtrllr extends AbstractController implements ControllerInterfa
     private boolean newObject ;
     
     /** The logger object used to log messages */
-    private static final Logger logger = AppLogger.getAppLogger(CstmrCtrllr.class.getName());
+    private static final Logger logger = AppLogger.getAppLogger(CustomerController.class.getName());
     
     /** The customer object instance that is to be changed */
     private Customer customer;
@@ -48,7 +48,7 @@ public class CstmrCtrllr extends AbstractController implements ControllerInterfa
     public static final String ELEMENT_ADDRESS_PROPERTY = "Address";
     
     
-    public CstmrCtrllr(){
+    public CustomerController(){
         super();
     }
     

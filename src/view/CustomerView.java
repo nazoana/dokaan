@@ -16,7 +16,7 @@ import widgets.LabelWidget;
 import widgets.ScrollPaneWidget;
 import widgets.TextAreaWidget;
 import widgets.TextWidget;
-import controller.CstmrCtrllr;
+import controller.CustomerController;
 
 /**
 * This is a view to edit and view a Customer object
@@ -36,9 +36,9 @@ public class CustomerView extends AbstractViewPanel implements ActionListener{
     /** The logger object used to log messages */
     private static final Logger logger = AppLogger.getAppLogger(CustomerView.class.getName());
     
-    private CstmrCtrllr ctrllr;
+    private CustomerController controller;
     
-    private LabelHeadingWidget lblViewHeading;
+    private LabelHeadingWidget lblTitle;
     
     private LabelWidget lblCounter;
     
@@ -61,10 +61,11 @@ public class CustomerView extends AbstractViewPanel implements ActionListener{
     /**
      * Constructor
      * 
-     * @param customerController
+     * @param controller
      */
-    public CustomerView(CstmrCtrllr customerController){
-        this.ctrllr = customerController;
+    public CustomerView(CustomerController controller){
+    	super();
+        this.controller = controller;
         setLayout(new GridBagLayout());
         setBackground(Globals.WHITE_FOR_FG_HEADING_LABEL);
         initComponents();
@@ -75,9 +76,9 @@ public class CustomerView extends AbstractViewPanel implements ActionListener{
      */
     private void initComponents(){
         
-        lblViewHeading = new LabelHeadingWidget("lblViewHeading", "Customer View", LabelHeadingWidget.CENTER);
+        lblTitle = new LabelHeadingWidget("lblTitle", "Customer View", LabelHeadingWidget.CENTER);
         
-        lblCounter = new LabelWidget("lblStatus", " ");
+        lblCounter = new LabelWidget("lblCounter", " ");
         
         lblId = new LabelWidget("lblId", " Id ");
         txtId = new TextWidget("txtId", 20);
@@ -86,15 +87,13 @@ public class CustomerView extends AbstractViewPanel implements ActionListener{
         lblName = new LabelWidget("lblName", " Name ");
         txtName = new TextWidget("txtName", 20);
         txtName.addActionListener(this);
-        //txtName.setActionCommand("nameChange");
         
         lblPhone = new LabelWidget("lblPhone", " Phone ");
         txtPhone = new TextWidget("txtPhone", 20);
         txtPhone.addActionListener(this);
-        //txtPhone.setActionCommand("phoneChange");
         
         lblAddress = new LabelWidget("lblAddress", " Business Address ");
-        txtAddress = new TextAreaWidget("txtAddress", 9, 25);
+        txtAddress = new TextAreaWidget("txtAddress", 8, 24);
         txtAddress.setCounterLabel(lblCounter);
         ScrollPaneWidget scrlPnlAddress = new ScrollPaneWidget("scrlPnlAddress", txtAddress);
         
@@ -106,7 +105,7 @@ public class CustomerView extends AbstractViewPanel implements ActionListener{
         btnCancel.addActionListener(this);
         btnCancel.setActionCommand("cancel");
         
-        add(lblViewHeading, Util.defineConstraint(1, 0, 0, 0, 2, 1, true, 11));
+        add(lblTitle, Util.defineConstraint(1, 0, 0, 0, 2, 1, true, 11));
 
         add(lblId, Util.defineConstraint(0, 0, 0, 1, 1, 1, true, 17));
         add(txtId, Util.defineConstraint(1, 0, 1, 1, 1, 1, true, 17));
@@ -133,7 +132,7 @@ public class CustomerView extends AbstractViewPanel implements ActionListener{
     @Override
     public void modelPropertyChange(PropertyChangeEvent evt) {
         lblCounter.setText("Object has changed");
-        if (evt.getPropertyName().equals(CstmrCtrllr.ELEMENT_NAME_PROPERTY)){
+        if (evt.getPropertyName().equals(CustomerController.ELEMENT_NAME_PROPERTY)){
             txtName.setText((String) evt.getNewValue());
         }
     }
@@ -150,24 +149,24 @@ public class CustomerView extends AbstractViewPanel implements ActionListener{
     	if (id == null | id.equals("null") || id.length() == 0){
     		id = "-1";
     	}
-        ctrllr.getOrCreateObject(new Long(id));
+        controller.getOrCreateObject(new Long(id));
         if (evt.getSource() instanceof TextWidget){
     		if (((TextWidget)evt.getSource()).getName().equals("txtName")){
-    			ctrllr.setModelProperty(CstmrCtrllr.ELEMENT_NAME_PROPERTY, txtName.getText());
+    			controller.setModelProperty(CustomerController.ELEMENT_NAME_PROPERTY, txtName.getText());
     		}
     		else if (((TextWidget)evt.getSource()).getName().equals("txtPhone")){
-    			ctrllr.setModelProperty(CstmrCtrllr.ELEMENT_PHONE_PROPERTY, txtPhone.getText());
+    			controller.setModelProperty(CustomerController.ELEMENT_PHONE_PROPERTY, txtPhone.getText());
     		}
     	} 
         else if (evt.getSource() instanceof ButtonWidget){
     		if (evt.getActionCommand().equals("save")){
     			logger.log(Level.INFO, "Save button pressed in Customer View");
-                ctrllr.setModelProperty(CstmrCtrllr.ELEMENT_ADDRESS_PROPERTY, txtAddress.getText());
-                ctrllr.save();
+                controller.setModelProperty(CustomerController.ELEMENT_ADDRESS_PROPERTY, txtAddress.getText());
+                controller.save();
     		}
     		else if (evt.getActionCommand().equals("cancel")){
     			logger.log(Level.INFO, "Cancel button pressed in Customer View");
-                ctrllr.rollback();
+                controller.rollback();
                 lblCounter.setText("");
     		}
     	}

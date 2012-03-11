@@ -13,7 +13,8 @@ import javax.swing.WindowConstants;
 import model.Customer;
 import utilities.AppLogger;
 import utilities.Util;
-import controller.CstmrCtrllr;
+import controller.CustomerController;
+import controller.CustomerListController;
 import controller.Persistence;
 
 /**
@@ -34,12 +35,17 @@ public class DokaanMain {
     public DokaanMain(){
     	toolkit = Toolkit.getDefaultToolkit();
     	logger.log(Level.SEVERE, "Starting");
-        CstmrCtrllr ctrllr = new CstmrCtrllr();
+    	
+        CustomerController ctrllr = new CustomerController();
         Customer customerModel = new Customer();
         CustomerView customerView = new CustomerView(ctrllr);
         
         ctrllr.addView(customerView);
         ctrllr.addModel(customerModel);
+        
+        CustomerListController customerListController = new CustomerListController();
+        CustomerListView customerListView = new CustomerListView(customerListController);
+        customerListController.addView(customerListView);
         
         JFrame displayFrame = new JFrame("Customer View");
         try {
@@ -49,7 +55,7 @@ public class DokaanMain {
             		+ e.getMessage());
         }
         displayFrame.setLayout(new GridBagLayout());
-        displayFrame.getContentPane().add(customerView, 
+        displayFrame.getContentPane().add(customerListView, 
         		Util.defineConstraint(1, 1, 0, 0, 1, 1, true, 17));
         displayFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         displayFrame.setTitle("Dokaan");

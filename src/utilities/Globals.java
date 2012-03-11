@@ -40,11 +40,11 @@ public class Globals {
     
     
     
-    public static final Font FONT_LABEL_HEADING_WIDGET = new Font("Verdana", Font.BOLD, 16);
+    public static final Font FONT_LABEL_HEADING_WIDGET = new Font("Helvetica", Font.BOLD, 16);
     
-    public static final Font FONT_BOLD = new Font("Verdana", Font.BOLD, 11);
+    public static final Font FONT_BOLD = new Font("Helvetica", Font.BOLD, 15);
     
-    public static final Font FONT_APPLICATION = new Font("Verdana", Font.PLAIN, 13);
+    public static final Font FONT_APPLICATION = new Font("Arial", Font.PLAIN, 15);
     
     
     
@@ -57,7 +57,7 @@ public class Globals {
     
     public static final Color YELLOW = Color.decode("#FFFFDD");
     
-    public static final Color YELLOW_LIGHT_FOR_BG_LABEL_WIDGET = Color.decode("#FFFFF3");
+    public static final Color YELLOW_LIGHT_FOR_BG_LABEL_WIDGET = Color.decode("#FFFFF0");
     
     public static final Color BLACK = Color.decode("#444444");
     
@@ -65,7 +65,7 @@ public class Globals {
     
     public static final Color GREEN_LIGHT = Color.decode("#CCFFDD");
     
-    public static final Color GREEN_VERY_LIGHT = Color.decode("#F3F9E6");
+    public static final Color GREEN_VERY_LIGHT = Color.decode("#DEFADE");//F3F9E6
     
     public static final Color WHITE_FOR_FG_HEADING_LABEL = Color.WHITE;
     

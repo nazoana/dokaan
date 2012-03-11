@@ -85,8 +85,8 @@ public class TextWidget extends JTextField implements FocusListener {
 	}
 
 	public void setFontAndColor() {
-		super.setFont(Globals.FONT_APPLICATION);
-		super.setForeground(Globals.GRAY_DARK);
+		setFont(Globals.FONT_APPLICATION);
+		setForeground(Globals.GRAY_DARK);
 	}
 
 	@Override

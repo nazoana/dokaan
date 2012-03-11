@@ -4,6 +4,12 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
+/**
+ * 
+ * @author Mahmood Khan
+ * @version 2012-03-09 1.0
+ *
+ */
 public class WidgetDocument extends PlainDocument{
 		/**
 		 * 

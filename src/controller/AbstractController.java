@@ -67,14 +67,13 @@ public abstract class AbstractController extends Observable implements PropertyC
         registeredViews.remove(view);
     }
 
-
-
-    //  Used to observe property changes from registered models and propogate
-    //  them on to all the views.
     
     /**
      * This method is used to implement the PropertyChangeListener interface. Any model
      * changes will be sent to this controller through the use of this method.
+     * In other words, it is used to observe property changes from registered models and 
+     * propagate them on to all the registered views.
+     * 
      * @param evt An object that describes the model's property change.
      */
     public void propertyChange(PropertyChangeEvent evt) {
@@ -83,33 +82,4 @@ public abstract class AbstractController extends Observable implements PropertyC
             view.modelPropertyChange(evt);
         }
     }
-    
-    
-    /**
-     * Convenience method that subclasses can call upon to fire off property changes
-     * back to the models. This method used reflection to inspect each of the model
-     * classes to determine if it is the owner of the property in question. If it
-     * isn't, a NoSuchMethodException is throws (which the method ignores).
-     *
-     * @param propertyName The name of the property
-     * @param newValue An object that represents the new value of the property.
-     */
-    /**
-    protected void setModelProperty(String propertyName, Object newValue) {
-        for (AbstractModel model: registeredModels) {
-            try {
-                Method method = model.getClass().getMethod(
-                		"set" + propertyName, 
-                        new Class[] {newValue.getClass()}
-                        );
-                method.invoke(model, newValue);
-                
-            } catch (Exception ex) {
-                //  Handle exception
-                //System.out.println(ex.getMessage());
-                ex.printStackTrace();
-            }
-        }
-    }
-    */
 }

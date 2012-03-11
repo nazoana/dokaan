@@ -12,7 +12,7 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 import utilities.Validator;
-import controller.CstmrCtrllr;
+import controller.CustomerController;
 
 @PersistenceCapable(identityType=IdentityType.DATASTORE)
 @DatastoreIdentity(strategy=IdGeneratorStrategy.INCREMENT)
@@ -65,7 +65,7 @@ public class Customer extends AbstractModel{
 	public void setId(long id) {
 	    long oldId = this.id;
 		this.id = id;
-		firePropertyChange(CstmrCtrllr.ELEMENT_ID_PROPERTY, oldId, id);
+		firePropertyChange(CustomerController.ELEMENT_ID_PROPERTY, oldId, id);
 	}
 
 	public String getName() {
@@ -81,7 +81,7 @@ public class Customer extends AbstractModel{
 	    }
 	    String oldName = this.name;
 		this.name = name;
-		firePropertyChange(CstmrCtrllr.ELEMENT_NAME_PROPERTY, oldName, name);
+		firePropertyChange(CustomerController.ELEMENT_NAME_PROPERTY, oldName, name);
 		return true;
 	}
 
@@ -95,7 +95,7 @@ public class Customer extends AbstractModel{
         }
 	    String oldPhone = this.phone;
 		this.phone = phone;
-		firePropertyChange(CstmrCtrllr.ELEMENT_PHONE_PROPERTY, oldPhone, phone);
+		firePropertyChange(CustomerController.ELEMENT_PHONE_PROPERTY, oldPhone, phone);
 		return true;
 	}
 
@@ -109,7 +109,7 @@ public class Customer extends AbstractModel{
         }
 	    String oldAddress = this.address;
 		this.address = address;
-		firePropertyChange(CstmrCtrllr.ELEMENT_ADDRESS_PROPERTY, oldAddress, address);
+		firePropertyChange(CustomerController.ELEMENT_ADDRESS_PROPERTY, oldAddress, address);
 		return true;
 	}
 
