@@ -1,5 +1,6 @@
 package controller;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -55,7 +56,10 @@ public class CustomerListController extends AbstractController{
     		data.add(new Object[] {
     				customer.getId(), 
     				customer.getName(), 
-    				customer.getAddress()
+    				customer.getAddress(),
+    				customer.getPhone(),
+    				customer.getDateCreated(),
+    				(Timestamp)customer.getDateModified()
     				});
     	}
     	

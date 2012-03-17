@@ -42,9 +42,9 @@ public class Globals {
     
     public static final Font FONT_LABEL_HEADING_WIDGET = new Font("Helvetica", Font.BOLD, 16);
     
-    public static final Font FONT_BOLD = new Font("Helvetica", Font.BOLD, 15);
+    public static final Font FONT_BOLD = new Font("Helvetica", Font.BOLD, 12);
     
-    public static final Font FONT_APPLICATION = new Font("Arial", Font.PLAIN, 15);
+    public static final Font FONT_APPLICATION = new Font("Helvetica", Font.PLAIN, 12);
     
     
     
@@ -61,7 +61,7 @@ public class Globals {
     
     public static final Color BLACK = Color.decode("#444444");
     
-    public static final Color GREEN = Color.decode("#025D0E");
+    public static final Color GREEN = Color.decode("#64AE64");
     
     public static final Color GREEN_LIGHT = Color.decode("#CCFFDD");
     

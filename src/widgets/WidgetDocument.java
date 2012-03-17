@@ -12,11 +12,11 @@ import javax.swing.text.PlainDocument;
  */
 public class WidgetDocument extends PlainDocument{
 		/**
-		 * 
+		 * It has to do with serialization; it is not important.
+		 * It is here to avoid a compilation warning.
 		 */
 		private static final long serialVersionUID = 1L;
 		private int limit;
-		// optional uppercase conversion
 		private boolean toUppercase = false;
 
 		WidgetDocument(int limit) {

@@ -10,6 +10,8 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 
+import org.datanucleus.store.types.sco.simple.SqlTimestamp;
+
 import utilities.Globals;
 import utilities.Util;
 
@@ -66,27 +68,38 @@ public class TableWidgetCellRenderer extends DefaultTableCellRenderer {
         if (hasFocus) {
             // this cell is the anchor and the table has the focus
         }
-
-        if (value instanceof Boolean) {
-            JCheckBox cBox = new JCheckBox();
-            cBox.setSelected(Boolean.TRUE.equals(value));
-            cBox.setHorizontalAlignment(SwingConstants.CENTER);
-            this.shadeAlternateRows(table, row, col, cBox);
-            return cBox;
-        } else if (value instanceof Integer) {
-            setHorizontalAlignment(SwingConstants.CENTER);
-        } else if (value instanceof String) {
-            setHorizontalAlignment(SwingConstants.LEFT);
-        } else if (value instanceof Date) {
-            value = Util.formatDateNreturnDate(value.toString(), "yyyy-mm-dd", "dd-MMM-yyyy");
-        } else if (value instanceof Double) {
-            setHorizontalAlignment(SwingConstants.CENTER);
-        }
+		try {
+			if (value instanceof Boolean) {
+				JCheckBox cBox = new JCheckBox();
+				cBox.setSelected(Boolean.TRUE.equals(value));
+				cBox.setHorizontalAlignment(SwingConstants.CENTER);
+				this.shadeAlternateRows(table, row, col, cBox);
+				return cBox;
+			} else if (value instanceof Integer) {
+				setHorizontalAlignment(SwingConstants.CENTER);
+			} else if (value instanceof Long) {
+				setHorizontalAlignment(SwingConstants.CENTER);
+			} else if (value instanceof String) {
+				setHorizontalAlignment(SwingConstants.LEFT);
+			} else if (value instanceof Date
+					& value.getClass().getSimpleName().equals("Date")) {
+				setText(Util.formatDate((Date) value, "E, MMM dd, yyyy"));
+			} else if (value instanceof SqlTimestamp
+					& value.getClass().getSimpleName().equals("SqlTimestamp")) {
+				setText(Util
+						.formatDate((Date) value, "E, MMM dd, yyyy hh:mm a"));
+			} else if (value instanceof Double) {
+				setHorizontalAlignment(SwingConstants.CENTER);
+			}
+		} catch (NullPointerException e) {
+			//TODO: log as debug message
+		}
         if (value != null) {
         	setToolTipText(value.toString());
         }
         this.shadeAlternateRows(table, row, col, cell);
         cell.setFont(Globals.FONT_APPLICATION);
+        cell.setForeground(Globals.BLACK);
         setBorder(BorderFactory.createEmptyBorder(8,8,8,8));
         return cell;
     }

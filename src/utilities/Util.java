@@ -16,12 +16,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -215,67 +213,10 @@ public class Util {
         return border;
     }
 
-    /**
-     * @param dateString
-     *            The date that is going to be formatted
-     * @param currentDateFormat
-     *            The current format of the date value
-     * @param desiredDateFormat
-     *            The desired format of the date value
-     * @return
-     */
-    public static String formatDate(String dateString, String currentDateFormat,
-            String desiredDateFormat) {
-        DateFormat currentFormat = new SimpleDateFormat(currentDateFormat);
-        DateFormat desiredFormat = new SimpleDateFormat(desiredDateFormat);
-        String dateValue = null;
-        try {
-            dateValue = desiredFormat.format(currentFormat.parse(dateString));
-        } catch (ParseException e) {
-            errMsg = "Could not reformat date: "
-                    + dateString + " " + e.getMessage();
-            showError(null, errMsg, "Date Format Error");
-            logger.log(Level.SEVERE, errMsg);
-        }
-        return dateValue;
-    }
-
-    /**
-     * @param dateString
-     *            The date that is going to be formatted
-     * @param currentDateFormat
-     *            The current format of the date value
-     * @param desiredDateFormat
-     *            The desired format of the date value
-     * @return
-     */
-    
-    public static java.util.Date formatDateNreturnDate(String dateString,
-            String currentDateFormat, String desiredDateFormat) {
-        DateFormat currentFormat = new SimpleDateFormat(currentDateFormat);
-        DateFormat desiredFormat = new SimpleDateFormat(desiredDateFormat);
-        String dateValue = null;
-        java.util.Date date = null;
-        try {
-            dateValue = desiredFormat.format(currentFormat.parse(dateString));
-            date = desiredFormat.parse(dateValue);
-        } catch (ParseException e) {
-            errMsg = "Could not reformat date: "
-                    + dateString + " " + e.getMessage();
-            showError(null, errMsg , "Date Format Error");
-            logger.log(Level.SEVERE, errMsg);
-        }
-        return date;
-    }
-    
-    
-    public static java.sql.Date getDateSql(String stringDate)
-            throws ParseException {
-        //desiredFormat = "dd-MMM-yyyy"; //"yyyy-MM-dd hh:mm:ss"
-        DateFormat formater = new SimpleDateFormat("dd-MMM-yyyy");
-        java.util.Date parsedUtilDate = formater.parse(stringDate);
-        java.sql.Date sqltDate = new java.sql.Date(parsedUtilDate.getTime());
-        return sqltDate;
+    public static String formatDate(java.util.Date date, String format) {
+    	SimpleDateFormat sdf = new SimpleDateFormat(format);
+    	String val = sdf.format((Date) date);
+    	return val;
     }
     
     /**
@@ -287,50 +228,7 @@ public class Util {
         return new java.sql.Timestamp(today.getTime());
     }
 
-    /**
-     * 
-     * @param desiredDateFormat
-     *            Returns the current date in desired format as string
-     * @return
-     */
-    public static String getDate(String desiredDateFormat) {
-        DateFormat dateFormat = new SimpleDateFormat(desiredDateFormat);
-        java.util.Date date = new java.util.Date();
-        return dateFormat.format(date);
-    }
-    
-    /**
-     * Returns string representation in the desired format of the date
-     * value passed in to the function
-     * @param date
-     * @param desiredDateFormat
-     * @return
-     */
-    public static String getDate(Date date, String desiredDateFormat) {
-        DateFormat dateFormat = new SimpleDateFormat(desiredDateFormat);
-        return dateFormat.format(date);
-    }
-
-    /**
-     * 
-     * @param desiredDateFormat
-     *            Returns the current date in desired date as date
-     * @return
-     */
-    public static java.util.Date getDateAsDate(String desiredDateFormat) {
-        SimpleDateFormat sdf = new SimpleDateFormat(desiredDateFormat);
-        Calendar calendar = Calendar.getInstance(); // today
-        java.util.Date date = null;
-        try {
-            date = sdf.parse(sdf.format(calendar.getTime()));
-        } catch (ParseException e) {
-            errMsg = "Unable to read system's date. ";
-            showError(null, errMsg, "ParseException");
-            logger.log(Level.SEVERE, errMsg + e.getMessage());
-        }
-        return date;
-    }
-
+  
     /**
      * @param owner
      *            The frame that owns this dialog box

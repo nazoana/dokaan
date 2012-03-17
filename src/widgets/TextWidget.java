@@ -8,6 +8,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.geom.RoundRectangle2D;
 
+import javax.swing.BorderFactory;
 import javax.swing.JTextField;
 import javax.swing.text.Document;
 
@@ -87,6 +88,7 @@ public class TextWidget extends JTextField implements FocusListener {
 	public void setFontAndColor() {
 		setFont(Globals.FONT_APPLICATION);
 		setForeground(Globals.GRAY_DARK);
+		setBorder(BorderFactory.createEmptyBorder(3, 5, 3, 5));
 	}
 
 	@Override
@@ -99,6 +101,11 @@ public class TextWidget extends JTextField implements FocusListener {
 		oldValue = this.getText();
 		super.setText(text);
 	}
+	
+	@Override
+	protected void fireActionPerformed() {
+		super.fireActionPerformed();
+	}
 
 	@Override
 	public void focusGained(FocusEvent evt) {
@@ -110,9 +117,18 @@ public class TextWidget extends JTextField implements FocusListener {
 		setBackground(Globals.GREEN_VERY_LIGHT);
 	}
 
+	/**
+	 * Overrides and implements the focusLost method from FocusListener interface
+	 * 
+	 * The fireActinPerformed method invokes the actionPerformed method of the class
+	 * that has added this TextBox and has implemented the ActionListener interface.
+	 * For example, the CustomerView class has implemented the ActionListener interface
+	 * and has added this widget as a GUI element so whenever the fireActionPerformed
+	 * method in here is called, it triggers the actionPerformed method in the 
+	 * Customer.class.
+	 */
 	@Override
 	public void focusLost(FocusEvent evt) {
-		//System.out.println("SOURCE: " + evt.getSource().getClass().getName());
 		setBackground(Globals.WHITE_FOR_FG_HEADING_LABEL);
 		if (!oldValue.equals(this.getText())) {
 			fireActionPerformed();

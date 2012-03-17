@@ -1,5 +1,6 @@
 package model;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 import javax.jdo.annotations.Column;
@@ -40,7 +41,7 @@ public class Customer extends AbstractModel{
 	private Date dateCreated;
 	
 	@Persistent
-	private Date dateModified;
+	private Timestamp dateModified;
 
 	
 	public Customer(){
@@ -48,7 +49,7 @@ public class Customer extends AbstractModel{
 	}
 	
 	public Customer(long id, String name, String phone, String address,
-			Date dateCreated, Date dateModified) {
+			Date dateCreated, Timestamp dateModified) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -121,11 +122,11 @@ public class Customer extends AbstractModel{
 		this.dateCreated = dateCreated;
 	}
 
-	public Date getDateModified() {
+	public Timestamp getDateModified() {
 		return dateModified;
 	}
 
-	public void setDateModified(Date dateModified) {
+	public void setDateModified(Timestamp dateModified) {
 		this.dateModified = dateModified;
 	}
 	

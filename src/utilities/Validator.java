@@ -109,7 +109,11 @@ public class Validator {
         return ALLOWED_CHARACTERS.matcher(text).matches();
     }
     
-    
+    //[^abc] 	Any character except a, b, or c (negation)
+    public static String cleanAlphaString(String text){
+    	String alphaOnly = text.replaceAll("[^("+ LETTERS +")]", "");
+    	return alphaOnly;
+    }
     /**
      * 
      * @param text

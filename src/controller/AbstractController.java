@@ -57,6 +57,7 @@ public abstract class AbstractController extends Observable implements PropertyC
      */
     public void addView(AbstractViewPanel view) {
         registeredViews.add(view);
+        addObserver(view);
     }
 
     /**

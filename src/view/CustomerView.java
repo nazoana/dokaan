@@ -4,6 +4,7 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
+import java.util.Observable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -82,7 +83,7 @@ public class CustomerView extends AbstractViewPanel implements ActionListener{
         
         lblId = new LabelWidget("lblId", " Id ");
         txtId = new TextWidget("txtId", 20);
-        txtId.setEditable(false);
+        //txtId.setEditable(false);
         
         lblName = new LabelWidget("lblName", " Name ");
         txtName = new TextWidget("txtName", 20);
@@ -94,10 +95,11 @@ public class CustomerView extends AbstractViewPanel implements ActionListener{
         
         lblAddress = new LabelWidget("lblAddress", " Business Address ");
         txtAddress = new TextAreaWidget("txtAddress", 8, 24);
+        txtAddress.addActionListener(this);
         txtAddress.setCounterLabel(lblCounter);
         ScrollPaneWidget scrlPnlAddress = new ScrollPaneWidget("scrlPnlAddress", txtAddress);
         
-        btnSave = new ButtonWidget("btnSave", "Save");
+        btnSave = new ButtonWidget("btnSave", "Save", Util.getImageIcon("../resources/save.png"));
         btnSave.addActionListener(this);
         btnSave.setActionCommand("save");
         
@@ -150,15 +152,19 @@ public class CustomerView extends AbstractViewPanel implements ActionListener{
     		id = "-1";
     	}
         controller.getOrCreateObject(new Long(id));
-        if (evt.getSource() instanceof TextWidget){
-    		if (((TextWidget)evt.getSource()).getName().equals("txtName")){
+        Object sourceObject = evt.getSource();
+        if (sourceObject instanceof TextWidget){
+    		if (((TextWidget)sourceObject).getName().equals("txtName")){
     			controller.setModelProperty(CustomerController.ELEMENT_NAME_PROPERTY, txtName.getText());
     		}
-    		else if (((TextWidget)evt.getSource()).getName().equals("txtPhone")){
+    		else if (((TextWidget)sourceObject).getName().equals("txtPhone")){
     			controller.setModelProperty(CustomerController.ELEMENT_PHONE_PROPERTY, txtPhone.getText());
     		}
-    	} 
-        else if (evt.getSource() instanceof ButtonWidget){
+    	}  else if (sourceObject instanceof TextAreaWidget){
+    		if ( ((TextAreaWidget)sourceObject).getName().equals("txtAddress")){
+    			controller.setModelProperty(CustomerController.ELEMENT_ADDRESS_PROPERTY, txtAddress.getText());
+    		}
+    	} else if (sourceObject instanceof ButtonWidget){
     		if (evt.getActionCommand().equals("save")){
     			logger.log(Level.INFO, "Save button pressed in Customer View");
                 controller.setModelProperty(CustomerController.ELEMENT_ADDRESS_PROPERTY, txtAddress.getText());
@@ -171,4 +177,13 @@ public class CustomerView extends AbstractViewPanel implements ActionListener{
     		}
     	}
     }
+
+    /**
+     * Overrides the update method from the Observer object
+     */
+	@Override
+	public void update(Observable observable, Object object) {
+		// TODO Auto-generated method stub
+		System.out.println("observer: view should get updated");
+	}
 }

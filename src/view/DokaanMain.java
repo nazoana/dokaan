@@ -13,6 +13,7 @@ import javax.swing.WindowConstants;
 import model.Customer;
 import utilities.AppLogger;
 import utilities.Util;
+import widgets.ContextMenuForTextComps;
 import controller.CustomerController;
 import controller.CustomerListController;
 import controller.Persistence;
@@ -34,17 +35,23 @@ public class DokaanMain {
     
     public DokaanMain(){
     	toolkit = Toolkit.getDefaultToolkit();
+    	
+    	//To provide a context menu (with cut, copy, paste etc) in text components
+    	toolkit.getSystemEventQueue().push(new ContextMenuForTextComps());
+    	
     	logger.log(Level.SEVERE, "Starting");
     	
         CustomerController ctrllr = new CustomerController();
         Customer customerModel = new Customer();
         CustomerView customerView = new CustomerView(ctrllr);
         
-        ctrllr.addView(customerView);
-        ctrllr.addModel(customerModel);
-        
         CustomerListController customerListController = new CustomerListController();
         CustomerListView customerListView = new CustomerListView(customerListController);
+        
+        ctrllr.addView(customerView);
+        ctrllr.addView(customerListView);
+        ctrllr.addModel(customerModel);
+        
         customerListController.addView(customerListView);
         
         JFrame displayFrame = new JFrame("Customer View");
@@ -55,8 +62,13 @@ public class DokaanMain {
             		+ e.getMessage());
         }
         displayFrame.setLayout(new GridBagLayout());
-        displayFrame.getContentPane().add(customerListView, 
+        
+        displayFrame.getContentPane().add(customerView, 
         		Util.defineConstraint(1, 1, 0, 0, 1, 1, true, 17));
+        
+        displayFrame.getContentPane().add(customerListView, 
+        		Util.defineConstraint(1, 1, 0, 1, 1, 1, true, 17));
+        
         displayFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         displayFrame.setTitle("Dokaan");
         Dimension size = toolkit.getScreenSize();

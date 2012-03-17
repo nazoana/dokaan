@@ -98,7 +98,9 @@ public class TableWidgetModel extends AbstractTableModel{
     public Object getValueAt(int r, int c) {
     	try {
     		return rowData.get(r)[c];
-    	}catch (NullPointerException e){
+    	} catch (NullPointerException e){
+    		return null;
+    	} catch (ArrayIndexOutOfBoundsException e) {
     		return null;
     	}
     }
@@ -108,6 +110,9 @@ public class TableWidgetModel extends AbstractTableModel{
      */
     @Override
     public String getColumnName(int colIndex) {
+    	if (colIndex < 0){ 
+    		return null;
+    	}
         return columnNames[colIndex];
     }
 
@@ -144,6 +149,7 @@ public class TableWidgetModel extends AbstractTableModel{
     @Override
     public void setValueAt(Object value, int rowIndex, int colIndex){
         setValueAt(value, rowIndex, colIndex, true);
+        //fireTableCellUpdated(rowIndex, colIndex);
     }
     /**
      * Allows to change value of an edit-able cell in table
@@ -193,6 +199,7 @@ public class TableWidgetModel extends AbstractTableModel{
      */
     public void setValueHelper(Object value, int rowIndex, int colIndex){
         rowData.get(rowIndex)[colIndex] =  value;
+        setValueAt(value, rowIndex, colIndex);
         fireTableCellUpdated(rowIndex, colIndex);
     }
     
@@ -223,6 +230,7 @@ public class TableWidgetModel extends AbstractTableModel{
      */
     public void setRowData(ArrayList<Object[]> rowData){
         this.rowData = rowData;
+        fireTableDataChanged();
     }
     
     /**

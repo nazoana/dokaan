@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
@@ -13,6 +14,7 @@ import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
+import javax.swing.BorderFactory;
 import javax.swing.FocusManager;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
@@ -35,67 +37,93 @@ public class TextAreaWidget extends JTextArea implements FocusListener, Document
 	 * It is here to avoid compiler warning.
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * This is the object to hold the focused action key for the shift key
+	 */
+	private static final Object tabFocusActionKeyHolder = new Object();
 
 	/**
-	 * This is the object to hold the focused action key
+	 * This is the object to hold the focus action key for the shift+tab key
 	 */
-	private static final Object MyFocusActionKey = new Object();
-
+	private static final Object shiftTabFocusActionKeyHolder = new Object();
+	
 	/**
 	 * This indicates that the tab key is pressed
 	 */
 	private static final KeyStroke PressedTab = KeyStroke.getKeyStroke(
 			KeyEvent.VK_TAB, 0, false);
 	
+	/**
+	 * This indicates the Shift+Tab key combination is pressed
+	 */
+	private static final KeyStroke PressedShiftTab = KeyStroke.getKeyStroke(
+			KeyEvent.VK_TAB, KeyEvent.SHIFT_DOWN_MASK, false);
+		
 	private JLabel lblCounter;
 
 	private Shape shape;
 	
 	private String oldValue;
+	
+	/**
+	 * Since JTextArea does not support ActionListener, a TextWidget is
+	 * added as a field to fake ActionListener support
+	 * 
+	 * The txtWdiget fires the actionPerformed event whenever the JTextArea
+	 * loses focus and when the old value is different from the new value.
+	 * 
+	 * The ActionPerformed event is captured in the actionPerformed method of 
+	 * a class that implements ActionListener interface and has added this 
+	 * as a field and registered an actionListener object on it by calling
+	 * the addActionListener object in this class.
+	 */
+	private TextWidget txtWidgetToFakeActionListenerSupport;
 
 	public TextAreaWidget(String id) {
 		super();
 		oldValue = this.getText();
-		setName(id);
-		removeTab();
-		setLineWrap(true);
-		setFontAndColor();
-		setDocument(new WidgetDocument(254));
-		getDocument().addDocumentListener(this);
+		customize(id);
 	}
 
 	public TextAreaWidget(String id, String text) {
 		super(text);
 		oldValue = this.getText();
-		setName(id);
-		removeTab();
-		setLineWrap(true);
-		setFontAndColor();
-		setDocument(new WidgetDocument(254));
-		getDocument().addDocumentListener(this);
+		customize(id);
 	}
 
 	public TextAreaWidget(String id, int row, int column) {
 		super(row, column);
 		oldValue = this.getText();
+		customize(id);
+	}
+	
+	
+	public void customize(String id) {
+		txtWidgetToFakeActionListenerSupport = new TextWidget(id + "ActionListener");
 		setName(id);
 		removeTab();
 		setLineWrap(true);
-		setFontAndColor();
+		setWrapStyleWord(true);
+		setFont(Globals.FONT_APPLICATION);
+		setForeground(Globals.GRAY_DARK);
+		setBorder(BorderFactory.createEmptyBorder(3, 5, 3, 5));
 		setDocument(new WidgetDocument(254));
 		getDocument().addDocumentListener(this);
-	}
-	
-	@Override
-	public void setName(String id) {
-		super.setName(id);
+		addFocusListener(this);
 	}
 
+	/**
+	 * Changes the Shift key and Shift+Tab key combination behavior
+	 * within this TextAreaWidget (JTextArea) object by moving the
+	 * focus to the next and previous component respectively.
+	 */
 	@SuppressWarnings("serial")
 	private void removeTab() {
-		ActionMap grantsNotesActionMap = this.getActionMap();
-		grantsNotesActionMap.put(MyFocusActionKey, new AbstractAction(
-				"MyFocusActionKey") {
+		ActionMap actionMap = this.getActionMap();
+		
+		//To capture Shift key and move the focus to next component
+		actionMap.put(tabFocusActionKeyHolder, new AbstractAction("object1") {
 
 			public void actionPerformed(ActionEvent e) {
 				Object source = e.getSource();
@@ -105,14 +133,48 @@ public class TextAreaWidget extends JTextArea implements FocusListener, Document
 				}
 			}
 		});
-		this.getInputMap().put(PressedTab, MyFocusActionKey);
+		getInputMap().put(PressedTab, tabFocusActionKeyHolder);
+		
+		//To capture the Shift+Tab and move the focus to previous component 
+		actionMap.put(shiftTabFocusActionKeyHolder, new AbstractAction("object2") {
+
+			public void actionPerformed(ActionEvent e) {
+				Object source = e.getSource();
+				if (source instanceof Component) {
+					FocusManager.getCurrentKeyboardFocusManager()
+							.focusPreviousComponent((Component)source);
+				}
+			}
+		});
+		getInputMap().put(PressedShiftTab, shiftTabFocusActionKeyHolder);
+	}
+		
+	/**
+	 * Registers an ActionListener on the txtWidgetToFakeActionListenerSupport
+	 * object so that it can fire actionPerformed events
+	 * 
+	 * @param l an action listener
+	 */
+	public void addActionListener(ActionListener l){
+		txtWidgetToFakeActionListenerSupport.addActionListener(l);
 	}
 	
-	private void setFontAndColor(){
-		setFont(Globals.FONT_APPLICATION);
-		setForeground(Globals.GRAY_DARK);
+	/**
+	 * Sets the text of the counter label. The counter label
+	 * is used to show users how many more characters they can
+	 * type in this JTextArea object.
+	 * 
+	 * @param lblCounter a LabelWidget to be used as a label counter 
+	 */
+	public void setCounterLabel(JLabel lblCounter){
+		this.lblCounter = lblCounter;
 	}
-	
+
+	/**
+	 * Overrides the JTextArea's paintComponent method to 
+	 * draw round-corners JTextArea instead of right-angle
+	 * corners
+	 */
     @Override
     protected void paintComponent(Graphics g) {
     	Graphics2D g2 = (Graphics2D)g;
@@ -140,6 +202,7 @@ public class TextAreaWidget extends JTextArea implements FocusListener, Document
          return shape.contains(x, y);
     }
 
+
 	@Override
 	public void focusGained(FocusEvent evt) {
 		setBackground(Globals.GREEN_VERY_LIGHT);
@@ -149,12 +212,9 @@ public class TextAreaWidget extends JTextArea implements FocusListener, Document
 	public void focusLost(FocusEvent ev) {
 		setBackground(Globals.WHITE_FOR_FG_HEADING_LABEL);
 		if (!oldValue.equals(this.getText())) {
-			//
+			txtWidgetToFakeActionListenerSupport.setText(getText());
+			txtWidgetToFakeActionListenerSupport.fireActionPerformed();
 		}
-	}
-	
-	public void setCounterLabel(JLabel lblCounter){
-		this.lblCounter = lblCounter;
 	}
 
 	@Override

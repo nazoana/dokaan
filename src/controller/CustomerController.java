@@ -87,10 +87,15 @@ public class CustomerController extends AbstractController implements Controller
             this.customer = new Customer();
             newObject = true;
         }
+        /*
+         * Add this model to the models vector in the AbstractController 
+         * so that a PropertyChangeListener can be registered for it.
+         */
+        addModel(customer);
     }
     
     /**
-     * Updates the right method for the Customer Object
+     * Calls the right method for the Customer Object
      */
     @SuppressWarnings("unused")
     @Override

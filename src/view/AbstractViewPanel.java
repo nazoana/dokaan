@@ -10,6 +10,8 @@
 package view;
 
 import java.beans.PropertyChangeEvent;
+import java.util.Observer;
+
 import javax.swing.JPanel;
 
 /**
@@ -22,7 +24,7 @@ import javax.swing.JPanel;
 * @author Mahmood Khan
 * @version 2012-02-20 1.0
 */
-public abstract class AbstractViewPanel extends JPanel {
+public abstract class AbstractViewPanel extends JPanel implements Observer{
     
     /**
 	 * 
