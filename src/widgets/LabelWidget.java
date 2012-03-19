@@ -6,6 +6,7 @@ import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.geom.RoundRectangle2D;
 
+import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.JLabel;
 
@@ -60,6 +61,7 @@ public class LabelWidget extends JLabel{
 	private void setFontAndColor(){
 		super.setFont(Globals.FONT_BOLD);
 		super.setForeground(Globals.GRAY_DARK);
+		setBorder(BorderFactory.createEmptyBorder(3,3,3,3));
 	}
 	
     @Override

@@ -14,9 +14,11 @@ import utilities.AppLogger;
 import utilities.Globals;
 import utilities.Util;
 import widgets.LabelHeadingWidget;
+import widgets.LabelWidget;
 import widgets.ScrollPaneWidget;
 import widgets.TableWidget;
 import widgets.TableWidgetModel;
+import widgets.TextWidget;
 
 import controller.CustomerController;
 import controller.CustomerListController;
@@ -45,6 +47,8 @@ public class CustomerListView extends AbstractViewPanel{
     private TableWidget tblCustomers;
     
     private TableWidgetModel model;
+    
+    private TextWidget txtWidget;
 	
 	public CustomerListView(CustomerListController controller){
 		super();
@@ -62,12 +66,20 @@ public class CustomerListView extends AbstractViewPanel{
 		lblTitle = new LabelHeadingWidget("lblTitle", "Customers List", LabelHeadingWidget.CENTER);
 		tblCustomers = new TableWidget("tblCustomerList", populateTableModel());
 		setColumnsWidth();
+		LabelWidget lblFilter = new LabelWidget("lblFilter", "Enter Text To Filter Table");
+		txtWidget = new TextWidget("txtFilter");
+		tblCustomers.enableFilter(txtWidget);
 		
 		ScrollPaneWidget scrllrTblCustomers = new ScrollPaneWidget("scrllrTblCustomers", tblCustomers);
 		scrllrTblCustomers.setPreferredSize(new Dimension(850, 300));
 		
-		add(lblTitle, Util.defineConstraint(1, 0, 0, 0, 1, 1, true, 11));
-		add(scrllrTblCustomers, Util.defineConstraint(1,1,0,1,1,1,true,17));
+		add(lblTitle, Util.defineConstraint(1, 0, 0, 0, 2, 1, true, 11));
+		
+		add(lblFilter, Util.defineConstraint(0, 0, 0, 1, 1, 1, false, 17));
+		
+		
+		add(txtWidget, Util.defineConstraint(1, 0, 1, 1, 1, 1, true, 17));
+		add(scrllrTblCustomers, Util.defineConstraint(1,1,0,2,2,1,true,17));
 	}
 	
 	/**

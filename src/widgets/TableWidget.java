@@ -10,6 +10,7 @@ import java.awt.Shape;
 import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
@@ -17,14 +18,18 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.RowFilter;
 import javax.swing.RowSorter;
 import javax.swing.SwingConstants;
 import javax.swing.RowSorter.SortKey;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 import utilities.Globals;
 import utilities.Validator;
@@ -57,7 +62,12 @@ public class TableWidget extends JTable{
 
 	private Shape shape;
 	
-	protected String[] columnToolTips ;
+	private String[] columnToolTips ;
+	
+	private TableRowSorter<TableWidgetModel> sorter;
+	
+	private TextWidget txtFilter;
+	
 	/** 
 	 * Constructor
 	 * @param id the id for this table
@@ -122,21 +132,59 @@ public class TableWidget extends JTable{
 	private void setId(String id){
 		setName(id);
 	}
+	
+	public void enableFilter(TextWidget txtWidget){
+		txtFilter = txtWidget;
+        //Whenever filterText changes, invoke newFilter.
+        txtFilter.getDocument().addDocumentListener(
+                new DocumentListener() {
+                    public void changedUpdate(DocumentEvent e) {
+                        newFilter();
+                    }
+                    public void insertUpdate(DocumentEvent e) {
+                        newFilter();
+                    }
+                    public void removeUpdate(DocumentEvent e) {
+                        newFilter();
+                    }
+                });
+	}
 
+	 /**
+     * Update the row filter regular expression from the expression in
+     * the text box.
+     */
+	private void newFilter() {
+		RowFilter<TableWidgetModel, Object> rf = null;
+		List<RowFilter<Object, Object>> rfs = new ArrayList<RowFilter<Object, Object>>(4);
+		// If current expression doesn't parse, don't update.
+		try {
+			rfs.add(RowFilter.regexFilter(txtFilter.getText(), 0));
+			rfs.add(RowFilter.regexFilter("(?i)" + txtFilter.getText(), 1));
+			rfs.add(RowFilter.regexFilter("(?i)" + txtFilter.getText(), 2));
+			rfs.add(RowFilter.regexFilter("(?i)" + txtFilter.getText(), 3));
+
+			rf = RowFilter.orFilter(rfs);
+			
+			// rf = RowFilter.regexFilter(txtFilter.getText(), 0);
+		} catch (java.util.regex.PatternSyntaxException e) {
+			return;
+		}
+		sorter.setRowFilter(rf);
+	}
+	
 	/**
 	 * Customizes this table
 	 */
 	public void configure() {
+		
 		getModel().addTableModelListener(this);
 		setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
-		/*
-		 * TableRowSorter<TableWidgetModel> sorter = new
-		 * TableRowSorter<TableWidgetModel>( (TableWidgetModel) getModel());
-		 * setRowSorter(sorter);
-		 */
+		sorter = new TableRowSorter<TableWidgetModel>( (TableWidgetModel) getModel());
+		setRowSorter(sorter);
 		
-		setAutoCreateRowSorter(true);
+		//setAutoCreateRowSorter(true);
 		
 		// what column should the table be sorted by default.
 		getRowSorter().toggleSortOrder(0);
