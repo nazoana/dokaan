@@ -126,7 +126,7 @@ public class TableWidget extends JTable{
 	/**
 	 * Customizes this table
 	 */
-	private void configure() {
+	public void configure() {
 		getModel().addTableModelListener(this);
 		setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 

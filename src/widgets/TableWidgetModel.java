@@ -148,9 +148,11 @@ public class TableWidgetModel extends AbstractTableModel{
      */
     @Override
     public void setValueAt(Object value, int rowIndex, int colIndex){
-        setValueAt(value, rowIndex, colIndex, true);
-        //fireTableCellUpdated(rowIndex, colIndex);
+        //setValueAt(value, rowIndex, colIndex, true);
+    	rowData.get(rowIndex)[colIndex] =  value;
+        fireTableCellUpdated(rowIndex, colIndex);
     }
+    
     /**
      * Allows to change value of an edit-able cell in table
      * @param value
@@ -199,7 +201,6 @@ public class TableWidgetModel extends AbstractTableModel{
      */
     public void setValueHelper(Object value, int rowIndex, int colIndex){
         rowData.get(rowIndex)[colIndex] =  value;
-        setValueAt(value, rowIndex, colIndex);
         fireTableCellUpdated(rowIndex, colIndex);
     }
     

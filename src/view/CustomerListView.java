@@ -18,6 +18,7 @@ import widgets.ScrollPaneWidget;
 import widgets.TableWidget;
 import widgets.TableWidgetModel;
 
+import controller.CustomerController;
 import controller.CustomerListController;
 
 /**
@@ -26,7 +27,7 @@ import controller.CustomerListController;
  * @version 2012-03-11 1.0
  *
  */
-public class CustomerListView extends AbstractViewPanel  {
+public class CustomerListView extends AbstractViewPanel{
 
 	/**
 	 * This has to do with serialization. It is not important, but it is
@@ -42,6 +43,8 @@ public class CustomerListView extends AbstractViewPanel  {
     private LabelHeadingWidget lblTitle;
     
     private TableWidget tblCustomers;
+    
+    private TableWidgetModel model;
 	
 	public CustomerListView(CustomerListController controller){
 		super();
@@ -57,16 +60,8 @@ public class CustomerListView extends AbstractViewPanel  {
      */
 	private void initComponents() {
 		lblTitle = new LabelHeadingWidget("lblTitle", "Customers List", LabelHeadingWidget.CENTER);
-		
-		String[] columnNames = new String[] {"Id", "Full Name", "Business Address", "Phone", "Date Created", "Date Modified"};
-		Class<?>[] colTypes = new Class[] { Long.class, String.class, String.class, String.class, Date.class, Timestamp.class };
-        int[] colEditable = new int[] { 0, 0, 0, 0, 0, 0 };
-        
-		TableWidgetModel model = new TableWidgetModel(
-				columnNames, colTypes, colEditable, controller.getCustomers(null));
-		
-		tblCustomers = new TableWidget("tblCustomerList", model);
-		tblCustomers.setColumnsWidths(new int[] { 40, 130, 230, 120, 130, 180 });
+		tblCustomers = new TableWidget("tblCustomerList", populateTableModel());
+		setColumnsWidth();
 		
 		ScrollPaneWidget scrllrTblCustomers = new ScrollPaneWidget("scrllrTblCustomers", tblCustomers);
 		scrllrTblCustomers.setPreferredSize(new Dimension(850, 300));
@@ -75,11 +70,39 @@ public class CustomerListView extends AbstractViewPanel  {
 		add(scrllrTblCustomers, Util.defineConstraint(1,1,0,1,1,1,true,17));
 	}
 	
+	/**
+	 * Sets up the TableWidget (JTable) model by specifying the column labels,
+	 * column types, and whether columns are edit-able as well as specifying 
+	 * the actual data to be shown in the table.
+	 *  
+	 * @return a TableWidgetModel instance.
+	 */
+	private TableWidgetModel populateTableModel(){
+		String[] columnNames = new String[] {"Id", "Full Name", "Business Address", "Phone", "Date Created", "Date Modified"};
+		Class<?>[] colTypes = new Class[] { Long.class, String.class, String.class, String.class, Date.class, Timestamp.class };
+        int[] colEditable = new int[] { 0, 0, 0, 0, 0, 0 };
+        
+		model = new TableWidgetModel(
+				columnNames, colTypes, colEditable, controller.getCustomers(null));
+		
+		return model;
+	}
+	
+	/**
+	 * Specifies the widths of various columns.
+	 */
+	private void setColumnsWidth(){
+		tblCustomers.setColumnsWidths(new int[] { 40, 130, 230, 120, 130, 180 });
+	}
+	
 	
 	@Override
 	public void modelPropertyChange(PropertyChangeEvent evt) {
 		// TODO Auto-generated method stub
-		System.out.println("new value: " + evt.getNewValue());
+		String propertyName = evt.getPropertyName();
+		if (propertyName.equals(CustomerController.ELEMENT_NAME_PROPERTY)){
+            model.setValueAt(evt.getNewValue(), 1, 1);
+        } 
 	}
 
 	/**
@@ -87,11 +110,10 @@ public class CustomerListView extends AbstractViewPanel  {
      */
 	@Override
 	public void update(Observable observable, Object object) {
-		// TODO Auto-generated method stub
 		if (object instanceof Customer) {
-			Customer c = (Customer) object;
-			System.out.println("observer: update row id: " + c.getId() + " : "  + c.getName());
+			tblCustomers.setModel(populateTableModel());
+			tblCustomers.configure();
+			setColumnsWidth();
 		}
 	}
-
 }
