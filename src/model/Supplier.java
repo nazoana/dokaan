@@ -32,8 +32,13 @@ public class Supplier {
 	private String phone;
 	
 	@Persistent
-	@Column(name="email", jdbcType="VARCHAR", length=60)
+	@Column(name="email", jdbcType="VARCHAR", length=80)
+	@Index(name="index_for_email_in_Supplier", unique="false")
 	private String email;
+	
+	@Persistent
+	@Column(name="notes", jdbcType="VARCHAR", length=254)	
+	private String notes;
 	
 	@Persistent
 	private Date dateCreated;
@@ -46,13 +51,14 @@ public class Supplier {
 	}
 	
 	public Supplier(long id, String name, String address, String phone,
-			String email, Date dateCreated, Date dateModified) {
+			String email, String notes, Date dateCreated, Date dateModified) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.address = address;
 		this.phone = phone;
 		this.email = email;
+		this.notes = notes;
 		this.dateCreated = dateCreated;
 		this.dateModified = dateModified;
 	}
@@ -95,6 +101,14 @@ public class Supplier {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	
+	public String getNotes() {
+		return notes;
+	}
+	
+	public void setNotes(String notes){
+		this.notes = notes;
 	}
 
 	public Date getDateCreated() {

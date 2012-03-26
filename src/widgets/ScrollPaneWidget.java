@@ -8,6 +8,7 @@ import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.geom.RoundRectangle2D;
 
+import javax.swing.BorderFactory;
 import javax.swing.JScrollPane;
 import javax.swing.JViewport;
 
@@ -60,8 +61,7 @@ public class ScrollPaneWidget extends JScrollPane{
         setColumnHeader(new JViewport());
         getColumnHeader().setOpaque(false);
         getColumnHeader().setBackground(alphaZero);
-
-        //setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
+        setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
 	}
 	
     
@@ -70,8 +70,8 @@ public class ScrollPaneWidget extends JScrollPane{
     	Graphics2D g2 = (Graphics2D)g;
     	g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, 
     			RenderingHints.VALUE_ANTIALIAS_ON);
-        g2.setColor(Globals.WHITE_FOR_FG_HEADING_LABEL);
-        g2.fillRoundRect(0, 0, getWidth()-1, getHeight()-1, 35, 35);
+        g2.setColor(Globals.WHITE);
+        g2.fillRoundRect(0, 0, getWidth()-1, getHeight()-1, 15, 15);
         super.paintComponent(g2);
     }
     
@@ -81,7 +81,7 @@ public class ScrollPaneWidget extends JScrollPane{
     	g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, 
     			RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setColor(Globals.GRAY);
-        //g2.drawRoundRect(0, 0, getWidth()-1, getHeight()-1, 35, 35);
+        g2.drawRoundRect(0, 0, getWidth()-1, getHeight()-1, 15, 15);
     }
     
     @Override

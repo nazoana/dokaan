@@ -12,7 +12,7 @@ package view;
 import java.beans.PropertyChangeEvent;
 import java.util.Observer;
 
-import javax.swing.JPanel;
+import widgets.PanelWidget;
 
 /**
 * This class provides the base level abstraction for views in this example. All
@@ -24,9 +24,13 @@ import javax.swing.JPanel;
 * @author Mahmood Khan
 * @version 2012-02-20 1.0
 */
-public abstract class AbstractViewPanel extends JPanel implements Observer{
+public abstract class AbstractViewPanel extends PanelWidget implements Observer{
     
-    /**
+    public AbstractViewPanel(String id) {
+		super(id);
+	}
+
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;

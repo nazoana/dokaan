@@ -59,7 +59,7 @@ public class LabelHeadingWidget extends JLabel{
 	
 	private void setFontAndColor(){
 		setFont(Globals.FONT_LABEL_HEADING_WIDGET);
-		setForeground(Globals.WHITE_FOR_FG_HEADING_LABEL);
+		setForeground(Globals.WHITE);
 	}
 	
     @Override
@@ -67,7 +67,7 @@ public class LabelHeadingWidget extends JLabel{
     	Graphics2D g2 = (Graphics2D)g;
     	g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, 
     			RenderingHints.VALUE_ANTIALIAS_ON);
-        g2.setColor(Globals.RED_FOR_BG_HEADING_LABEL);
+        g2.setColor(Globals.RED);
         g2.fillRoundRect(0, 0, getWidth()-1, getHeight()-1, 20, 20);
         super.paintComponent(g2);
     }
@@ -77,7 +77,7 @@ public class LabelHeadingWidget extends JLabel{
     	Graphics2D g2 = (Graphics2D)g;
     	g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, 
     			RenderingHints.VALUE_ANTIALIAS_ON);
-        g2.setColor(Globals.RED_FOR_BG_HEADING_LABEL); 
+        g2.setColor(Globals.RED); 
         g2.drawRoundRect(0,0, getWidth()-1, getHeight()-1, 20, 20);
     }
     

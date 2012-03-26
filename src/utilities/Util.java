@@ -207,7 +207,7 @@ public class Util {
     public static TitledBorder makeBorder(String title, boolean heading) {
         TitledBorder border = new TitledBorder(new LineBorder(Color.LIGHT_GRAY),
                 title);
-        border.setTitleColor(Globals.RED_FOR_BG_HEADING_LABEL);
+        border.setTitleColor(Globals.RED);
         //border.setTitleJustification(TitledBorder.CENTER);
         border.setTitleFont(heading ? Globals.FONT_LABEL_HEADING_WIDGET : Globals.FONT_BOLD);
         return border;

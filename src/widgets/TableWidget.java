@@ -163,7 +163,7 @@ public class TableWidget extends JTable{
 			rfs.add(RowFilter.regexFilter("(?i)" + txtFilter.getText(), 1));
 			rfs.add(RowFilter.regexFilter("(?i)" + txtFilter.getText(), 2));
 			rfs.add(RowFilter.regexFilter("(?i)" + txtFilter.getText(), 3));
-
+			
 			rf = RowFilter.orFilter(rfs);
 			
 			// rf = RowFilter.regexFilter(txtFilter.getText(), 0);
@@ -179,12 +179,19 @@ public class TableWidget extends JTable{
 	public void configure() {
 		
 		getModel().addTableModelListener(this);
-		setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
 
 		sorter = new TableRowSorter<TableWidgetModel>( (TableWidgetModel) getModel());
 		setRowSorter(sorter);
 		
-		//setAutoCreateRowSorter(true);
+		/*
+		 * The reason the new TableRowSorter object is used above instead of 
+		 * the (setAutoCreateRowSorter(true)) below is because the above sorter
+		 * object is also needed to filter the table, which is  implemented in
+		 * the enableFilter and newFilter methods.
+		 * 
+		 * setAutoCreateRowSorter(true);
+		 */
 		
 		// what column should the table be sorted by default.
 		getRowSorter().toggleSortOrder(0);
@@ -193,7 +200,7 @@ public class TableWidget extends JTable{
 		setOpaque(false);
 
 		setFillsViewportHeight(true);
-		setPreferredScrollableViewportSize(new Dimension(40, 30));
+		//setPreferredScrollableViewportSize(new Dimension(40, 30));
 		setRowHeight(20);
 		setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
@@ -205,13 +212,12 @@ public class TableWidget extends JTable{
 
 		setRowSelectionAllowed(true);
 		//setCellSelectionEnabled(true);
-
 	
-		getTableHeader().setPreferredSize(new Dimension(getTableHeader().getWidth(), 18));
+		getTableHeader().setPreferredSize(new Dimension(getTableHeader().getWidth(), 20));
 		getTableHeader().setDefaultRenderer(new TransparentHeader());
 		getTableHeader().setOpaque(false);
-		//addHeaderListener();
 		setColumnIdentifiers();
+		//addHeaderListener();
 	}
 
 
@@ -263,7 +269,6 @@ public class TableWidget extends JTable{
 				}
 				//getColumnModel().getColumn(i).setMinWidth(colWidths[i]);
 				//getColumnModel().getColumn(i).setMaxWidth(colWidths[i]);
-				
 				getColumnModel().getColumn(i).setPreferredWidth(colWidths[i]);
 			}
 		}
@@ -326,8 +331,8 @@ public class TableWidget extends JTable{
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
-		g2.setColor(Globals.GRAY);
-		g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 20, 20);
+		//g2.setColor(Globals.GRAY);
+		//g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 20, 20);
 	}
 
 	/**

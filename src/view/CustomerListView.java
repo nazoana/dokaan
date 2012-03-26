@@ -51,11 +51,11 @@ public class CustomerListView extends AbstractViewPanel{
     private TextWidget txtWidget;
 	
 	public CustomerListView(CustomerListController controller){
-		super();
+		super("pnlCustomerListView");
 		logger.info("Initializing the Customer List View");
 		this.controller = controller;
 		setLayout(new GridBagLayout());
-        setBackground(Globals.WHITE_FOR_FG_HEADING_LABEL);
+        setBackground(Globals.WHITE);
         initComponents();
 	}
 	
@@ -71,7 +71,8 @@ public class CustomerListView extends AbstractViewPanel{
 		tblCustomers.enableFilter(txtWidget);
 		
 		ScrollPaneWidget scrllrTblCustomers = new ScrollPaneWidget("scrllrTblCustomers", tblCustomers);
-		scrllrTblCustomers.setPreferredSize(new Dimension(850, 300));
+		scrllrTblCustomers.setPreferredSize(new Dimension(800, 200));
+		scrllrTblCustomers.setMinimumSize(new Dimension(800, 200));
 		
 		add(lblTitle, Util.defineConstraint(1, 0, 0, 0, 2, 1, true, 11));
 		
@@ -104,7 +105,7 @@ public class CustomerListView extends AbstractViewPanel{
 	 * Specifies the widths of various columns.
 	 */
 	private void setColumnsWidth(){
-		tblCustomers.setColumnsWidths(new int[] { 40, 130, 230, 120, 130, 180 });
+		tblCustomers.setColumnsWidths(new int[] { 40, 130, 225, 110, 120, 170 });
 	}
 	
 	

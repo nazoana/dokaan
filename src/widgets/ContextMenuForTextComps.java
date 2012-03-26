@@ -73,13 +73,16 @@ public class ContextMenuForTextComps extends EventQueue {
 		JMenuItem delete = new JMenuItem(new DeleteAction(tc));
 		delete.setIcon(Util.getImageIcon("../resources/delete.png"));
 		
+		JMenuItem selectAll = new JMenuItem(new SelectAllAction(tc));
+		selectAll.setIcon(Util.getImageIcon("../resources/selectAll.png"));
+		
 		//menu.add(new CutAction(tc));
 		menu.add(cut);
 		menu.add(copy);
 		menu.add(paste);
 		menu.add(delete);
 		menu.addSeparator();
-		menu.add(new SelectAllAction(tc));
+		menu.add(selectAll);
 
 		Point pt = SwingUtilities.convertPoint(me.getComponent(), me.getPoint(), tc);
 		menu.show(tc, pt.x, pt.y);
@@ -99,7 +102,7 @@ public class ContextMenuForTextComps extends EventQueue {
 		JTextComponent comp;
 
 		public CutAction(JTextComponent comp) {
-			super("Cut");
+			super("Cut         Ctrl+X");
 			this.comp = comp;
 		}
 
@@ -126,7 +129,7 @@ public class ContextMenuForTextComps extends EventQueue {
 		JTextComponent comp;
 
 		public PasteAction(JTextComponent comp) {
-			super("Paste");
+			super("Paste      Ctrl+V");
 			this.comp = comp;
 		}
 
@@ -184,7 +187,7 @@ public class ContextMenuForTextComps extends EventQueue {
 		JTextComponent comp;
 
 		public CopyAction(JTextComponent comp) {
-			super("Copy");
+			super("Copy      Ctrl+C");
 			this.comp = comp;
 		}
 
@@ -211,7 +214,7 @@ public class ContextMenuForTextComps extends EventQueue {
 		JTextComponent comp;
 
 		public SelectAllAction(JTextComponent comp) {
-			super("Select All");
+			super("Select All  Ctrl+A");
 			this.comp = comp;
 		}
 

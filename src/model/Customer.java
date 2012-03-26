@@ -29,6 +29,11 @@ public class Customer extends AbstractModel{
 	private String name;
 	
 	@Persistent
+	@Column(name="email", jdbcType="VARCHAR", length=80)
+	@Index(name="index_for_email_in_Customer", unique="false")
+	private String email;
+	
+	@Persistent
 	@Column(name="phone", jdbcType="VARCHAR", length=40)
 	@Index(name="index_for_phone_in_Customer", unique="false")
 	private String phone;
@@ -36,6 +41,10 @@ public class Customer extends AbstractModel{
 	@Persistent
 	@Column(name="address", jdbcType="VARCHAR", length=254)
 	private String address;
+	
+	@Persistent
+	@Column(name="notes", jdbcType="VARCHAR", length=254)	
+	private String notes;
 	
 	@Persistent
 	private Date dateCreated;
@@ -49,12 +58,15 @@ public class Customer extends AbstractModel{
 	}
 	
 	public Customer(long id, String name, String phone, String address,
+			String notes, String email,
 			Date dateCreated, Timestamp dateModified) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.phone = phone;
 		this.address = address;
+		this.notes = notes;
+		this.email = email;
 		this.dateCreated = dateCreated;
 		this.dateModified = dateModified;
 	}
@@ -86,6 +98,21 @@ public class Customer extends AbstractModel{
 		return true;
 	}
 
+	public String getEmail(){
+		return email;
+	}
+	
+	public boolean setEmail(String email) {
+		if (Validator.isBlankOrNull(email)){
+            return false;
+        }
+	    String oldEmail = this.email;
+		this.email = email;
+		firePropertyChange(CustomerController.ELEMENT_EMAIL_PROPERTY, oldEmail, email);
+		return true;
+	}
+	
+	
 	public String getPhone() {
 		return phone;
 	}
@@ -111,6 +138,20 @@ public class Customer extends AbstractModel{
 	    String oldAddress = this.address;
 		this.address = address;
 		firePropertyChange(CustomerController.ELEMENT_ADDRESS_PROPERTY, oldAddress, address);
+		return true;
+	}
+	
+	public String getNotes() {
+		return notes;
+	}
+
+	public boolean setNotes(String notes) {
+	    if (Validator.isBlankOrNull(notes)){
+            return false;
+        }
+	    String oldNotes = this.notes;
+		this.notes = notes;
+		firePropertyChange(CustomerController.ELEMENT_NOTES_PROPERTY, oldNotes, notes);
 		return true;
 	}
 

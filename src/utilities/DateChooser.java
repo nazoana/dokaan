@@ -4,6 +4,9 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+import widgets.ButtonWidget;
+import widgets.PanelWidget;
+
 import java.util.*;
 
 /**
@@ -53,6 +56,20 @@ public class DateChooser extends JDialog implements ActionListener {
     private JPanel                 dayGrid;
     private boolean                ready;
 
+    
+    public static void main(String[] args) {
+
+    	 GregorianCalendar date = new GregorianCalendar();
+    	 // The  owner is the JFrame of the application ("AppClass.this")
+    	JFrame frame = new JFrame();
+    	 // show the date chooser
+    	 DateChooser dc = new DateChooser(frame, date);
+
+    	 // user can either choose a date or cancel by closing
+    	 if (dc.showDateChooser() == DateChooser.OK_OPTION) {
+    	 	date = dc.getDate();
+    	 }
+	}
     /**
      * Constructor for DateChooser
      * 
@@ -64,36 +81,37 @@ public class DateChooser extends JDialog implements ActionListener {
      */
     public DateChooser(JFrame owner, GregorianCalendar d) {
         super(owner, "Date Chooser", true);
+
         date = d;
 
         Container contentPane = getContentPane();
         contentPane.setLayout(new BorderLayout());
 
-        JPanel yearPane = new JPanel();
-        JPanel monthPane = new JPanel();
+        PanelWidget yearPane = new PanelWidget("yearPane");
+        PanelWidget monthPane = new PanelWidget("monthPane");
         yearPane.setLayout(new BoxLayout(yearPane, BoxLayout.X_AXIS));
         monthPane.setLayout(new BoxLayout(monthPane, BoxLayout.X_AXIS));
 
-        JButton[] navButton = new JButton[4];
+        ButtonWidget[] navButton = new ButtonWidget[4];
 
         // build the panel with month name and navigation buttons
-        monthPane.add(navButton[0] = new JButton("<"));
+        monthPane.add(navButton[0] = new ButtonWidget("prevMonth", "<"));
         monthPane.add(monthLabel = new JLabel(String.valueOf(monthNames
                 .get(date.get(GregorianCalendar.MONTH))), JLabel.CENTER));
         monthLabel.setMinimumSize(new Dimension(54, 12));
         monthLabel.setMaximumSize(new Dimension(54, 12));
         monthLabel.setPreferredSize(new Dimension(54, 12));
-        monthPane.add(navButton[1] = new JButton(">"));
+        monthPane.add(navButton[1] = new ButtonWidget("nextMonth", ">"));
 
         // build the panel with year and navigation buttons
-        yearPane.add(navButton[2] = new JButton("<<"));
+        yearPane.add(navButton[2] = new ButtonWidget("prevYear", "<<"));
         yearPane.add(yearLabel = new JLabel(String.valueOf(date
                 .get(GregorianCalendar.YEAR)), JLabel.CENTER),
                 BorderLayout.CENTER);
         yearLabel.setMinimumSize(new Dimension(30, 12));
         yearLabel.setMaximumSize(new Dimension(30, 12));
         yearLabel.setPreferredSize(new Dimension(30, 12));
-        yearPane.add(navButton[3] = new JButton(">>"));
+        yearPane.add(navButton[3] = new ButtonWidget("nextYear", ">>"));
 
         // register a listener on the navigation buttons
         for (int i = 0; i < 4; i++) {
@@ -107,7 +125,7 @@ public class DateChooser extends JDialog implements ActionListener {
         navButton[3].setToolTipText("Go to the next year");
 
         // put the panel for months and years together and add some formatting
-        JPanel topPane = new JPanel();
+        PanelWidget topPane = new PanelWidget("topPane");
         topPane.setLayout(new BoxLayout(topPane, BoxLayout.X_AXIS));
         topPane.setBorder(BorderFactory.createEmptyBorder(5, 10, 0, 10));
         topPane.add(monthPane);
@@ -286,14 +304,14 @@ public class DateChooser extends JDialog implements ActionListener {
         //saturday.setBackground(Utility.getColorRed());
         //saturday.setForeground(Utility.getColorWhite());
         saturday.setBackground(Globals.YELLOW);
-        saturday.setForeground(Globals.RED_FOR_BG_HEADING_LABEL);
+        saturday.setForeground(Globals.RED);
         
         JLabel sunday = new JLabel("Sun", JLabel.CENTER);
         sunday.setOpaque(true);
         //sunday.setBackground(Utility.getColorRed());
         //sunday.setForeground(Utility.getColorWhite());
         sunday.setBackground(Globals.YELLOW);
-        sunday.setForeground(Globals.RED_FOR_BG_HEADING_LABEL);
+        sunday.setForeground(Globals.RED);
         
         // display 7 days of the week across the top
         dayGrid.add(monday);
@@ -310,9 +328,9 @@ public class DateChooser extends JDialog implements ActionListener {
         }
 
         // display days of the month for this month
-        JButton day;
+        ButtonWidget day;
         for (int i = 1; i <= getLastDay(); i++) {
-            dayGrid.add(day = new JButton(String.valueOf(i)));
+            dayGrid.add(day = new ButtonWidget(String.valueOf(i), String.valueOf(i)));
             day.setToolTipText("Click on a day to choose it");
             day.addActionListener(this);
 

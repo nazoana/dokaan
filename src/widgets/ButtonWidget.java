@@ -7,6 +7,7 @@ import java.awt.Shape;
 import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.Action;
+import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.JButton;
 
@@ -53,8 +54,10 @@ public class ButtonWidget extends JButton{
 	
 	private void setFontAndColor(){
 		setOpaque(false);
-		super.setFont(Globals.FONT_BOLD);
-		super.setForeground(Globals.GREEN);
+		setFont(Globals.FONT_APPLICATION);
+		setForeground(Globals.GRAY_DARK);
+		setBorder(BorderFactory.createEmptyBorder(4, 5, 4, 5));
+		
 	}
 	
     @Override
@@ -72,7 +75,7 @@ public class ButtonWidget extends JButton{
     	Graphics2D g2 = (Graphics2D)g;
     	g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, 
     			RenderingHints.VALUE_ANTIALIAS_ON);
-        g2.setColor(Globals.GRAY);
+        g2.setColor(Globals.GRAY_VERY_LIGHT);
         g2.drawRoundRect(0, 0, getWidth()-1, getHeight()-1, 15, 15);
     }
     

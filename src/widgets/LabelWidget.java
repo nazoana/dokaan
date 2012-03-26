@@ -61,7 +61,7 @@ public class LabelWidget extends JLabel{
 	private void setFontAndColor(){
 		super.setFont(Globals.FONT_BOLD);
 		super.setForeground(Globals.GRAY_DARK);
-		setBorder(BorderFactory.createEmptyBorder(3,3,3,3));
+		setBorder(BorderFactory.createEmptyBorder(3,5,3,5));
 	}
 	
     @Override
@@ -69,7 +69,7 @@ public class LabelWidget extends JLabel{
     	Graphics2D g2 = (Graphics2D)g;
     	g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, 
     			RenderingHints.VALUE_ANTIALIAS_ON);
-        g2.setColor(Globals.YELLOW_LIGHT_FOR_BG_LABEL_WIDGET);
+        g2.setColor(Globals.YELLOW_LIGHT);
         g2.fillRoundRect(0, 0, getWidth()-1, getHeight()-1, 10, 10);
         super.paintComponent(g2);
     }

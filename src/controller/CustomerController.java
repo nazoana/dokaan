@@ -45,8 +45,11 @@ public class CustomerController extends AbstractController implements Controller
     
     public static final String ELEMENT_PHONE_PROPERTY = "Phone";
     
+    public static final String ELEMENT_EMAIL_PROPERTY = "Email";
+    
     public static final String ELEMENT_ADDRESS_PROPERTY = "Address";
     
+    public static final String ELEMENT_NOTES_PROPERTY = "Notes";
     
     public CustomerController(){
         super();

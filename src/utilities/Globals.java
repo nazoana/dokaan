@@ -51,13 +51,15 @@ public class Globals {
     
     
     
-    public static final Color RED_FOR_BG_HEADING_LABEL = Color.decode("#B20838"); 
+    public static final Color RED = Color.decode("#B20838"); 
     
     public static final Color BLUE = Color.decode("#6699CC"); //"#6699CC" CC6666
     
+    public static final Color BLUE_LIGHT = Color.decode("#E6E6FF");
+    
     public static final Color YELLOW = Color.decode("#FFFFDD");
     
-    public static final Color YELLOW_LIGHT_FOR_BG_LABEL_WIDGET = Color.decode("#FFFFF0");
+    public static final Color YELLOW_LIGHT = Color.decode("#FFFFF0");
     
     public static final Color BLACK = Color.decode("#444444");
     
@@ -67,7 +69,7 @@ public class Globals {
     
     public static final Color GREEN_VERY_LIGHT = Color.decode("#DEFADE");//F3F9E6
     
-    public static final Color WHITE_FOR_FG_HEADING_LABEL = Color.WHITE;
+    public static final Color WHITE = Color.WHITE;
     
     public static final Color GRAY_VERY_LIGHT = Color.decode("#F0F0F0");
     

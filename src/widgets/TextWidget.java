@@ -10,6 +10,7 @@ import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.BorderFactory;
 import javax.swing.JTextField;
+import javax.swing.JToolTip;
 import javax.swing.text.Document;
 
 import utilities.Globals;
@@ -31,6 +32,8 @@ public class TextWidget extends JTextField implements FocusListener {
 	private String oldValue;
 
 	private Shape shape;
+	
+	private ToolTipWidget tooltip;
 
 	public TextWidget(String id) {
 		super();
@@ -92,6 +95,15 @@ public class TextWidget extends JTextField implements FocusListener {
 	}
 
 	@Override
+	public JToolTip createToolTip() {
+		if (tooltip == null) {
+			tooltip = new ToolTipWidget();
+			//tooltip.setComponent(this);
+		}
+		return tooltip;
+	}
+	
+	@Override
 	public void setName(String id) {
 		super.setName(id);
 	}
@@ -109,11 +121,6 @@ public class TextWidget extends JTextField implements FocusListener {
 
 	@Override
 	public void focusGained(FocusEvent evt) {
-		//System.out.println("ID: " + evt.getID() + "\nname: "
-				//+ evt.getClass().getName()
-				// + "\nparamString: " + evt.paramString()
-				// +"\nOriginator :" + evt.getComponent().getName()
-				//+ "\nSource :" + ((TextWidget) evt.getSource()).getName());
 		setBackground(Globals.GREEN_VERY_LIGHT);
 	}
 
@@ -129,7 +136,7 @@ public class TextWidget extends JTextField implements FocusListener {
 	 */
 	@Override
 	public void focusLost(FocusEvent evt) {
-		setBackground(Globals.WHITE_FOR_FG_HEADING_LABEL);
+		setBackground(Globals.WHITE);
 		if (!oldValue.equals(this.getText())) {
 			fireActionPerformed();
 		}
@@ -141,7 +148,7 @@ public class TextWidget extends JTextField implements FocusListener {
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
 		g2.setColor(getBackground());
-		g2.fillRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 10, 10);
+		g2.fillRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 15, 15);
 		super.paintComponent(g2);
 	}
 
@@ -151,14 +158,14 @@ public class TextWidget extends JTextField implements FocusListener {
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
 		g2.setColor(Globals.GRAY);
-		g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 10, 10);
+		g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 15, 15);
 	}
 
 	@Override
 	public boolean contains(int x, int y) {
 		if (shape == null || !shape.getBounds().equals(getBounds())) {
 			shape = new RoundRectangle2D.Float(0, 0, getWidth() - 1,
-					getHeight() - 1, 10, 10);
+					getHeight() - 1, 15, 15);
 		}
 		return shape.contains(x, y);
 	}

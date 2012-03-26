@@ -46,6 +46,10 @@ public class Product extends AbstractModel{
 	private Supplier supplier;
 	
 	@Persistent
+	@Column(name="notes", jdbcType="VARCHAR", length=254)	
+	private String notes;
+	
+	@Persistent
 	private Date dateCreated;
 	
 	@Persistent
@@ -57,7 +61,7 @@ public class Product extends AbstractModel{
 
 	public Product(long id, String description, String unit,
 			Double unitsInStock, Double purchasePrice, Double salePrice,
-			Supplier supplier, Date dateCreated, Date dateModified) {
+			Supplier supplier, String notes, Date dateCreated, Date dateModified) {
 		super();
 		this.id = id;
 		this.description = description;
@@ -66,6 +70,7 @@ public class Product extends AbstractModel{
 		this.purchasePrice = purchasePrice;
 		this.salePrice = salePrice;
 		this.supplier = supplier;
+		this.notes = notes;
 		this.dateCreated = dateCreated;
 		this.dateModified = dateModified;
 	}
@@ -124,6 +129,14 @@ public class Product extends AbstractModel{
 
 	public void setSupplier(Supplier supplier) {
 		this.supplier = supplier;
+	}
+	
+	public String getNotes(){
+		return notes;
+	}
+	
+	public void setNotes(String notes) {
+		this.notes = notes;
 	}
 	
 	public Date getDateCreated() {

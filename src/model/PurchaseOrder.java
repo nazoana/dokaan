@@ -42,6 +42,7 @@ public class PurchaseOrder extends AbstractModel{
 	private Boolean isOrderCompleted;
 	
 	@Persistent
+	@Column(name="notes", jdbcType="VARCHAR", length=254)
 	private String notes;
 	
 	@Persistent
