@@ -60,7 +60,8 @@ public class AppMenu extends JMenu{
 	}
 	
 	private void configure(){
-		setBackground(Globals.WHITE);
+		//setOpaque(true);
+		//etBackground(Globals.WHITE);
 		setFont(Globals.FONT_APPLICATION);
 	}
 	

@@ -78,7 +78,6 @@ public abstract class AbstractController extends Observable implements PropertyC
      * @param evt An object that describes the model's property change.
      */
     public void propertyChange(PropertyChangeEvent evt) {
-        
         for (AbstractViewPanel view: registeredViews) {
             view.modelPropertyChange(evt);
         }

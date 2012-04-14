@@ -15,6 +15,12 @@ import org.datanucleus.store.types.sco.simple.SqlTimestamp;
 import utilities.Globals;
 import utilities.Util;
 
+/**
+ * 
+ * @author Mahmood Khan
+ * @version 2012-04-01 1.0
+ *
+ */
 public class TableWidgetCellRenderer extends DefaultTableCellRenderer {
 
     /**
@@ -23,31 +29,15 @@ public class TableWidgetCellRenderer extends DefaultTableCellRenderer {
      */
     private static final long serialVersionUID = 1L;
 
-    private Color shadedColor;
-    private Color unshadedColor;
-    private Color selectedColor;
+    private static final Color SHADED_ROW_COLOR = Globals.GRAY_LIGHT;
+    private static final Color UNSHADED_ROW_COLOR = Globals.WHITE;
+    private static final Color SELECTED_ROW_COLOR = Globals.BLUE; //Color.decode("#6699FF");
     
-    public TableWidgetCellRenderer(Color shadedColor, Color unshadedColor, Color selectedColor) {
+	/** The logger object used to log messages */
+	//private static final Logger LOGGER = AppLogger.getAppLogger(TableWidgetCellRenderer.class.getName());
+    
+    public TableWidgetCellRenderer() {
         super();
-        
-        if (shadedColor == null){
-            this.shadedColor = Color.LIGHT_GRAY;
-        } else {
-            this.shadedColor = shadedColor;
-        }
-        
-        if (unshadedColor == null){
-            unshadedColor = Color.WHITE;
-        } else {
-            this.unshadedColor = unshadedColor;
-        }
-        
-        if (selectedColor == null){
-            this.selectedColor = Color.decode("#6699FF");
-        } else {
-            this.selectedColor = selectedColor;
-        }
-        
     }
 
     /**
@@ -68,6 +58,7 @@ public class TableWidgetCellRenderer extends DefaultTableCellRenderer {
         if (hasFocus) {
             // this cell is the anchor and the table has the focus
         }
+        
 		try {
 			if (value instanceof Boolean) {
 				JCheckBox cBox = new JCheckBox();
@@ -75,24 +66,30 @@ public class TableWidgetCellRenderer extends DefaultTableCellRenderer {
 				cBox.setHorizontalAlignment(SwingConstants.CENTER);
 				this.shadeAlternateRows(table, row, col, cBox);
 				return cBox;
-			} else if (value instanceof Integer) {
+			} 
+			else if (value instanceof Integer) {
 				setHorizontalAlignment(SwingConstants.CENTER);
-			} else if (value instanceof Long) {
+			} 
+			else if (value instanceof Long) {
 				setHorizontalAlignment(SwingConstants.CENTER);
-			} else if (value instanceof String) {
+			} 
+			else if (value instanceof String) {
 				setHorizontalAlignment(SwingConstants.LEFT);
-			} else if (value instanceof Date
-					& value.getClass().getSimpleName().equals("Date")) {
+			} 
+			else if (value instanceof Date & value.getClass().getSimpleName().equals("Date")) {
+				setHorizontalAlignment(SwingConstants.LEFT);
 				setText(Util.formatDate((Date) value, "E, MMM dd, yyyy"));
-			} else if (value instanceof SqlTimestamp
-					& value.getClass().getSimpleName().equals("SqlTimestamp")) {
-				setText(Util
-						.formatDate((Date) value, "E, MMM dd, yyyy hh:mm a"));
-			} else if (value instanceof Double) {
+			} 
+			else if (value instanceof SqlTimestamp & value.getClass().getSimpleName().equals("SqlTimestamp")) {
+				setHorizontalAlignment(SwingConstants.LEFT);
+				setText(Util.formatDate((Date) value, "E, MMM dd, yyyy hh:mm a"));
+			} 
+			else if (value instanceof Double) {
 				setHorizontalAlignment(SwingConstants.CENTER);
 			}
 		} catch (NullPointerException e) {
-			//TODO: log as debug message
+			//ignore
+			//LOGGER.log(Level.INFO, "table cell value is null: " + e.getMessage());
 		}
         if (value != null) {
         	setToolTipText(value.toString());
@@ -100,7 +97,7 @@ public class TableWidgetCellRenderer extends DefaultTableCellRenderer {
         this.shadeAlternateRows(table, row, col, cell);
         cell.setFont(Globals.FONT_APPLICATION);
         cell.setForeground(Globals.BLACK);
-        setBorder(BorderFactory.createEmptyBorder(8,8,8,8));
+        setBorder(BorderFactory.createEmptyBorder(3,3,3,3));
         return cell;
     }
 
@@ -114,11 +111,11 @@ public class TableWidgetCellRenderer extends DefaultTableCellRenderer {
     public void shadeAlternateRows(JTable table, int row, int col,
             Component cell) {
         if (row % 2 == 0 && !table.isCellSelected(row, col)) {
-            cell.setBackground(unshadedColor);
+            cell.setBackground(UNSHADED_ROW_COLOR);
         } else if (table.isCellSelected(row, col)) {
-            cell.setBackground(selectedColor);
+            cell.setBackground(SELECTED_ROW_COLOR);
         } else {
-            cell.setBackground(shadedColor);
+            cell.setBackground(SHADED_ROW_COLOR);
         }
     }
 }

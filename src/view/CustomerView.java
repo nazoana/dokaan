@@ -9,12 +9,18 @@ import java.util.Observable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+
 import net.java.balloontip.BalloonTip;
+import net.java.balloontip.BalloonTip.AttachLocation;
+import net.java.balloontip.BalloonTip.Orientation;
+import net.java.balloontip.styles.BalloonTipStyle;
+import net.java.balloontip.styles.RoundedBalloonStyle;
 import net.java.balloontip.utils.ToolTipUtils;
 import utilities.AppLogger;
 import utilities.Globals;
 import utilities.Util;
 import widgets.ButtonWidget;
+import widgets.LabelBorderlessWidget;
 import widgets.LabelHeadingWidget;
 import widgets.LabelWidget;
 import widgets.ScrollPaneWidget;
@@ -23,7 +29,9 @@ import widgets.TextWidget;
 import controller.CustomerController;
 
 /**
-* This is a view to edit and view a Customer object
+* This is a view to edit and view a Customer object. It implements the ActionListener
+* because as the content of a JTextField changes, it creates an action, which are caught
+* to notify the controller, which in turn notify all the other views of the change.
 *
 * @author Mahmood Khan
 * @version 2012-02-29 1.0
@@ -38,7 +46,7 @@ public class CustomerView extends AbstractViewPanel implements ActionListener{
     private static final long serialVersionUID = 1L;
 
     /** The logger object used to log messages */
-    private static final Logger logger = AppLogger.getAppLogger(CustomerView.class.getName());
+    private static final Logger LOGGER = AppLogger.getAppLogger(CustomerView.class.getName());
     
     private CustomerController controller;
     
@@ -64,27 +72,34 @@ public class CustomerView extends AbstractViewPanel implements ActionListener{
     
     private ButtonWidget btnSave;
     
-    private ButtonWidget btnCancel;
+    private ButtonWidget btnReset;
     
     private BalloonTip balloonTip;
     
+    /** This is a style for the balloon tool-tip object */
+    private static final BalloonTipStyle EDGED_LOOK = new RoundedBalloonStyle(5, 5, Globals.YELLOW_LIGHT, Globals.GRAY);
+       
     /**
      * Constructor
      * 
-     * @param controller
+     * @param controller - the controller responsible for mediating 
+     * 					   between the data model and this view
      */
-    public CustomerView(CustomerController controller){
+    public CustomerView(CustomerController controller, Long id){
     	super("pnlCustomerView");
         this.controller = controller;
         setLayout(new GridBagLayout());
         setBackground(Globals.WHITE);
         initComponents();
+        populate(id);
     }
+
+    
     
     /**
      * Initializes the panel with all the necessary components
      */
-    private void initComponents(){
+    private void initComponents(){        
         
         lblTitle = new LabelHeadingWidget("lblTitle", "Customer View", LabelHeadingWidget.CENTER);
         
@@ -94,9 +109,15 @@ public class CustomerView extends AbstractViewPanel implements ActionListener{
         lblId = new LabelWidget("lblId", " Id ");
         txtId = new TextWidget("txtId", 20);
         txtId.setEditable(false);
-        //txtId.setToolTipText("This field is locked for editing");
-        balloonTip = new BalloonTip(txtId, "This is locked for editing");
-        ToolTipUtils.balloonToToolTip(balloonTip, 500, 10000);
+        txtId.setEnabled(false);
+        
+        balloonTip = new BalloonTip(txtId, 
+        		new LabelBorderlessWidget("lblTxtId", "locked for editing"), 
+        		EDGED_LOOK, 
+        		Orientation.LEFT_ABOVE, 
+        		AttachLocation.CENTER, 
+        		40, 20, false);
+        ToolTipUtils.balloonToToolTip(balloonTip, 100, 10000);
         
         lblName = new LabelWidget("lblName", " Name ");
         txtName = new TextWidget("txtName", 20);
@@ -130,39 +151,58 @@ public class CustomerView extends AbstractViewPanel implements ActionListener{
         btnSave.addActionListener(this);
         btnSave.setActionCommand("save");
         
-        btnCancel = new ButtonWidget("btnCancel", "Cancel", Util.getImageIcon("../resources/cancel.png"));
-        btnCancel.addActionListener(this);
-        btnCancel.setActionCommand("cancel");
+        btnReset = new ButtonWidget("btnReset", "Reset", Util.getImageIcon("../resources/cancel.png"));
+        btnReset.addActionListener(this);
+        btnReset.setActionCommand("cancel");
         
         add(lblTitle, Util.defineConstraint(1, 0, 0, 0, 4, 1, true, 11));
 
-        add(lblId, Util.defineConstraint(0.0, 0, 0, 1, 1, 1, true, 17));
-        add(txtId, Util.defineConstraint(0.5, 0, 1, 1, 1, 1, true, 17));
+        add(lblId, Util.defineConstraint(0.0, 0, 0, 1, 1, 1, true, 18));
+        add(txtId, Util.defineConstraint(0.5, 0, 1, 1, 1, 1, true, 18));
   
-        add(lblName, Util.defineConstraint(0.0, 0, 2, 1, 1, 1, true, 17));
-        add(txtName, Util.defineConstraint(0.5, 0, 3, 1, 1, 1, true, 17));
+        add(lblName, Util.defineConstraint(0.0, 0, 0, 2, 1, 1, true, 18));
+        add(txtName, Util.defineConstraint(0.5, 0, 1, 2, 1, 1, true, 18));
         
-        add(lblEmail, Util.defineConstraint(0.0, 0, 0, 3, 1, 1, true, 17));
-        add(txtEmail, Util.defineConstraint(0.5, 0, 1, 3, 1, 1, true, 17));
+        add(lblEmail, Util.defineConstraint(0.0, 0, 0, 3, 1, 1, true, 18));
+        add(txtEmail, Util.defineConstraint(0.5, 0, 1, 3, 1, 1, true, 18));
         
-        add(lblPhone, Util.defineConstraint(0.0, 0, 2, 3, 1, 1, true, 17));
-        add(txtPhone, Util.defineConstraint(0.5, 0, 3, 3, 1, 1, true, 17));
+        add(lblPhone, Util.defineConstraint(0.0, 0, 0, 4, 1, 1, true, 18));
+        add(txtPhone, Util.defineConstraint(0.5, 0, 1, 4, 1, 1, true, 18));
         
-        add(lblAddress, Util.defineConstraint(0.0, 0, 0, 5, 1, 1, true, 17));
-        add(scrAddress, Util.defineConstraint(0.5, 0, 1, 5, 1, 1, true, 17));
-        add(lblAddressCounter, Util.defineConstraint(0, 0, 1, 6, 1, 1, false, 17));
+        add(lblAddress, Util.defineConstraint(0.0, 0, 0, 5, 1, 1, true, 18));
+        add(scrAddress, Util.defineConstraint(0.5, 0, 1, 5, 1, 1, true, 18));
+        add(lblAddressCounter, Util.defineConstraint(0, 0, 1, 6, 1, 1, false, 18));
         
-        add(lblNotes, Util.defineConstraint(0.0, 0, 2, 5, 1, 1, true, 17));
-        add(scrNotes, Util.defineConstraint(0.5, 0, 3, 5, 1, 1, true, 17));
-        add(lblNotesCounter, Util.defineConstraint(0, 0, 3, 6, 1, 1, false, 17));
+        add(lblNotes, Util.defineConstraint(0.0, 0, 0, 7, 1, 1, true, 18));
+        add(scrNotes, Util.defineConstraint(0.5, 0, 1, 7, 1, 1, true, 18));
+        add(lblNotesCounter, Util.defineConstraint(0, 0, 1, 8, 1, 1, false, 18));
 
-        add(btnSave,Util.defineConstraint(0, 0, 0, 9, 1, 1, false, 17));
-        add(btnCancel, Util.defineConstraint(0, 0, 3, 9, 1, 1, false, 13));
+        add(btnSave,   Util.defineConstraint(0, 0, 0, 9, 1, 1, false, 18));
+        add(btnReset, Util.defineConstraint(0, 0, 1, 9, 1, 1, false, 12));
     }
     
+    /**
+     * Populates the fields on the screen with data
+     * 
+     * @param id - the id of the customer whose data is to be populated on the form fields
+     */
+    private void populate(Long id){
+        controller.getOrCreateObject(id);
+    	txtId.setText(controller.getModelProperty(CustomerController.ELEMENT_ID_PROPERTY));
+    	txtName.setText(controller.getModelProperty(CustomerController.ELEMENT_NAME_PROPERTY));
+    	txtEmail.setText(controller.getModelProperty(CustomerController.ELEMENT_EMAIL_PROPERTY));
+    	txtPhone.setText(controller.getModelProperty(CustomerController.ELEMENT_PHONE_PROPERTY));
+    	txtAddress.setText(controller.getModelProperty(CustomerController.ELEMENT_ADDRESS_PROPERTY));
+    	txtNotes.setText(controller.getModelProperty(CustomerController.ELEMENT_NOTES_PROPERTY));
+    }
     
     /**
-     * This method is invoked by the CustomerController object
+     * Overrides the modelPropertyChange method defined in the AbstractViewPanel.
+	 * This gets invoked by the propertyChange method defined in the AbstractController.
+	 * It happens whenever the AbstractController detects changes in the properties of a
+	 * data model for which this view is subscribed to receive notifications.
+	 * 
+	 * This method is invoked by the CustomerController object
      * whenever the Customer object changes.
      */
     @Override
@@ -176,15 +216,12 @@ public class CustomerView extends AbstractViewPanel implements ActionListener{
      * This method is implemented as a result of implementing 
      * the ActionListener class. This method is invoked whenever
      * any object that has added this class as ActionListener triggers
-     * an action
+     * an action. For example, any time the content of a JTextField, 
+     * JTextArea, etc. changes, this method is invoked.
      */
     @Override
     public void actionPerformed(ActionEvent evt) {
-    	String id = txtId.getText() ;
-    	if (id == null | id.equals("null") || id.length() == 0){
-    		id = "-1";
-    	}
-        controller.getOrCreateObject(new Long(id));
+    	
         Object sourceObject = evt.getSource();
         if (sourceObject instanceof TextWidget){
         	
@@ -208,21 +245,25 @@ public class CustomerView extends AbstractViewPanel implements ActionListener{
     	}
         else if (sourceObject instanceof ButtonWidget){
     		if (evt.getActionCommand().equals("save")){
-    			logger.log(Level.INFO, "Save button pressed in Customer View");
+    			LOGGER.log(Level.INFO, "Save button pressed in Customer View");
                 controller.save();
     		} else if (evt.getActionCommand().equals("cancel")){
-    			logger.log(Level.INFO, "Cancel button pressed in Customer View");
+    			LOGGER.log(Level.INFO, "Cancel button pressed in Customer View");
                 controller.rollback();
     		}
     	}
     }
 
     /**
-     * Overrides the update method from the Observer object
+     * Overrides the update method from the Observer interface implemented by the AbstractViewPanel. 
+     * Since this class (view) is added as an observer to the CustomerController class (Observable), 
+     * then when the save method is successfully invoked in the CustomerController class, 
+     * this method gets invoked.
      */
 	@Override
 	public void update(Observable observable, Object object) {
 		// TODO Auto-generated method stub
-		System.out.println("observer: view should get updated");
+		System.out.println("CustomerView observer: view should get updated");
 	}
+	
 }

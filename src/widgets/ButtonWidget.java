@@ -21,43 +21,77 @@ import utilities.Globals;
 public class ButtonWidget extends JButton{
 
 	/**
-	 * 
+	 * This has to do with serialization; it is not important, but is
+	 * placed here to prevent a compiler warning.
 	 */
 	private static final long serialVersionUID = 1L;
 	
 	private Shape shape;
 
+	/**
+	 * Constructor
+	 * 
+	 * @param id
+	 */
 	public ButtonWidget(String id){
 		super();
-		setFontAndColor();
+		configure();
 	}
-	
+
+	/**
+	 * Constructor
+	 * 
+	 * @param id
+	 * @param action
+	 */
 	public ButtonWidget(String id, Action action){
 		super(action);
-		setFontAndColor();
+		configure();
 	}
 	
+	/**
+	 * Constructor
+	 * 
+	 * @param id
+	 * @param icon
+	 */
 	public ButtonWidget(String id, Icon icon){
 		super(icon);
-		setFontAndColor();
+		configure();
 	}
 	
+	/**
+	 * Constructor
+	 * 
+	 * @param id
+	 * @param text
+	 */
 	public ButtonWidget(String id, String text){
 		super(text);
-		setFontAndColor();
+		configure();
 	}
 	
+	/**
+	 * Constructor
+	 * 
+	 * @param id
+	 * @param text
+	 * @param icon
+	 */
 	public ButtonWidget(String id, String text, Icon icon){
 		super(text, icon);
-		setFontAndColor();
+		configure();
 	}
 	
-	private void setFontAndColor(){
+	private void configure(){
 		setOpaque(false);
 		setFont(Globals.FONT_APPLICATION);
 		setForeground(Globals.GRAY_DARK);
 		setBorder(BorderFactory.createEmptyBorder(4, 5, 4, 5));
-		
+		//setBorderPainted(false);
+		//setContentAreaFilled(false);
+		//setRolloverEnabled(true);
+		//setFocusable(false);
 	}
 	
     @Override
@@ -72,11 +106,11 @@ public class ButtonWidget extends JButton{
     
     @Override
     protected void paintBorder(Graphics g) {
-    	Graphics2D g2 = (Graphics2D)g;
-    	g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, 
-    			RenderingHints.VALUE_ANTIALIAS_ON);
-        g2.setColor(Globals.GRAY_VERY_LIGHT);
-        g2.drawRoundRect(0, 0, getWidth()-1, getHeight()-1, 15, 15);
+    	//Graphics2D g2 = (Graphics2D)g;
+    	//g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, 
+    	//		RenderingHints.VALUE_ANTIALIAS_ON);
+        //g2.setColor(Globals.GRAY_VERY_LIGHT);
+        //g2.drawRoundRect(0, 0, getWidth()-1, getHeight()-1, 15, 15);
     }
     
     @Override

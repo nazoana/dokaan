@@ -1,7 +1,12 @@
 package utilities;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Toolkit;
+
+import widgets.AppFrame;
+
 
 /**
 * This class defines a set of Global fields to be available
@@ -13,6 +18,15 @@ import java.awt.Font;
 */
 public class Globals {
     
+	/** The main application frame */
+	public static final AppFrame MAIN_FRMAE = new AppFrame("MAIN_FRAME", "Dokaan");
+	
+	/** Default AWT Toolkit */
+	public static final Toolkit TOOLKIT = Toolkit.getDefaultToolkit(); 
+	
+	/** Get the user's screen size, width and height represented by Dimension */
+	public static final Dimension SCREEN_SIZE = TOOLKIT.getScreenSize();
+	
     /** The file separator string */
     public static final String FILE_SEPARATOR = System.getProperty("file.separator");
     
@@ -78,5 +92,6 @@ public class Globals {
     public static final Color GRAY = Color.decode("#C0C0C0");
     
     public static final Color GRAY_DARK = Color.decode("#606060");
+    
     
 }

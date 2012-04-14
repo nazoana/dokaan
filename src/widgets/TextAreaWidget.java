@@ -1,6 +1,7 @@
 package widgets;
 
 import java.awt.Component;
+import java.awt.Event;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -16,13 +17,18 @@ import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
 import javax.swing.BorderFactory;
 import javax.swing.FocusManager;
+import javax.swing.InputMap;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.UndoableEditEvent;
+import javax.swing.event.UndoableEditListener;
+import javax.swing.text.DefaultEditorKit;
 import javax.swing.text.Document;
 
+import ui.AppMenubar;
 import utilities.Globals;
 
 /**
@@ -31,7 +37,7 @@ import utilities.Globals;
  * @version 2012-03-06 1.0
  *
  */
-public class TextAreaWidget extends JTextArea implements FocusListener, DocumentListener{
+public class TextAreaWidget extends JTextArea implements FocusListener, DocumentListener, UndoableEditListener{
 	/**
 	 * It has to do with serialization; it is not important.
 	 * It is here to avoid compiler warning.
@@ -112,8 +118,42 @@ public class TextAreaWidget extends JTextArea implements FocusListener, Document
 		setDocument(new WidgetDocument(254));
 		getDocument().addDocumentListener(this);
 		addFocusListener(this);
+		getDocument().addUndoableEditListener(this);
+		addBindings();
 	}
 
+    /**
+     * Add a couple of emacs key bindings for navigation.
+     */
+    protected void addBindings() {
+        InputMap inputMap = getInputMap();
+ 
+        //Ctrl-b to go backward one character
+        KeyStroke key = KeyStroke.getKeyStroke(KeyEvent.VK_B, Event.CTRL_MASK);
+        inputMap.put(key, DefaultEditorKit.backwardAction);
+ 
+        //Ctrl-f to go forward one character
+        key = KeyStroke.getKeyStroke(KeyEvent.VK_F, Event.CTRL_MASK);
+        inputMap.put(key, DefaultEditorKit.forwardAction);
+ 
+        //Ctrl-p to go up one line
+        key = KeyStroke.getKeyStroke(KeyEvent.VK_P, Event.CTRL_MASK);
+        inputMap.put(key, DefaultEditorKit.upAction);
+ 
+        //Ctrl-n to go down one line
+        key = KeyStroke.getKeyStroke(KeyEvent.VK_N, Event.CTRL_MASK);
+        inputMap.put(key, DefaultEditorKit.downAction);
+        
+        //Ctrl-e to go to the end of the line
+        key = KeyStroke.getKeyStroke(KeyEvent.VK_E, Event.CTRL_MASK);
+        inputMap.put(key, DefaultEditorKit.endLineAction);
+        
+        //Ctrl-d deletes the next character
+        key = KeyStroke.getKeyStroke(KeyEvent.VK_D, Event.CTRL_MASK);
+        inputMap.put(key, DefaultEditorKit.deleteNextCharAction);
+        
+    }
+    
 	/**
 	 * Changes the Shift key and Shift+Tab key combination behavior
 	 * within this TextAreaWidget (JTextArea) object by moving the
@@ -242,5 +282,20 @@ public class TextAreaWidget extends JTextArea implements FocusListener, Document
         	lblCounter.setText(remainingChars + " characters remaining");
         }
     }
+
+
+	/**
+	 * This is overriding the method defined in the UndoableEditListener interface.
+	 * 
+	 * This text widget has registered this class its undoableEditListener
+	 * so any time and edit happens the listener is notified.
+	 */
+	@Override
+	public void undoableEditHappened(UndoableEditEvent e) {
+		// Remember the edit and update the menus.
+		AppMenubar.UNDO_MANAGER.addEdit(e.getEdit());
+		AppMenubar.updateUndoState();
+		AppMenubar.updateRedoState();
+	}
 
 }

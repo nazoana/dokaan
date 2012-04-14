@@ -12,6 +12,12 @@ import javax.swing.JPanel;
 
 import utilities.Globals;
 
+/**
+ * 
+ * @author Mahmood Khan
+ * @version 2012-04-01 1.0
+ *
+ */
 public class PanelWidget extends JPanel{
 
 	/**
@@ -44,7 +50,7 @@ public class PanelWidget extends JPanel{
 	
 	private void configure(String id){
 		setName(id);
-		setOpaque(false);
+		setOpaque(true);
 		setFont(Globals.FONT_APPLICATION);
 		setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
 	}

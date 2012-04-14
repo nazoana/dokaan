@@ -31,7 +31,7 @@ public class CustomerController extends AbstractController implements Controller
     private Transaction tx;
     
     /** Indicates whether a new object was created */
-    private boolean newObject ;
+    private Integer newObject ;
     
     /** The logger object used to log messages */
     private static final Logger logger = AppLogger.getAppLogger(CustomerController.class.getName());
@@ -51,10 +51,12 @@ public class CustomerController extends AbstractController implements Controller
     
     public static final String ELEMENT_NOTES_PROPERTY = "Notes";
     
+    private Long customerId;
+    
     public CustomerController(){
         super();
     }
-    
+
     /** 
      * Begin the transaction.
      */
@@ -75,39 +77,78 @@ public class CustomerController extends AbstractController implements Controller
      * @param id
      */
     @Override
-    public void getOrCreateObject(Long id){
-    	if ( tx != null && tx.isActive()){
-    		return;
+    public Long getOrCreateObject(Long id){
+    	if ( tx == null || !tx.isActive()){
+    		beginTransaction();
     	}
-        beginTransaction();
+    	System.out.println(id);
+    	/*
+    	 * If the new Customer has already been instantiated,
+    	 * then do not instantiate it again.
+    	 */
+    	if (id != null && id == -1L && newObject != null && newObject == 1) {
+    		return id;
+    	}
+    	
+    	if (customerId != null && customerId == id) {
+    		return id;
+    	}
+    	
+    	/*
+    	 * Either create a new customer or return one that already
+    	 * exist in the database
+    	 */
         try { 
             customer = pm.getObjectById(Customer.class, id);
-            newObject = false;
-        } catch(JDOObjectNotFoundException e){ 
+            newObject = 0;
+        } catch(JDOObjectNotFoundException e) { 
             logger.log(Level.INFO, "A Customer with ID=" + id 
                     + " does not exist; creating new Customer()"
                     + " | " + e.getMessage() + " | " + e.getCause());
             this.customer = new Customer();
-            newObject = true;
+            newObject = 1;
         }
+        customerId = customer.getId();
         /*
          * Add this model to the models vector in the AbstractController 
          * so that a PropertyChangeListener can be registered for it.
          */
         addModel(customer);
+        return customer.getId();
+    }
+    
+    /**
+     * Can access all of the getter methods in the Customer class
+     * 
+     * @param propertyName - the name of the field
+     * 
+     * @return - the value returned a getter in Customer class
+     */
+    public String getModelProperty(String propertyName){
+    	try {
+    		Method method = customer.getClass().getMethod("get" + propertyName);
+    		String value = method.invoke(customer) + "";
+    		return value.equals("null") ? "" : value;
+    	} catch (Exception e) {
+            logger.log(Level.SEVERE, "The method get" + propertyName + " in customer class" 
+                    + " failed.");
+        }
+    	return null;
     }
     
     /**
      * Calls the right method for the Customer Object
+     * 
+     * @param propertyName - the name of the field whose value should change
+     * @param newValue - the new value for the referred field name
      */
-    @SuppressWarnings("unused")
     @Override
     public void setModelProperty(String propertyName, Object newValue) {
         try {
             Method method = customer.getClass().getMethod("set" + propertyName,
                     new Class[] { newValue.getClass() });
             Boolean success = (Boolean) method.invoke(customer, newValue);
-            if (success = false) {
+            if (success == false) {
                 Util.showError(null, "Invalid value (" + newValue 
                         + ") for the field, " + propertyName, "Validation Check Failed");
             }
@@ -126,7 +167,7 @@ public class CustomerController extends AbstractController implements Controller
      */
     @Override
     public boolean save(){
-        if (newObject){
+        if (newObject == 1){
         	customer.setDateCreated(Util.getTimestamp());
             pm.makePersistent(customer);
         } else {

@@ -14,7 +14,7 @@ public interface ControllerInterface {
     void beginTransaction();
     
     // STEP:2: Relate the Java Object to the database
-    void getOrCreateObject(Long id);
+    Long getOrCreateObject(Long id);
     
     // STEP:3: Update/Populate object's properties
     // The implementing class is supposed to implement

@@ -353,8 +353,8 @@ public class Util {
         theConstraint.gridheight = gridheight; // # of rows to merge
         theConstraint.fill = fill ? GridBagConstraints.HORIZONTAL
                 : GridBagConstraints.NONE;
-        theConstraint.anchor = anchor; // WEST=17, EAST=13, SOUTH=15, NORTH=11, NORTHWEST=18
-        //System.out.println(GridBagConstraints.NORTHWEST);
+        theConstraint.anchor = anchor; // W=17, E=13, S=15, N=11, NW=18, NE=12
+        //System.out.println(GridBagConstraints.NORTHEAST);
         theConstraint.insets = new Insets(2, 5, 5, 5);
         return theConstraint;
     }

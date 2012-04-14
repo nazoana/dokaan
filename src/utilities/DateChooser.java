@@ -27,8 +27,7 @@ import java.util.*;
  *  }
  */
 
-public class DateChooser extends JDialog implements ActionListener {
-    private static final long serialVersionUID = 1L;
+public class DateChooser implements ActionListener {
     
     public static final int        OK_OPTION     = 1;
     public static final int        CANCEL_OPTION = 2;
@@ -53,17 +52,19 @@ public class DateChooser extends JDialog implements ActionListener {
     private GregorianCalendar      date;
     private JLabel                 monthLabel;
     private JLabel                 yearLabel;
-    private JPanel                 dayGrid;
+    private PanelWidget                 dayGrid;
     private boolean                ready;
 
-    
+    private JFrame frame;
     public static void main(String[] args) {
 
     	 GregorianCalendar date = new GregorianCalendar();
     	 // The  owner is the JFrame of the application ("AppClass.this")
-    	JFrame frame = new JFrame();
+    	
+    	//frame.getContentPane().setBackground(Globals.WHITE);
+    	
     	 // show the date chooser
-    	 DateChooser dc = new DateChooser(frame, date);
+    	 DateChooser dc = new DateChooser(null, date);
 
     	 // user can either choose a date or cancel by closing
     	 if (dc.showDateChooser() == DateChooser.OK_OPTION) {
@@ -80,15 +81,23 @@ public class DateChooser extends JDialog implements ActionListener {
      *            this dialog
      */
     public DateChooser(JFrame owner, GregorianCalendar d) {
-        super(owner, "Date Chooser", true);
-
+        //super(owner, "Date Chooser", true);
+    	if (frame == null ) {
+    		frame =  new JFrame();
+    		frame.getContentPane().setBackground(Globals.WHITE);
+    		//frame.setUndecorated(true);
+    	} else {
+    		frame = owner;
+    	}
         date = d;
 
-        Container contentPane = getContentPane();
+        Container contentPane = frame.getContentPane();
+        contentPane.setBackground(Globals.BLUE);
         contentPane.setLayout(new BorderLayout());
 
         PanelWidget yearPane = new PanelWidget("yearPane");
         PanelWidget monthPane = new PanelWidget("monthPane");
+       
         yearPane.setLayout(new BoxLayout(yearPane, BoxLayout.X_AXIS));
         monthPane.setLayout(new BoxLayout(monthPane, BoxLayout.X_AXIS));
 
@@ -133,20 +142,22 @@ public class DateChooser extends JDialog implements ActionListener {
         topPane.add(yearPane);
 
         // create the panel that will hold the days of the months
-        dayGrid = new JPanel(new GridLayout(7, 7));
+        dayGrid = new PanelWidget("dayGrid", new GridLayout(7, 7));
+        dayGrid.setBackground(Globals.WHITE);
         updateDayGrid();
 
         contentPane.add(topPane, BorderLayout.NORTH);
         contentPane.add(dayGrid, BorderLayout.CENTER);
 
-        setResizable(false);
+        frame.setResizable(false);
         ready = false;
-        pack();
+        frame.pack();
 
         // center this dialog over the owner
-        int xPos = (int) (owner.getLocation().getX() + (owner.getWidth() / 2) - (getWidth() / 2));
-        int yPos = (int) (owner.getLocation().getY() + (owner.getHeight() / 2) - (getHeight() / 2));
-        setLocation(xPos, yPos);
+        //TODO: enable the following two lines
+        //int xPos = (int) (owner.getLocation().getX() + (owner.getWidth() / 2) - (getWidth() / 2));
+        //int yPos = (int) (owner.getLocation().getY() + (owner.getHeight() / 2) - (getHeight() / 2));
+        frame.setLocation(200, 400);
     }
 
     /**
@@ -163,7 +174,7 @@ public class DateChooser extends JDialog implements ActionListener {
      */
     public int showDateChooser() {
         ready = false;
-        setVisible(true);
+        frame.setVisible(true);
         if (ready) {
             return (OK_OPTION);
         } else {
@@ -227,7 +238,7 @@ public class DateChooser extends JDialog implements ActionListener {
             date = new GregorianCalendar(y, m, d, hr, min, aaa);
             date.setLenient(false);
             ready = true;
-            dispose();
+            frame.dispose();
         }
     }
 
@@ -346,8 +357,8 @@ public class DateChooser extends JDialog implements ActionListener {
             dayGrid.add(new JLabel(""));
         }
 
-        repaint();
-        validate();
+        frame.repaint();
+        frame.validate();
     }
 
     /**

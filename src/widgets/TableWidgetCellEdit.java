@@ -4,6 +4,12 @@ import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoableEdit;
 
+/**
+ * 
+ * @author Mahmood Khan
+ * @version 2012-04-01 1.0
+ *
+ */
 public class TableWidgetCellEdit extends AbstractUndoableEdit implements UndoableEdit{
     /**
 * This has to do with serialization. It is not important, but is placed

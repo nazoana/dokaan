@@ -81,7 +81,7 @@ public class AppMenuItem extends JMenuItem{
 	}
 	
 	private void configure(){
-		setBackground(Globals.WHITE);
+		//setBackground(Globals.WHITE);
 		setFont(Globals.FONT_APPLICATION);
 	}
 }

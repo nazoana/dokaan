@@ -13,10 +13,17 @@ import javax.swing.JToolTip;
 import utilities.Globals;
 
 
+/**
+ * 
+ * @author Mahmood Khan
+ * @version 2012-04-01 1.0
+ *
+ */
 public class ToolTipWidget extends JToolTip{
 	
 	/**
-	 * 
+	 * It has to do with serialization; it is not needed but
+	 * it is only here to avoid a compilation warning.
 	 */
 	private static final long serialVersionUID = 1L;
 	
