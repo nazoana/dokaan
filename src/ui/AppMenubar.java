@@ -140,10 +140,19 @@ public class AppMenubar extends JMenuBar implements ActionListener {
         // define action listeners
         newCustomer.setActionCommand("newCustomer");
         newCustomer.addActionListener(this);
+        
+        newSupplier.setActionCommand("newSupplier");
+        newSupplier.addActionListener(this);
+        
         overview.setActionCommand("overview");
         overview.addActionListener(this);
+        
         customers.setActionCommand("openCustomers");
         customers.addActionListener(this);
+        
+        suppliers.setActionCommand("openSuppliers");
+        suppliers.addActionListener(this);
+        
         exitAction.setActionCommand("exit");
         exitAction.addActionListener(this);
         
@@ -252,6 +261,12 @@ public class AppMenubar extends JMenuBar implements ActionListener {
 		}
 		else if (actionCommand.equals("openCustomers")){
 			DokaanMain.showCustomersTab();
+		}
+		else if (actionCommand.equals("newSupplier")) {
+		    DokaanMain.showNewSupplierTab();
+		}
+		else if (actionCommand.equals("openSuppliers")) {
+		    DokaanMain.showSuppliersTab();
 		}
 		else if (actionCommand.equals("overview")){
 			DokaanMain.showOverviewTab();

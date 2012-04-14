@@ -65,11 +65,34 @@ public class DokaanMain {
 	}
 	
 	/**
+     * Adds the New Customer panel to the main frame.
+     */
+    public static void showNewSupplierTab() {
+        SupplierView newSupplier = new SupplierView(Controllers.SUPPLIER_CONTROLLER, -1L);
+        Controllers.SUPPLIER_CONTROLLER.addView(newSupplier);
+        JPanel panel = createPanel();
+        panel.add(newSupplier, BorderLayout.NORTH);
+        tabbedPane.addTab("New Supplier", panel, Util.getImageIcon("../resources/newSupplier.png"));
+    }
+    
+    /**
+     * Adds the List of customer panel to the main frame
+     */
+    public static void showSuppliersTab() {
+        SupplierListView suppliers = new SupplierListView(Controllers.SUPPLIERS_LIST_CONTROLLER);
+        Controllers.SUPPLIERS_LIST_CONTROLLER.addView(suppliers);
+        Controllers.SUPPLIER_CONTROLLER.addView(suppliers);
+        JPanel panel = createPanel();
+        panel.add(suppliers, BorderLayout.NORTH);
+        tabbedPane.addTab("Supplier", panel, Util.getImageIcon("../resources/supplier.png"));
+    }
+    
+	/**
 	 * Adds the List of customer panel to the main frame
 	 */
 	public static void showCustomersTab() {
-		CustomerListView customers = new CustomerListView(Controllers.CUSTOMERS__LIST_CONTROLLER);
-		Controllers.CUSTOMERS__LIST_CONTROLLER.addView(customers);
+		CustomerListView customers = new CustomerListView(Controllers.CUSTOMERS_LIST_CONTROLLER);
+		Controllers.CUSTOMERS_LIST_CONTROLLER.addView(customers);
 		Controllers.CUSTOMER_CONTROLLER.addView(customers);
 		JPanel panel = createPanel();
 		panel.add(customers, BorderLayout.NORTH);

@@ -5,15 +5,19 @@ import java.util.Date;
 import javax.jdo.annotations.Column;
 import javax.jdo.annotations.DatastoreIdentity;
 import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.Index;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
-@PersistenceCapable
-@DatastoreIdentity(strategy=IdGeneratorStrategy.IDENTITY)
-public class Supplier {
+//@PersistenceCapable
+//@DatastoreIdentity(strategy=IdGeneratorStrategy.IDENTITY)
+@PersistenceCapable(identityType=IdentityType.DATASTORE)
+@DatastoreIdentity(strategy=IdGeneratorStrategy.INCREMENT)
+public class Supplier extends AbstractModel{
 	
+    @Persistent(valueStrategy = IdGeneratorStrategy.INCREMENT)
 	@PrimaryKey
 	@Column(allowsNull="false")
 	private long id;
