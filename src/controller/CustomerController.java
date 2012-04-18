@@ -81,17 +81,17 @@ public class CustomerController extends AbstractController implements Controller
     	if ( tx == null || !tx.isActive()){
     		beginTransaction();
     	}
-    	System.out.println(id);
+    	
     	/*
     	 * If the new Customer has already been instantiated,
     	 * then do not instantiate it again.
     	 */
-    	if (id != null && id == -1L && newObject != null && newObject == 1) {
-    		return id;
-    	}
+    	//if (id != null && id == -1L && newObject != null && newObject == 1) {
+    		//return id;
+    	//}
     	
     	if (customerId != null && customerId == id) {
-    		return id;
+    		//return id;
     	}
     	
     	/*
@@ -105,7 +105,7 @@ public class CustomerController extends AbstractController implements Controller
             logger.log(Level.INFO, "A Customer with ID=" + id 
                     + " does not exist; creating new Customer()"
                     + " | " + e.getMessage() + " | " + e.getCause());
-            this.customer = new Customer();
+            customer = new Customer();
             newObject = 1;
         }
         customerId = customer.getId();
@@ -114,7 +114,7 @@ public class CustomerController extends AbstractController implements Controller
          * so that a PropertyChangeListener can be registered for it.
          */
         addModel(customer);
-        return customer.getId();
+        return customerId;
     }
     
     /**
@@ -170,15 +170,17 @@ public class CustomerController extends AbstractController implements Controller
         if (newObject == 1){
         	customer.setDateCreated(Util.getTimestamp());
             pm.makePersistent(customer);
+            newObject = 0;
         } else {
         	customer.setDateModified(Util.getTimestamp());
         }
         try {
             tx.commit();
         } catch (Exception e){
-            logger.log(Level.SEVERE, "Failed to comit transaction for customer," 
-                    + customer.getName() + ". "
-                    + " |" + e.getMessage() + "|" + e.getCause());
+            logger.log(Level.SEVERE, "Failed to comit transaction |" + e.getMessage());
+            System.out.println("About to call getOrCreateObject again: " + customerId);
+            getOrCreateObject(customerId);
+            save();
         } finally {
             if (tx.isActive()) {
                 tx.rollback();

@@ -1,5 +1,6 @@
 package model;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 import javax.jdo.annotations.Column;
@@ -45,10 +46,10 @@ public class PurchaseOrderLine extends AbstractModel{
 	private Date dateProductDelivered;
 	
 	@Persistent
-	private Date dateCreated;
+	private Timestamp dateCreated;
 	
 	@Persistent
-	private Date dateModified;
+	private Timestamp dateModified;
 	
 	public PurchaseOrderLine(){
 		super();
@@ -56,7 +57,7 @@ public class PurchaseOrderLine extends AbstractModel{
 	
 	public PurchaseOrderLine(Product product, PurchaseOrder purchaseOrder, Double quantity,
 			Double salePrice, Double totalSaleCost, Date dateProductDelivered,
-			Date dateCreated, Date dateModified) {
+			Timestamp dateCreated, Timestamp dateModified) {
 		super();
 		this.product = product;
 		this.purchaseOrder = purchaseOrder;
@@ -116,19 +117,19 @@ public class PurchaseOrderLine extends AbstractModel{
 		this.dateProductDelivered = dateProductDelivered;
 	}
 	
-	public Date getDateCreated() {
+	public Timestamp getDateCreated() {
 		return dateCreated;
 	}
 
-	public void setDateCreated(Date dateCreated) {
+	public void setDateCreated(Timestamp dateCreated) {
 		this.dateCreated = dateCreated;
 	}
 
-	public Date getDateModified() {
+	public Timestamp getDateModified() {
 		return dateModified;
 	}
 
-	public void setDateModified(Date dateModified) {
+	public void setDateModified(Timestamp dateModified) {
 		this.dateModified = dateModified;
 	}
 	

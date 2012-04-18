@@ -247,6 +247,9 @@ public class CustomerView extends AbstractViewPanel implements ActionListener{
     		if (evt.getActionCommand().equals("save")){
     			LOGGER.log(Level.INFO, "Save button pressed in Customer View");
                 controller.save();
+                if (txtId.getText().equals("0") ) {
+                	populate(Long.parseLong(controller.getModelProperty(CustomerController.ELEMENT_ID_PROPERTY)));
+                }
     		} else if (evt.getActionCommand().equals("cancel")){
     			LOGGER.log(Level.INFO, "Cancel button pressed in Customer View");
                 controller.rollback();

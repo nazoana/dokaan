@@ -1,6 +1,6 @@
 package model;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 import javax.jdo.annotations.Column;
 import javax.jdo.annotations.DatastoreIdentity;
@@ -11,8 +11,6 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
-//@PersistenceCapable
-//@DatastoreIdentity(strategy=IdGeneratorStrategy.IDENTITY)
 @PersistenceCapable(identityType=IdentityType.DATASTORE)
 @DatastoreIdentity(strategy=IdGeneratorStrategy.INCREMENT)
 public class Supplier extends AbstractModel{
@@ -45,17 +43,17 @@ public class Supplier extends AbstractModel{
 	private String notes;
 	
 	@Persistent
-	private Date dateCreated;
+	private Timestamp dateCreated;
 	
 	@Persistent
-	private Date dateModified;
+	private Timestamp dateModified;
 	
 	public Supplier(){
 		super();
 	}
 	
 	public Supplier(long id, String name, String address, String phone,
-			String email, String notes, Date dateCreated, Date dateModified) {
+			String email, String notes, Timestamp dateCreated, Timestamp dateModified) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -115,19 +113,19 @@ public class Supplier extends AbstractModel{
 		this.notes = notes;
 	}
 
-	public Date getDateCreated() {
+	public Timestamp getDateCreated() {
 		return dateCreated;
 	}
 
-	public void setDateCreated(Date dateCreated) {
+	public void setDateCreated(Timestamp dateCreated) {
 		this.dateCreated = dateCreated;
 	}
 
-	public Date getDateModified() {
+	public Timestamp getDateModified() {
 		return dateModified;
 	}
 
-	public void setDateModified(Date dateModified) {
+	public void setDateModified(Timestamp dateModified) {
 		this.dateModified = dateModified;
 	}
 	

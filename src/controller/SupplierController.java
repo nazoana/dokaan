@@ -78,13 +78,13 @@ public class SupplierController extends AbstractController implements Controller
     	if ( tx == null || !tx.isActive()){
     		beginTransaction();
     	}
-    	System.out.println(id);
+    	
     	/*
     	 * If the new Supplier has already been instantiated,
     	 * then do not instantiate it again.
     	 */
     	if (id != null && id == -1L && newObject != null && newObject == 1) {
-    		return id;
+    		//return id;
     	}
     	
     	if (supplierId != null && supplierId == id) {
@@ -125,10 +125,9 @@ public class SupplierController extends AbstractController implements Controller
     	try {
     		Method method = supplier.getClass().getMethod("get" + propertyName);
     		String value = method.invoke(supplier) + "";
-    		return value.equals("null") ? "" : value;
+    		return value.equals("null") ? null : value;
     	} catch (Exception e) {
-            logger.log(Level.SEVERE, "The method get" + propertyName + " in supplier class" 
-                    + " failed.");
+            logger.log(Level.SEVERE, e.getMessage());
         }
     	return null;
     }
@@ -147,12 +146,16 @@ public class SupplierController extends AbstractController implements Controller
             Boolean success = (Boolean) method.invoke(supplier, newValue);
             if (success == false) {
                 Util.showError(null, "Invalid value (" + newValue 
-                        + ") for the field, " + propertyName, "Validation Check Failed");
+                        + ") for the field, " + propertyName, "Validation Check");
             }
         } catch (Exception e) {
+            try {
             logger.log(Level.SEVERE, "The method set" + propertyName + "=" 
                     + newValue + " in " + supplier.getClass() 
                     + " failed | " + e.getMessage() + " | " + e.getCause());
+            } catch (NullPointerException e1) {
+                //ignore
+            }
         }
     }
     

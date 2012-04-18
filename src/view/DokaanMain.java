@@ -103,6 +103,7 @@ public class DokaanMain {
 	 * Adds the New Customer panel to the main frame.
 	 */
 	public static void showNewCustomerTab() {
+		Controllers.CUSTOMER_CONTROLLER.getOrCreateObject(-1L);
 		CustomerView newCustomer = new CustomerView(Controllers.CUSTOMER_CONTROLLER, -1L);
 		Controllers.CUSTOMER_CONTROLLER.addView(newCustomer);
 		JPanel panel = createPanel();

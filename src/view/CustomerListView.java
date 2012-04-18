@@ -297,7 +297,7 @@ public class CustomerListView extends AbstractViewPanel implements ActionListene
 		    int selectedRow = tblCustomers.getRightClickedRow();
             Long modelRowId = (Long) tblCustomers.getValueAt(selectedRow, FIRST_COLUMN);
             Controllers.CUSTOMER_CONTROLLER.getOrCreateObject(modelRowId);
-            PanelWidget newCustomer = new CustomerView(Controllers.CUSTOMER_CONTROLLER, modelRowId);
+            CustomerView newCustomer = new CustomerView(Controllers.CUSTOMER_CONTROLLER, modelRowId);
             /*
              * If there is already a balloon tip, then close it so the
              * new can be shown.

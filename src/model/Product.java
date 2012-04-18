@@ -1,22 +1,24 @@
 package model;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 import javax.jdo.annotations.Column;
 import javax.jdo.annotations.DatastoreIdentity;
 import javax.jdo.annotations.ForeignKey;
 import javax.jdo.annotations.ForeignKeyAction;
 import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.Index;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
-@PersistenceCapable
-@DatastoreIdentity(strategy=IdGeneratorStrategy.IDENTITY)
+@PersistenceCapable(identityType=IdentityType.DATASTORE)
+@DatastoreIdentity(strategy=IdGeneratorStrategy.INCREMENT)
 public class Product extends AbstractModel{
 
-	@PrimaryKey
+    @Persistent(valueStrategy = IdGeneratorStrategy.INCREMENT)
+    @PrimaryKey
 	private long id;
 	
 	@Persistent
@@ -50,10 +52,10 @@ public class Product extends AbstractModel{
 	private String notes;
 	
 	@Persistent
-	private Date dateCreated;
+	private Timestamp dateCreated;
 	
 	@Persistent
-	private Date dateModified;
+	private Timestamp dateModified;
 	
 	public Product(){
 		super();
@@ -61,7 +63,7 @@ public class Product extends AbstractModel{
 
 	public Product(long id, String description, String unit,
 			Double unitsInStock, Double purchasePrice, Double salePrice,
-			Supplier supplier, String notes, Date dateCreated, Date dateModified) {
+			Supplier supplier, String notes, Timestamp dateCreated, Timestamp dateModified) {
 		super();
 		this.id = id;
 		this.description = description;
@@ -139,19 +141,19 @@ public class Product extends AbstractModel{
 		this.notes = notes;
 	}
 	
-	public Date getDateCreated() {
+	public Timestamp getDateCreated() {
 		return dateCreated;
 	}
 
-	public void setDateCreated(Date dateCreated) {
+	public void setDateCreated(Timestamp dateCreated) {
 		this.dateCreated = dateCreated;
 	}
 
-	public Date getDateModified() {
+	public Timestamp getDateModified() {
 		return dateModified;
 	}
 
-	public void setDateModified(Date dateModified) {
+	public void setDateModified(Timestamp dateModified) {
 		this.dateModified = dateModified;
 	}
 	

@@ -47,7 +47,7 @@ public class SupplierView extends AbstractViewPanel implements ActionListener{
     /** The logger object used to log messages */
     private static final Logger LOGGER = AppLogger.getAppLogger(SupplierView.class.getName());
     
-    private SupplierController supplier;
+    private SupplierController supplierController;
     
     private LabelHeadingWidget lblTitle;
     
@@ -86,7 +86,7 @@ public class SupplierView extends AbstractViewPanel implements ActionListener{
      */
     public SupplierView(SupplierController supplier, Long id){
     	super("pnlSupplierView");
-        this.supplier = supplier;
+        this.supplierController = supplier;
         setLayout(new GridBagLayout());
         setBackground(Globals.WHITE);
         initComponents();
@@ -186,13 +186,13 @@ public class SupplierView extends AbstractViewPanel implements ActionListener{
      * @param id - the id of the supplier whose data is to be populated on the form fields
      */
     private void populate(Long id){
-        supplier.getOrCreateObject(id);
-    	txtId.setText(supplier.getModelProperty(SupplierController.ELEMENT_ID_PROPERTY));
-    	txtName.setText(supplier.getModelProperty(SupplierController.ELEMENT_NAME_PROPERTY));
-    	txtEmail.setText(supplier.getModelProperty(SupplierController.ELEMENT_EMAIL_PROPERTY));
-    	txtPhone.setText(supplier.getModelProperty(SupplierController.ELEMENT_PHONE_PROPERTY));
-    	txtAddress.setText(supplier.getModelProperty(SupplierController.ELEMENT_ADDRESS_PROPERTY));
-    	txtNotes.setText(supplier.getModelProperty(SupplierController.ELEMENT_NOTES_PROPERTY));
+        supplierController.getOrCreateObject(id);
+    	txtId.setText(supplierController.getModelProperty(SupplierController.ELEMENT_ID_PROPERTY));
+    	txtName.setText(supplierController.getModelProperty(SupplierController.ELEMENT_NAME_PROPERTY));
+    	txtEmail.setText(supplierController.getModelProperty(SupplierController.ELEMENT_EMAIL_PROPERTY));
+    	txtPhone.setText(supplierController.getModelProperty(SupplierController.ELEMENT_PHONE_PROPERTY));
+    	txtAddress.setText(supplierController.getModelProperty(SupplierController.ELEMENT_ADDRESS_PROPERTY));
+    	txtNotes.setText(supplierController.getModelProperty(SupplierController.ELEMENT_NOTES_PROPERTY));
     }
     
     /**
@@ -227,28 +227,28 @@ public class SupplierView extends AbstractViewPanel implements ActionListener{
         	// If it is a text area
         	if (((TextWidget) sourceObject).getText().equals("txtArea")){
         		if ( ((TextWidget)sourceObject).getName().equals("txtAddressActionListener")){
-        			supplier.setModelProperty(SupplierController.ELEMENT_ADDRESS_PROPERTY, txtAddress.getText());
+        			supplierController.setModelProperty(SupplierController.ELEMENT_ADDRESS_PROPERTY, txtAddress.getText());
         		} else if ( ((TextWidget)sourceObject).getName().equals("txtNotesActionListener")){
-        			supplier.setModelProperty(SupplierController.ELEMENT_NOTES_PROPERTY, txtNotes.getText());
+        			supplierController.setModelProperty(SupplierController.ELEMENT_NOTES_PROPERTY, txtNotes.getText());
         		}
         	// otherwise it is text field
         	} else {
 	    		if (((TextWidget)sourceObject).getName().equals("txtName")){
-	    			supplier.setModelProperty(SupplierController.ELEMENT_NAME_PROPERTY, txtName.getText());
+	    			supplierController.setModelProperty(SupplierController.ELEMENT_NAME_PROPERTY, txtName.getText());
 	    		} else if (((TextWidget)sourceObject).getName().equals("txtPhone")){
-	    			supplier.setModelProperty(SupplierController.ELEMENT_PHONE_PROPERTY, txtPhone.getText());
+	    			supplierController.setModelProperty(SupplierController.ELEMENT_PHONE_PROPERTY, txtPhone.getText());
 	    		}  else if (((TextWidget)sourceObject).getName().equals("txtEmail")){
-	    			supplier.setModelProperty(SupplierController.ELEMENT_EMAIL_PROPERTY, txtEmail.getText());
+	    			supplierController.setModelProperty(SupplierController.ELEMENT_EMAIL_PROPERTY, txtEmail.getText());
 	    		}
         	}
     	}
         else if (sourceObject instanceof ButtonWidget){
     		if (evt.getActionCommand().equals("save")){
     			LOGGER.log(Level.INFO, "Save button pressed in Supplier View");
-                supplier.save();
+                supplierController.save();
     		} else if (evt.getActionCommand().equals("cancel")){
     			LOGGER.log(Level.INFO, "Cancel button pressed in Supplier View");
-                supplier.rollback();
+                supplierController.rollback();
     		}
     	}
     }
