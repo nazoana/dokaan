@@ -34,25 +34,31 @@ public class CustomerController extends AbstractController implements Controller
     private Integer newObject ;
     
     /** The logger object used to log messages */
-    private static final Logger logger = AppLogger.getAppLogger(CustomerController.class.getName());
+    private static final Logger LOGGER = AppLogger.getAppLogger(CustomerController.class.getName());
     
     /** The customer object instance that is to be changed */
     private Customer customer;
 
+    /** the id property in the customer model */
     public static final String ELEMENT_ID_PROPERTY = "Id";
     
+    /** The name property in the customer model */
     public static final String ELEMENT_NAME_PROPERTY = "Name";
     
+    /** The phone property in the customer model */
     public static final String ELEMENT_PHONE_PROPERTY = "Phone";
     
+    /** The email property in the customer model */
     public static final String ELEMENT_EMAIL_PROPERTY = "Email";
     
+    /** The address property in the customer model */
     public static final String ELEMENT_ADDRESS_PROPERTY = "Address";
     
     public static final String ELEMENT_NOTES_PROPERTY = "Notes";
     
-    private Long customerId;
-    
+    /**
+     * Constructor
+     */
     public CustomerController(){
         super();
     }
@@ -81,40 +87,23 @@ public class CustomerController extends AbstractController implements Controller
     	if ( tx == null || !tx.isActive()){
     		beginTransaction();
     	}
-    	
-    	/*
-    	 * If the new Customer has already been instantiated,
-    	 * then do not instantiate it again.
-    	 */
-    	//if (id != null && id == -1L && newObject != null && newObject == 1) {
-    		//return id;
-    	//}
-    	
-    	if (customerId != null && customerId == id) {
-    		//return id;
-    	}
-    	
-    	/*
-    	 * Either create a new customer or return one that already
-    	 * exist in the database
-    	 */
         try { 
             customer = pm.getObjectById(Customer.class, id);
             newObject = 0;
         } catch(JDOObjectNotFoundException e) { 
-            logger.log(Level.INFO, "A Customer with ID=" + id 
+            LOGGER.log(Level.INFO, "A Customer with ID=" + id 
                     + " does not exist; creating new Customer()"
                     + " | " + e.getMessage() + " | " + e.getCause());
             customer = new Customer();
             newObject = 1;
         }
-        customerId = customer.getId();
+        
         /*
          * Add this model to the models vector in the AbstractController 
          * so that a PropertyChangeListener can be registered for it.
          */
         addModel(customer);
-        return customerId;
+        return customer.getId();
     }
     
     /**
@@ -130,8 +119,7 @@ public class CustomerController extends AbstractController implements Controller
     		String value = method.invoke(customer) + "";
     		return value.equals("null") ? "" : value;
     	} catch (Exception e) {
-            logger.log(Level.SEVERE, "The method get" + propertyName + " in customer class" 
-                    + " failed.");
+            LOGGER.log(Level.SEVERE, "The method get" + propertyName + "() failed.");
         }
     	return null;
     }
@@ -153,9 +141,13 @@ public class CustomerController extends AbstractController implements Controller
                         + ") for the field, " + propertyName, "Validation Check Failed");
             }
         } catch (Exception e) {
-            logger.log(Level.SEVERE, "The method set" + propertyName + "=" 
-                    + newValue + " in " + customer.getClass() 
-                    + " failed | " + e.getMessage() + " | " + e.getCause());
+            try {
+                LOGGER.log(Level.SEVERE, "The method set" + propertyName + "()=" 
+                        + newValue + " in " + customer.getClass() 
+                        + " failed |" + e.getMessage() + "|" + e.getCause());
+                } catch (NullPointerException e1) {
+                    LOGGER.log(Level.FINE, e.getMessage() + "|" + e.getCause());
+                }
         }
     }
     
@@ -177,28 +169,28 @@ public class CustomerController extends AbstractController implements Controller
         try {
             tx.commit();
         } catch (Exception e){
-            logger.log(Level.SEVERE, "Failed to comit transaction |" + e.getMessage());
-            System.out.println("About to call getOrCreateObject again: " + customerId);
-            getOrCreateObject(customerId);
-            save();
+            LOGGER.log(Level.SEVERE, "Failed to comit transaction |" + e.getMessage());
         } finally {
             if (tx.isActive()) {
                 tx.rollback();
-                logger.log(Level.WARNING, "Rolled back transaction.");
+                LOGGER.log(Level.WARNING, "Rolled back transaction.");
                 return false;
             }
             pm.close();
         }
-        logger.log(Level.FINE, "Setting off notifications to observers.");
+        LOGGER.log(Level.FINE, "Setting off notifications to observers.");
         setChanged();
         notifyObservers(customer);
         return true;
     }
     
+    /**
+     * Rolls back the active transaction.
+     */
     public void rollback(){
         if (tx.isActive()) {
             tx.rollback();
-            logger.log(Level.WARNING, "Rolled back transaction.");
+            LOGGER.log(Level.WARNING, "Rolled back transaction.");
         }
     }
     

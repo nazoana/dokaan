@@ -31,7 +31,7 @@ public class SupplierController extends AbstractController implements Controller
     private Integer newObject ;
     
     /** The logger object used to log messages */
-    private static final Logger logger = AppLogger.getAppLogger(SupplierController.class.getName());
+    private static final Logger LOGGER = AppLogger.getAppLogger(SupplierController.class.getName());
     
     /** The supplier object instance that is to be changed */
     private Supplier supplier;
@@ -48,8 +48,9 @@ public class SupplierController extends AbstractController implements Controller
     
     public static final String ELEMENT_NOTES_PROPERTY = "Notes";
     
-    private Long supplierId;
-    
+    /**
+     * Constructor
+     */
     public SupplierController(){
         super();
     }
@@ -78,34 +79,16 @@ public class SupplierController extends AbstractController implements Controller
     	if ( tx == null || !tx.isActive()){
     		beginTransaction();
     	}
-    	
-    	/*
-    	 * If the new Supplier has already been instantiated,
-    	 * then do not instantiate it again.
-    	 */
-    	if (id != null && id == -1L && newObject != null && newObject == 1) {
-    		//return id;
-    	}
-    	
-    	if (supplierId != null && supplierId == id) {
-    		return id;
-    	}
-    	
-    	/*
-    	 * Either create a new supplier or return one that already
-    	 * exist in the database
-    	 */
         try { 
             supplier = pm.getObjectById(Supplier.class, id);
             newObject = 0;
         } catch(JDOObjectNotFoundException e) { 
-            logger.log(Level.INFO, "A supplier with ID=" + id 
+            LOGGER.log(Level.INFO, "A supplier with ID=" + id 
                     + " does not exist; creating new supplier()"
                     + " | " + e.getMessage() + " | " + e.getCause());
             this.supplier = new Supplier();
             newObject = 1;
         }
-        supplierId = supplier.getId();
         /*
          * Add this model to the models vector in the AbstractController 
          * so that a PropertyChangeListener can be registered for it.
@@ -127,7 +110,7 @@ public class SupplierController extends AbstractController implements Controller
     		String value = method.invoke(supplier) + "";
     		return value.equals("null") ? null : value;
     	} catch (Exception e) {
-            logger.log(Level.SEVERE, e.getMessage());
+            LOGGER.log(Level.SEVERE, e.getMessage());
         }
     	return null;
     }
@@ -150,11 +133,11 @@ public class SupplierController extends AbstractController implements Controller
             }
         } catch (Exception e) {
             try {
-            logger.log(Level.SEVERE, "The method set" + propertyName + "=" 
+            LOGGER.log(Level.SEVERE, "The method set" + propertyName + "()=" 
                     + newValue + " in " + supplier.getClass() 
-                    + " failed | " + e.getMessage() + " | " + e.getCause());
+                    + " failed |" + e.getMessage() + "|" + e.getCause());
             } catch (NullPointerException e1) {
-                //ignore
+                LOGGER.log(Level.FINE, e.getMessage() + "|" + e.getCause());
             }
         }
     }
@@ -176,18 +159,16 @@ public class SupplierController extends AbstractController implements Controller
         try {
             tx.commit();
         } catch (Exception e){
-            logger.log(Level.SEVERE, "Failed to comit transaction for supplier," 
-                    + supplier.getName() + ". "
-                    + " |" + e.getMessage() + "|" + e.getCause());
+            LOGGER.log(Level.SEVERE, "Failed to comit transaction |" + e.getMessage());
         } finally {
             if (tx.isActive()) {
                 tx.rollback();
-                logger.log(Level.WARNING, "Rolled back transaction.");
+                LOGGER.log(Level.WARNING, "Rolled back transaction.");
                 return false;
             }
             pm.close();
         }
-        logger.log(Level.FINE, "Setting off notifications to observers.");
+        LOGGER.log(Level.FINE, "Setting off notifications to observers.");
         setChanged();
         notifyObservers(supplier);
         return true;
@@ -196,7 +177,7 @@ public class SupplierController extends AbstractController implements Controller
     public void rollback(){
         if (tx.isActive()) {
             tx.rollback();
-            logger.log(Level.WARNING, "Rolled back transaction.");
+            LOGGER.log(Level.WARNING, "Rolled back transaction.");
         }
     }
     

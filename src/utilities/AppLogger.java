@@ -49,6 +49,7 @@ public class AppLogger {
 			handler.setFormatter(formatter);
 
 			logger.addHandler(handler);
+			logger.setLevel(Level.WARNING);
 		}
 		
 		

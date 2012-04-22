@@ -91,7 +91,9 @@ public class CustomerView extends AbstractViewPanel implements ActionListener{
         setLayout(new GridBagLayout());
         setBackground(Globals.WHITE);
         initComponents();
-        populate(id);
+        if (id != -1L){
+            populate(id);
+        }
     }
 
     
@@ -207,9 +209,9 @@ public class CustomerView extends AbstractViewPanel implements ActionListener{
      */
     @Override
     public void modelPropertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals(CustomerController.ELEMENT_NAME_PROPERTY)){
-            txtName.setText((String) evt.getNewValue());
-        }
+        //if (evt.getPropertyName().equals(CustomerController.ELEMENT_NAME_PROPERTY)){
+        //    txtName.setText((String) evt.getNewValue());
+        //}
     }
 
     /**
@@ -223,8 +225,9 @@ public class CustomerView extends AbstractViewPanel implements ActionListener{
     public void actionPerformed(ActionEvent evt) {
     	
         Object sourceObject = evt.getSource();
+        
+        
         if (sourceObject instanceof TextWidget){
-        	
         	// If it is a text area
         	if (((TextWidget) sourceObject).getText().equals("txtArea")){
         		if ( ((TextWidget)sourceObject).getName().equals("txtAddressActionListener")){
@@ -247,9 +250,7 @@ public class CustomerView extends AbstractViewPanel implements ActionListener{
     		if (evt.getActionCommand().equals("save")){
     			LOGGER.log(Level.INFO, "Save button pressed in Customer View");
                 controller.save();
-                if (txtId.getText().equals("0") ) {
-                	populate(Long.parseLong(controller.getModelProperty(CustomerController.ELEMENT_ID_PROPERTY)));
-                }
+                populate(Long.parseLong(controller.getModelProperty(CustomerController.ELEMENT_ID_PROPERTY)));
     		} else if (evt.getActionCommand().equals("cancel")){
     			LOGGER.log(Level.INFO, "Cancel button pressed in Customer View");
                 controller.rollback();
