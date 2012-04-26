@@ -6,14 +6,14 @@ import java.util.StringTokenizer;
 import javax.jdo.identity.LongIdentity;
 
 /**
-* This class is used to serve as a composite key for the ProductOrder
+* This class is used to serve as a composite key for the ProductPurchaseOrderItem
 * model class using JDO annotation for persistence.
 *
 * @author Mahmood Khan
 * @version 2012-02-29 1.0
 *
 */
-public class ProductOrderCompositeIdKey implements Serializable {
+public class ProductPurchaseOrderCompositeIdKey implements Serializable {
 	
 	/**
 	 * This has to do with serialization. It is not important, but is placed
@@ -24,10 +24,10 @@ public class ProductOrderCompositeIdKey implements Serializable {
 	public LongIdentity product;
 	public LongIdentity purchaseOrder;
 
-	public ProductOrderCompositeIdKey() {
+	public ProductPurchaseOrderCompositeIdKey() {
 	}
 
-	public ProductOrderCompositeIdKey(String s) {
+	public ProductPurchaseOrderCompositeIdKey(String s) {
 		StringTokenizer st = new StringTokenizer(s, "::");
 		this.product = new LongIdentity(Product.class, st.nextToken());
 		this.purchaseOrder = new LongIdentity(PurchaseOrder.class, st.nextToken());
@@ -42,8 +42,8 @@ public class ProductOrderCompositeIdKey implements Serializable {
 	}
 
 	public boolean equals(Object other) {
-		if (other != null && (other instanceof ProductOrderCompositeIdKey)) {
-			ProductOrderCompositeIdKey otherPK = (ProductOrderCompositeIdKey) other;
+		if (other != null && (other instanceof ProductPurchaseOrderCompositeIdKey)) {
+			ProductPurchaseOrderCompositeIdKey otherPK = (ProductPurchaseOrderCompositeIdKey) other;
 			return this.product.equals(otherPK.product)
 					&& this.purchaseOrder.equals(otherPK.purchaseOrder);
 		}

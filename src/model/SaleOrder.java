@@ -17,7 +17,7 @@ import javax.jdo.annotations.PrimaryKey;
 
 @PersistenceCapable(identityType=IdentityType.DATASTORE)
 @DatastoreIdentity(strategy=IdGeneratorStrategy.INCREMENT)
-public class PurchaseOrder extends AbstractModel{
+public class SaleOrder extends AbstractModel{
 
     @Persistent(valueStrategy = IdGeneratorStrategy.INCREMENT)
     @PrimaryKey
@@ -25,7 +25,7 @@ public class PurchaseOrder extends AbstractModel{
 	
 	@Persistent
 	@Column(name="billNumber", jdbcType="INTEGER", allowsNull="false")
-	@Index(name="index_for_billNumber_in_PurchaseOrder", unique="true")
+	@Index(name="index_for_billNumber_in_SaleOrder", unique="true")
 	private Integer billNumber;
 	
 	@Persistent
@@ -33,16 +33,16 @@ public class PurchaseOrder extends AbstractModel{
 	
 	@Persistent
 	@Column(name="totalNumOfProducts", jdbcType="INTEGER")
-	@Index(name="index_for_totalNumOfProducts_in_PurchaseOrder")
+	@Index(name="index_for_totalNumOfProducts_in_SaleOrder")
 	private Integer totalNumOfProducts;
 	
 	@Persistent
-	@Column(name="supplierId")
-	@ForeignKey(name="fk_customer_in_PurchaseOrder", deleteAction=ForeignKeyAction.CASCADE, updateAction=ForeignKeyAction.CASCADE)
-	private Supplier supplier;
+	@Column(name="customerId")
+	@ForeignKey(name="fk_customer_in_SaleOrder", deleteAction=ForeignKeyAction.CASCADE, updateAction=ForeignKeyAction.CASCADE)
+	private Customer customer;
 	
 	@Persistent
-	@Index(name="index_for_isOrderCompleted_in_PurchaseOrder")
+	@Index(name="index_for_isOrderCompleted_in_SaleOrder")
 	private Boolean isOrderCompleted;
 	
 	@Persistent
@@ -55,12 +55,12 @@ public class PurchaseOrder extends AbstractModel{
 	@Persistent
 	private Timestamp dateModified;
 	
-	public PurchaseOrder(){
+	public SaleOrder(){
 		super();
 	}
 	
-	public PurchaseOrder(long id, Integer billNumber, Date orderDate,
-			Integer totalNumOfProducts, Supplier supplier,
+	public SaleOrder(long id, Integer billNumber, Date orderDate,
+			Integer totalNumOfProducts, Customer customer,
 			Boolean isOrderCompleted, String notes,
 			Timestamp dateCreated, Timestamp dateModified) {
 		super();
@@ -68,7 +68,7 @@ public class PurchaseOrder extends AbstractModel{
 		this.billNumber = billNumber;
 		this.orderDate = orderDate;
 		this.totalNumOfProducts = totalNumOfProducts;
-		this.supplier = supplier;
+		this.customer = customer;
 		this.isOrderCompleted = isOrderCompleted;
 		this.notes = notes;
 		this.dateCreated = dateCreated;
@@ -107,12 +107,12 @@ public class PurchaseOrder extends AbstractModel{
 		this.totalNumOfProducts = totalNumOfProducts;
 	}
 
-	public Supplier getSupplier() {
-		return supplier;
+	public Customer getCustomer() {
+		return customer;
 	}
 
-	public void setSupplier(Supplier supplier) {
-		this.supplier = supplier;
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
 	}
 
 	public Boolean getIsOrderCompleted() {

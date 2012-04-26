@@ -1,9 +1,11 @@
 package utilities;
 
-import java.util.logging.*;
-import java.util.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Formatter;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
 
 /**
 * This class provides the formatting for the AppLogger object

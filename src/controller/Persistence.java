@@ -13,15 +13,19 @@ import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
 
 import model.Customer;
-import model.PurchaseOrder;
 import model.Product;
-import model.PurchaseOrderLine;
+import model.PurchaseOrder;
+import model.PurchaseOrderItem;
+import model.SaleOrder;
+import model.SaleOrderItem;
 import model.Supplier;
 
 import org.datanucleus.api.jdo.JDOPersistenceManagerFactory;
 import org.datanucleus.store.schema.SchemaAwareStoreManager;
 
-import utilities.*;
+import utilities.AppLogger;
+import utilities.Globals;
+import utilities.Util;
 
 /**
 * This class is mainly to setup the persistence layer i.e.
@@ -140,10 +144,12 @@ public class Persistence {
     private boolean createDatabase() {
         Set<String> classNames = new HashSet<String>();
         classNames.add(Customer.class.getName());
-        classNames.add(PurchaseOrder.class.getName());
-        classNames.add(Product.class.getName());
-        classNames.add(PurchaseOrderLine.class.getName());
         classNames.add(Supplier.class.getName());
+        classNames.add(Product.class.getName());
+        classNames.add(PurchaseOrder.class.getName());
+        classNames.add(PurchaseOrderItem.class.getName());
+        classNames.add(SaleOrder.class.getName());
+        classNames.add(SaleOrderItem.class.getName());
         try {
             Properties properties = new Properties();
             ((SchemaAwareStoreManager)pmf.getNucleusContext().getStoreManager()).createSchema(classNames, properties);

@@ -8,12 +8,9 @@ import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Transaction;
 
+import model.Customer;
 import utilities.AppLogger;
 import utilities.Util;
-
-import model.Customer;
-
-import controller.Persistence;
 
 /**
 * This is the controller for the Customer model class

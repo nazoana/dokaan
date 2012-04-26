@@ -18,7 +18,6 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Scanner;
@@ -30,8 +29,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
-
-import utilities.DateChooser;
 
 /**
 * This class provides a set of utility and convenience methods

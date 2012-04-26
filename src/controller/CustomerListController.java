@@ -11,7 +11,6 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
 import model.Customer;
-
 import utilities.AppLogger;
 
 /**

@@ -4,8 +4,6 @@ import java.sql.Timestamp;
 
 import javax.jdo.annotations.Column;
 import javax.jdo.annotations.DatastoreIdentity;
-import javax.jdo.annotations.ForeignKey;
-import javax.jdo.annotations.ForeignKeyAction;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.Index;
@@ -42,10 +40,12 @@ public class Product extends AbstractModel{
 	@Index(name="index_for_salePrice_in_Product")
 	private Double salePrice;
 	
+	/*
 	@Persistent
 	@Column(name="supplierId")
 	@ForeignKey(name="fk_supplierId_in_Product", deleteAction=ForeignKeyAction.CASCADE, updateAction=ForeignKeyAction.CASCADE)
 	private Supplier supplier;
+	*/
 	
 	@Persistent
 	@Column(name="notes", jdbcType="VARCHAR", length=254)	
@@ -63,7 +63,7 @@ public class Product extends AbstractModel{
 
 	public Product(long id, String description, String unit,
 			Double unitsInStock, Double purchasePrice, Double salePrice,
-			Supplier supplier, String notes, Timestamp dateCreated, Timestamp dateModified) {
+			String notes, Timestamp dateCreated, Timestamp dateModified) {
 		super();
 		this.id = id;
 		this.description = description;
@@ -71,7 +71,6 @@ public class Product extends AbstractModel{
 		this.unitsInStock = unitsInStock;
 		this.purchasePrice = purchasePrice;
 		this.salePrice = salePrice;
-		this.supplier = supplier;
 		this.notes = notes;
 		this.dateCreated = dateCreated;
 		this.dateModified = dateModified;
@@ -123,14 +122,6 @@ public class Product extends AbstractModel{
 
 	public void setSalePrice(Double salePrice) {
 		this.salePrice = salePrice;
-	}
-
-	public Supplier getSupplier() {
-		return supplier;
-	}
-
-	public void setSupplier(Supplier supplier) {
-		this.supplier = supplier;
 	}
 	
 	public String getNotes(){

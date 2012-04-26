@@ -11,8 +11,8 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
-@PersistenceCapable(objectIdClass=ProductOrderCompositeIdKey.class)
-public class PurchaseOrderLine extends AbstractModel{
+@PersistenceCapable(objectIdClass=ProductSaleOrderCompositeIdKey.class)
+public class SaleOrderItem extends AbstractModel{
 
 	/** The product that this order is for */
 	@PrimaryKey
@@ -22,23 +22,23 @@ public class PurchaseOrderLine extends AbstractModel{
 	
 	/** The order that contains this orderline*/
 	@PrimaryKey
-	@Column(name="purchaseOrderId")
-	@ForeignKey(name="fk_purchaseOrderId_in_ProductOrder", deleteAction=ForeignKeyAction.CASCADE, updateAction=ForeignKeyAction.CASCADE)
-	private PurchaseOrder purchaseOrder;
+	@Column(name="saleOrderId")
+	@ForeignKey(name="fk_saleOrderId_in_ProductSaleOrder", deleteAction=ForeignKeyAction.CASCADE, updateAction=ForeignKeyAction.CASCADE)
+	private SaleOrder saleOrder;
 	
 	/** The quantity sold */
 	@Persistent
-	@Index(name="index_for_quantity_in_ProductOrder")
+	@Index(name="index_for_quantity_in_ProductSaleOrder")
 	private Double quantity;
 	
 	/** The price at which this item is sold */
 	@Persistent
-	@Index(name="index_for_salePrice_in_ProductOrder")
+	@Index(name="index_for_salePrice_in_ProductSaleOrder")
 	private Double salePrice;
 	
 	/** Sales costs may include discounts, labor, packaging, and other costs */
 	@Persistent
-	@Index(name="index_for_totalSaleCost_in_ProductOrder")
+	@Index(name="index_for_totalSaleCost_in_ProductSaleOrder")
 	private Double totalSaleCost;
 	
 	/** The data on which this product was delivered */
@@ -51,16 +51,16 @@ public class PurchaseOrderLine extends AbstractModel{
 	@Persistent
 	private Timestamp dateModified;
 	
-	public PurchaseOrderLine(){
+	public SaleOrderItem(){
 		super();
 	}
 	
-	public PurchaseOrderLine(Product product, PurchaseOrder purchaseOrder, Double quantity,
+	public SaleOrderItem(Product product, SaleOrder saleOrder, Double quantity,
 			Double salePrice, Double totalSaleCost, Date dateProductDelivered,
 			Timestamp dateCreated, Timestamp dateModified) {
 		super();
 		this.product = product;
-		this.purchaseOrder = purchaseOrder;
+		this.saleOrder = saleOrder;
 		this.quantity = quantity;
 		this.salePrice = salePrice;
 		this.totalSaleCost = totalSaleCost;
@@ -77,12 +77,12 @@ public class PurchaseOrderLine extends AbstractModel{
 		this.product = product;
 	}
 
-	public PurchaseOrder getPurchaseOrder() {
-		return purchaseOrder;
+	public SaleOrder getSaleOrder() {
+		return saleOrder;
 	}
 
-	public void setPurchaseOrder(PurchaseOrder order) {
-		this.purchaseOrder = order;
+	public void setSaleOrder(SaleOrder order) {
+		this.saleOrder = order;
 	}
 
 	public Double getQuantity() {

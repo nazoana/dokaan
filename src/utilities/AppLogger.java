@@ -5,8 +5,6 @@ import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import utilities.Globals;
-
 /**
 * This class customizes the java.util.logging.Logger object
 * for this application.
