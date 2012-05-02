@@ -126,6 +126,7 @@ public class AppMenubar extends JMenuBar implements ActionListener {
         AppMenuItem backupItem = new AppMenuItem("Backup", Util.getImageIcon("../resources/backup.png"));
         AppMenuItem restoreItem = new AppMenuItem("Restore", Util.getImageIcon("../resources/download.png"));
         AppMenuItem optionsItem = new AppMenuItem("Options", Util.getImageIcon("../resources/options.png"));
+        AppMenuItem currencyItem = new AppMenuItem("Currency", Util.getImageIcon("../resources/options.png"));
         
         AppMenuItem customersWithCredit = new AppMenuItem("Customers Credit");
         
@@ -152,6 +153,9 @@ public class AppMenubar extends JMenuBar implements ActionListener {
         
         suppliers.setActionCommand("openSuppliers");
         suppliers.addActionListener(this);
+        
+        currencyItem.setActionCommand("currencyItem");
+        currencyItem.addActionListener(this);
         
         exitAction.setActionCommand("exit");
         exitAction.addActionListener(this);
@@ -199,6 +203,8 @@ public class AppMenubar extends JMenuBar implements ActionListener {
         toolsMenu.add(restoreItem);
         toolsMenu.addSeparator();
         toolsMenu.add(optionsItem);
+        toolsMenu.addSeparator();
+        toolsMenu.add(currencyItem);
         
         // add items to Reports menu
         reportsMenu.add(customersWithCredit);
@@ -292,6 +298,9 @@ public class AppMenubar extends JMenuBar implements ActionListener {
 			}
 			updateRedoState();
 			updateUndoState();
+		}
+		else if (actionCommand.equals("currencyItem")){
+		    DokaanMain.showCurrencyTab();
 		}
 	}
 	

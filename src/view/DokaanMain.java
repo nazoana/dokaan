@@ -111,6 +111,18 @@ public class DokaanMain {
 		panel.add(newCustomer, BorderLayout.NORTH);
 		tabbedPane.addTab("New Customer", panel, Util.getImageIcon("../resources/newCustomer.png"));
 	}
+	
+	/**
+     * Adds the List of customer panel to the main frame
+     */
+    public static void showCurrencyTab() {
+        CurrencyView currencies = new CurrencyView(Controllers.CURRENCY_CONTROLLER);
+        Controllers.CURRENCY_CONTROLLER.addView(currencies);
+        JPanel panel = createPanel();
+        panel.add(currencies, BorderLayout.NORTH);
+        tabbedPane.addTab("Currency", panel, Util.getImageIcon("../resources/customer.png"));
+    }
+	
 
 	/**
 	 * Adds the Overview panel to the main frame
